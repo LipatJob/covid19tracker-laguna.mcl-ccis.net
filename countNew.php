@@ -78,6 +78,7 @@
                 <strong><h1><?php echo $PUM ?></h1></strong>
 
             <p>SUSPECT</p>
+            
               </div>
               <div class="icon">
                 <i class="fa fa-user-injured"></i>
@@ -92,6 +93,7 @@
                 <strong><h1><?php echo $PUI?></h1></strong>
 
             <p>PROBABLE</p>
+            
               </div>
               <div class="icon">
                 <i class="fa fa-search"></i>

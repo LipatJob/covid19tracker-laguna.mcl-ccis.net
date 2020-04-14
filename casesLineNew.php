@@ -5,6 +5,7 @@
   $location = str_replace("%20", " ",$location);
 
   $result = mysqli_query($con,"SELECT MAX(reference_date) AS fdate from barangay_history");
+  //$result = mysqli_query($con,"SELECT MAX(ref_date) FROM reference_dates");
   $row = mysqli_fetch_assoc($result);
   //$lDate = $row['fdate'];
   //$prevdate = date('Y-m-d', strtotime('-13 days', strtotime($lDate))); 

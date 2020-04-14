@@ -78,9 +78,19 @@ p3 {
 
 
  <?php
-  include_once('phpcore/connection.php');
+ $DB_HOST = 'localhost';
+  $DB_USER = 'mclccisn';
+  $DB_PASS = 'mclCCIS2020!';
+  $DB_NAME = 'mclccisn_covid19tracker_devdb';
+
+  $con = mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$DB_NAME);
+
+  if(!$con)
+  {
+    die( "Unable to select database");
+  }
      
-          $msql = "SELECT * FROM COMBINED_DATA_MAP ORDER BY CityName ";
+          $msql = "SELECT city_municipality, total_positive_cases, current_pum, current_pui,  latT, longT, current_deceased, current_recovered FROM barangay_history JOIN City ON city_municipality = CityName  WHERE city_municipality = CityName";
           //fetch
           $result1 = mysqli_query($con, $msql);
           $longT=[];
@@ -105,7 +115,7 @@ p3 {
 		   $x++;
           }
 		  
-		   $msql = "SELECT * FROM COMBINED_DATA_MAP ORDER BY CityName ";
+		   $msql = "SELECT city_municipality, total_positive_cases, current_pum, current_pui,  latT, longT, current_deceased, current_recovered FROM barangay_history JOIN City ON city_municipality = CityName  WHERE city_municipality = CityName";
           //fetch
           $result = mysqli_query($con, $msql);
       
@@ -238,7 +248,7 @@ var circle1 = L.circle([longT[i],latT[i] ], {
 
 f=0;
 
-circle1.bindPopup("<p3>"+cities[i]+ " Individual CASES: "+"</p3></br></br><p3>"+ patients[i]+"</p3>");
+circle1.bindPopup("<p2>"+cities[i]+ " Individual CASES: "+"</p2></br></br><p3>"+ patients[i]+"</p3>");
 
 // put label in marker
 var marker1 = L.marker([longT[i],latT[i]]).addTo(mymap).bindTooltip("<center><p2>"+cities[i]+":"+ cases[i]+ " Cases</p2></center>", 

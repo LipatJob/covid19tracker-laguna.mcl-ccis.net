@@ -443,7 +443,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         var flag = false;
         $("#graph3").show();
         $("#table").hide();
-        updatePage("LAGUNA");
         
         //EVENT HANDLERS
         $("#toggleLocal").click(function() {
@@ -469,9 +468,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         
         //HANDLE GRAPH UPDATES
         //REGISTER GRAPHS HERE
+        var registeredCharts = [];
         function updatePage(location) {
             updateTitleHeader(location);
-            updateSummary(location);
+            //updateSummary(location);
             updateCasesPerDate(location);
             updateCasesByGender(location);
             updateCasesByAgeGroup(location);
@@ -480,9 +480,33 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             updateSummaryPerMunicipalityCityTable(location);
             updateRecoveryPerDate(location)
             updateDeceasedPerDate(location)
-            
+            registeredCharts.forEach(function(chart){
+                chart(location);
+            });
         }
+
+        function registerChartUpdate(target, viewlocation) {
+            chartUpdate = function(updateData) {
+                $.ajax({
+                    method: "GET",
+                    url: viewlocation,
+                    data: {
+                        location: updateData
+                    },
+                    type: "html",
+                    success: function(data) {
+                        $(target).html(data);
+                        console.log(data);
+                    }
+                });
+            }
+            registeredCharts.push(chartUpdate);
+            return chartUpdate;
+        }
+        registerChartUpdate("#divCount", "views/summaryView.php")
+        updatePage("LAGUNA");
         
+        /**
         function updateSummary(location) {
             $.ajax({
                 method: "GET",
@@ -496,6 +520,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 }
             });
         }
+        */
         
         function updateCasesPerDate(location) {
             $.ajax({
@@ -623,22 +648,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             document.getElementById('title_header').innerHTML = titleHeader;
         }
         
-        function registerUpdate(target, viewlocation) {
-            return function(updateData) {
-                $.ajax({
-                    method: "GET",
-                    url: viewlocation,
-                    data: {
-                        updateData: updateData
-                    },
-                    type: "html",
-                    success: function(data) {
-                        $(target).html(data);
-                        console.log(data);
-                    }
-                });
-            }
-        }
+
         
         function updateRecoveryPerDate(location) {
             $.ajax({

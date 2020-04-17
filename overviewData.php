@@ -6,9 +6,9 @@ if(mysqli_error($con)){
 }
 
 
-$brgyname = $_POST['arguments'][0];
+$brgyname = $_GET['arguments'][0];
 
-switch($_POST["functionname"]){ 
+switch($_GET["functionname"]){ 
     case 'getData': 
         getData($brgyname,$con);
     break;      

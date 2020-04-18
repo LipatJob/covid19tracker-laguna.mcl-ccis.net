@@ -39,7 +39,7 @@ $(function() {
             pointStrokeColor: '#ffcc00',
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
-            data: <?php echo json_encode($data["Dates"]) ?>
+            data: <?php echo json_encode($data["PUI"]) ?>
         }]
     }
 
@@ -54,13 +54,10 @@ $(function() {
                 }
             },
             onClick: function(e, legendItem) {
-
                 var index = legendItem.datasetIndex;
                 var ci = this.chart;
-                var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci
-                    .getDatasetMeta(index).hidden;
+                var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
                 var flag = false;
-
                 ci.data.datasets.forEach(function(e, i) {
                     var meta = ci.getDatasetMeta(i);
 
@@ -113,7 +110,6 @@ $(function() {
         data: lineChartData,
         options: lineChartOptions
     })
-    lineChartOptions.le
 
 })
 </script>

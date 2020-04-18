@@ -479,7 +479,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     type: "html",
                     success: function(data) {
                         $(target).html(data);
-                        console.log(data);
                     }
                 });
             }

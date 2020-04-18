@@ -458,12 +458,18 @@ function getRecoveredPerDate($location){
         $recovered[$i] = intval($extract['TOTAL_RECOVERED']);
         $i++;
     }
-
-
+    $specificRecovered = [];
+    for($i = 0; $i < sizeof($recovered); $i++){
+        if($i == 0){
+            array_push($specificRecovered, $recovered[$i]);
+        }else{
+            array_push($specificRecovered, $recovered[$i] - $recovered[$i - 1]);
+        }
+    }
     
     return [
         "Dates" => $dates,
-        "Recovered" => $recovered
+        "Recovered" => $specificRecovered
     ];
     
 }
@@ -490,13 +496,22 @@ function getDeceasedPerDate($location){
     $result2 = mysqli_query($con,$string);
     while($extract = mysqli_fetch_array($result2)){
         $dates[$i] = $extract['reference_date'];
-        $deceased[$i] = $extract['TOTAL_DECEASED'];
+        $deceased[$i] = intval($extract['TOTAL_DECEASED']);
         $i++;
+    }
+
+    $specificDeceased = [];
+    for($i = 0; $i < sizeof($deceased); $i++){
+        if($i == 0){
+            array_push($specificDeceased, $deceased[$i]);
+        }else{
+            array_push($specificDeceased, $deceased[$i] - $deceased[$i - 1]);
+        }
     }
 
     return [
         "Dates" => $dates,
-        "Deceased" => $deceased
+        "Deceased" => $specificDeceased
     ];
     
 }

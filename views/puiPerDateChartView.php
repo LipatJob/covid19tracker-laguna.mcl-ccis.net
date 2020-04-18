@@ -115,7 +115,7 @@ $(function() {
                     }
                 },
                 gridLines: {
-                    display: false,
+                    display: true,
                 }
             }]
         }

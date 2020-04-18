@@ -113,7 +113,7 @@ $(function() {
                     }
                 },
                 gridLines: {
-                    display: false,
+                    display: true,
                 }
             }]
         }
@@ -128,7 +128,7 @@ $(function() {
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'line',
+        type: 'bar',
         data: lineChartData,
         options: lineChartOptions
     })

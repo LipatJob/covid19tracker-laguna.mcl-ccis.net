@@ -747,7 +747,7 @@ function getCurrentTrend ($location){
         "dates" => $dates,
         "ActiveCases" => $activecases,
         "NewCases" => $newcases,
-        "Recovered" => $recovered
+        "Recovered" => $recoveredPerDay
     ];
     
     

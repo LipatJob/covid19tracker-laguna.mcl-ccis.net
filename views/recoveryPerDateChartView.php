@@ -1,13 +1,14 @@
 <?php
 include "../repository/queries.php";
 $data = getRecoveredPerDate($_GET["location"]);
+$dataDeceased = getDeceasedPerDate(($_GET["location"]));
 ?>
 
 
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">RECOVERY PER DATE</h3>
+        <h3 class="card-title" style="color: white;">RECOVERY VERSUS DEATH PER DATE</h3>
     </div>
     <div class="card-body">
         <div class="chart">
@@ -37,6 +38,17 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
             data: <?php echo json_encode($data["Recovered"]) ?>
+        },{
+            label: 'DECEASED',
+            type: 'bar',
+            backgroundColor: '#7d7d7d',
+            borderColor: '#7d7d7d',
+            pointRadius: true,
+            pointColor: 'rgba(42, 187, 155, 1)',
+            pointStrokeColor: '#c1c7d1',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(42, 187, 155, 1)',
+            data: <?php echo json_encode($dataDeceased["Deceased"]) ?>
         }]
     }
 
@@ -77,7 +89,7 @@ $(function() {
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'line',
+        type: 'bar',
         data: lineChartData,
         options: lineChartOptions
     })

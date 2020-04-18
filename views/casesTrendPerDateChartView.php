@@ -1,16 +1,16 @@
 <?php
 include "../repository/queries.php";
-$data = getPUIPerDate($_GET["location"]);
+$data = getCurrentTrend($_GET["location"]);
 ?>
 
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">PUI PER DATE</h3>
+        <h3 class="card-title" style="color: white;">CASES TREND</h3>
     </div>
     <div class="card-body">
         <div class="chart">
-            <canvas id="puiCanvas"
+            <canvas id="currentTrendCanvas"
                 style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
         </div>
     </div>
@@ -28,41 +28,42 @@ $(function() {
 
     var areaChartData = {
 
-        labels: <?php echo json_encode($data["Dates"]) ?> ,
+        labels: <?php echo json_encode($data["dates"]) ?> ,
         datasets: [{
-            label: 'PROBABLE',
-            type: 'bar',
-            backgroundColor: '#FF7F7F',
-            borderColor: '#FF7F7F',
+            label: 'ACTIVE CASES',
+            type: 'line',
+            backgroundColor: '#008080',
+            borderColor: '#008080',
             pointRadius: true,
             pointColor: '#3b8bba',
             pointStrokeColor: '#ffcc00',
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
-            data: <?php echo json_encode($data["Probable"]) ?>
+            data: <?php echo json_encode($data["ActiveCases"]) ?>
         },
         {
-            label: 'SUSPECT',
+            label: 'NEW CASES',
             type: 'bar',
-            backgroundColor: '#FF712D',
-            borderColor: '#FF712D',
+            backgroundColor: '#2ABB9B',
+            borderColor: '#2ABB9B',
             pointRadius: true,
             pointColor: '#3b8bba',
             pointStrokeColor: '#ffcc00',
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
-            data: <?php echo json_encode($data["Suspect"]) ?>
-        },{
-            label: 'TOTAL PUI',
-            type: 'line',
-            backgroundColor: '#FFA47A',
-            borderColor: '#FFA47A',
+            data: <?php echo json_encode($data["NewCases"]) ?>
+        },
+        {
+            label: 'RECOVERED',
+            type: 'bar',
+            backgroundColor: '#1988C8',
+            borderColor: '#1988C8',
             pointRadius: true,
             pointColor: '#3b8bba',
             pointStrokeColor: '#ffcc00',
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
-            data: <?php echo json_encode($data["Total"]) ?>
+            data: <?php echo json_encode($data["Recovered"]) ?>
         }]
     }
 
@@ -122,16 +123,15 @@ $(function() {
     }
 
 
-    var lineChartCanvas = $('#puiCanvas').get(0).getContext('2d')
+    var lineChartCanvas = $('#currentTrendCanvas').get(0).getContext('2d')
     var lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
     var lineChartData = jQuery.extend(true, {}, areaChartData)
     lineChartData.datasets[0].fill = false;
     lineChartData.datasets[1].fill = false;
-    lineChartData.datasets[2].fill = false;
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'line',
+        type: 'bar',
         data: lineChartData,
         options: lineChartOptions
     })

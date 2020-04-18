@@ -88,78 +88,77 @@ $(function() {
     }
 
     var barChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-            labels: {
-                filter: function(item, chart) {
-                    // Logic to remove a particular legend item goes here
-                    return !item.text.includes('Total');
-                }
-            },
-            onClick: function(e, legendItem) {
-                var index = legendItem.datasetIndex;
-                var ci = this.chart;
-                var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci
-                    .getDatasetMeta(index).hidden;
-                var flag = false;
-
-                ci.data.datasets.forEach(function(e, i) {
-                    var meta = ci.getDatasetMeta(i);
-
-                    if (i !== index) {
-                        if (!alreadyHidden) {
-                            meta.hidden = meta.hidden === null ? !meta.hidden : null;
-                        } else if (meta.hidden === null) {
-                            meta.hidden = null;
-                        }
-                    } else if (i === index) {
-                        meta.hidden = null;
-                    }
-                });
-                ci.getDatasetMeta(3).hidden = true;
-                ci.update();
-
-            }
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        labels: {
+          filter: function(item, chart) {
+            // Logic to remove a particular legend item goes here
+            return !item.text.includes('Total');
+          }
         },
-        datasetFill: false,
-        tooltips: {
-            mode: 'label',
-            callbacks: {
-                label: function(tooltipItem, data) {
-                    return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + '%';
-                },
-                afterLabel: function(tooltipItem, data) {
-                    return "COUNT: " + Math.round(data.datasets[tooltipItem.datasetIndex].data[
-                        tooltipItem.index] * data.datasets[3].data[tooltipItem.index] / 100);
-                }
+        onClick: function(e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+          var flag = false;
+
+          ci.data.datasets.forEach(function(e, i) {
+            var meta = ci.getDatasetMeta(i);
+
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = null;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
             }
-        },
-        scales: {
-            xAxes: [{
-                stacked: true,
-                gridLines: {
-                    display: false,
-                }
-            }],
-            yAxes: [{
-                stacked: true,
-                ticks: {
-                    min: 0,
-                    suggestedMax: 5,
-                    callback: function(value) {
-                        return value + "%"
-                    }
-                },
-                scaleLabel: {
-                    display: true,
-                    labelString: "Percentage"
-                },
-                gridLines: {
-                    display: false,
-                }
-            }]
+          });
+          ci.getDatasetMeta(3).hidden = true;
+          ci.update();
+
         }
+      },
+      datasetFill: false,
+      tooltips: {
+        mode: 'label',
+        callbacks: {
+          label: function(tooltipItem, data) {
+            return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + '%';
+          },
+          afterLabel: function(tooltipItem, data) {
+            return "COUNT: " + Math.round(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] * data.datasets[3].data[tooltipItem.index] / 100);
+          }
+        }
+      },
+      scales: {
+        xAxes: [{
+          stacked: true,
+          gridLines: {
+            display: false,
+          }
+        }],
+        yAxes: [{
+          stacked: true,
+          ticks: {
+            min: 0,
+            suggestedMax: 5,
+            callback: function(value) {
+              return value + "%"
+            },
+            max: 100
+          },
+          scaleLabel: {
+            display: true,
+            labelString: "Percentage"
+          },
+          gridLines: {
+            display: false,
+          }
+        }]
+      }
 
     }
 

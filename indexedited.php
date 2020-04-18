@@ -51,108 +51,115 @@ while ($time_update = mysqli_fetch_array($rx)) {
             background-color: #354664;
             color: white;
         }
-        
+
         #navtop {
             -webkit-box-shadow: 0px 3px 5px 0px rgba(115, 113, 111, 1);
             -moz-box-shadow: 0px 3px 5px 0px rgba(115, 113, 111, 1);
             box-shadow: 0px 3px 5px 0px rgba(115, 113, 111, 1);
             color: white;
         }
-        
+
         html {
             -webkit-text-size-adjust: 100%;
         }
-        
+
         .logo-image {
             width: 42px;
             height: 42px;
             margin-top: -6px;
         }
+
         .dataTables_filter {
             display: none;
         }
-        
-        #overviewTable{
+
+        #overviewTable {
             border-radius: 5px;
         }
-        #overviewTable th{
+
+        #overviewTable th {
             border-radius: 5px;
             text-align: center;
-            
+
         }
-        #overviewTable td{
+
+        #overviewTable td {
             text-align: center;
         }
-        
-        tr :first-child{
-            text-align: left !important; 
+
+        tr :first-child {
+            text-align: left !important;
         }
-        #footer{
+
+        #footer {
             font-weight: bold;
             color: green;
         }
-        
+
         .modal-lg {
             max-width: 80% !important;
         }
-        
-          #navtop ul{
-        display: flex;
-        flex-direction: row;
-        list-style: none;
-    }
-    #navtop ul li a{
-        color:rgba(0, 0, 0, .5);
-        font-size: 20px;
-        font-weight: 500;
-    }
-    #navtop ul li a:hover{
-        color:rgba(0, 0, 0, .7);
-    }
-    
-    #mcl_timer{
-        margin-left: auto;
-    }
 
-    .active{
-        color:black !important;
-        font-weight:bold !important;
-    }
+        #navtop ul {
+            display: flex;
+            flex-direction: row;
+            list-style: none;
+        }
 
-
-    @media only screen and (max-width: 400px){
-        ul li a{
-            color:#505050;
-            font-size: 18px;
-            padding: 5px;
+        #navtop ul li a {
+            color: rgba(0, 0, 0, .5);
+            font-size: 20px;
             font-weight: 500;
-            padding-left:0 !important;
-            padding-right:0 !important;
-
-        }
-    }
-    @media only screen and (max-width: 600px){
-        ul{
-            justify-content: space-evenly;
         }
 
-    }
-    @media only screen and (max-width: 770px){
-        #mcl_timer{
-            visibility: hidden;
-            width: 1px;
-            height: 1px;
-            margin: -1px;
-            border: 0;
-            padding: 0;
+        #navtop ul li a:hover {
+            color: rgba(0, 0, 0, .7);
         }
-    }
-        
-    #title_header{
-        font-weight: 520 !important;
-        font-size: 21 !important;
-    }
- 
+
+        #mcl_timer {
+            margin-left: auto;
+        }
+
+        .active {
+            color: black !important;
+            font-weight: bold !important;
+        }
+
+
+        @media only screen and (max-width: 400px) {
+            ul li a {
+                color: #505050;
+                font-size: 18px;
+                padding: 5px;
+                font-weight: 500;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            ul {
+                justify-content: space-evenly;
+            }
+
+        }
+
+        @media only screen and (max-width: 770px) {
+            #mcl_timer {
+                visibility: hidden;
+                width: 1px;
+                height: 1px;
+                margin: -1px;
+                border: 0;
+                padding: 0;
+            }
+        }
+
+        #title_header {
+            font-weight: 520 !important;
+            font-size: 21 !important;
+        }
     </style>
     <!-- END OF STYLES-->
 </head>
@@ -237,11 +244,11 @@ while ($time_update = mysqli_fetch_array($rx)) {
 
     <!-- Counts-->
     <div class="container-fluid" id="summary">
-    <style>
-    .small-box{
-        margin:0px;
-    }
-</style>
+        <style>
+            .small-box {
+                margin: 0px;
+            }
+        </style>
         <div class="row">
 
         </div>
@@ -249,37 +256,37 @@ while ($time_update = mysqli_fetch_array($rx)) {
 
     <!-- Graphs -->
     <div class="container-fluid">
+
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <!-- CASE PER DATE -->
-                <div id='casesPerDateChart' class="item-container">
-                </div>
-                <!-- RECOVERY PER DATE -->
-                <div id='recoveryPerDateChart' class="item-container">
-                </div>
-
-                <!-- CASES BY GENDER -->
-                <div id='casesByGenderChart' class="item-container">
-                    <!-- CHART -->
-                </div>
-                <!-- /.card -->
-
+                <div id='casesPerDateChart' class="item-container"></div>
             </div>
-
             <div class="col-lg-6 col-md-12 col-sm-12">
+                <!-- CURRENT CASES TREND -->
+                <div id='currentTrendChart' class="item-container"></div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <!-- PUI PER DATE -->
+                <div id='puiPerDateChart' class="item-container"></div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <!-- RECOVERY AND DECEASED PER DATE -->
+                <div id='recoveryPerDateChart' class="item-container"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
                 <!-- CASES BY GENDER -->
-                <div id='puiPerDateChart' class="item-container">
-                </div>
-                <!-- CASES BY GENDER -->
-                <div id='deceasedPerDateChart' class="item-container">
-                </div>
-
-                <!-- AREA CHART -->
-                <div id='casesByAgeGroupChart' class="item-container">
-                    <!-- AREA CHART -->
-                </div>
-
+                <div id='casesByGenderChart' class="item-container"></div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <!-- CASES BY AGE GROUP -->
+                <div id='casesByAgeGroupChart' class="item-container"></div>
             </div>
         </div>
 
@@ -298,6 +305,55 @@ while ($time_update = mysqli_fetch_array($rx)) {
                 <div class="container-fluid">
                     <div id='table' class="row">
                         <div class="container-fluid" id="tableContainer">
+                            <div id='table' class="row">
+                                <div class="container-fluid" id="divCount">
+                                    <div class="card card-outline" style="padding: 0px;">
+                                        <div class="card-body" style="overflow: scroll;">
+                                            <div class="table-responsive">
+                                                <table id="overviewTable" class="table table-hover table-striped table-bordered datatable table-light rounded-5">
+                                                    <thead id="header" class="" style="color:white; background-color: #354664; border-radius:5px">
+                                                        <tr>
+                                                            <th class=""></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="">
+                                                        <tr>
+                                                            <td class=""></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot id="footer">
+                                                        <tr>
+                                                            <td class=""></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -350,6 +406,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"> </script>
+    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 
     <script>
         //INITIALIZE NAVBAR
@@ -362,7 +419,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
             $("#indexNav a").addClass("active");
 
             //INITIALIZE DATATABLES
-            $("#tableContainer").load("./views/summaryPerMunicipalityCityTableView.php");
+            //$("#tableContainer").load("./views/summaryPerMunicipalityCityTableView.php");
             $("#overviewTable").DataTable({
                 paging: false,
                 searching: false
@@ -456,6 +513,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
             registerChartUpdate("#summaryPerMunicipalityCityChart", "views/summaryPerMunicipalityCityChartView.php");
             registerChartUpdate("#recoveryPerDateChart", "views/recoveryPerDateChartView.php");
             registerChartUpdate("#deceasedPerDateChart", "views/deceasedPerDateChartView.php");
+            registerChartUpdate("#currentTrendChart", "views/casesTrendPerDateChartView.php")
 
             //LOAD INITIAL GRAPHS
             updatePage("LAGUNA");

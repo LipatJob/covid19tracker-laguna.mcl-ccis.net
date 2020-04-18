@@ -169,7 +169,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
     <div class="col col-md-12 col-lg-12 col-sm-12" style="padding: 0px; margin:0px;">
         <nav class="navbar navbar-light" id="title">
             <a style="color: white; font-size: 1.315em; font-weight: 600;">
-                <img src="imgs/v1c with text.png" class="logo-image" style="height: 36px; width: 36px; margin-right: 5px; -webkit-box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);
+                <img src="imgs/apple-icon-120x120.png" class="logo-image" style="height: 36px; width: 36px; margin-right: 5px; -webkit-box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);
                 -moz-box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);
                 box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
             </a>
@@ -220,7 +220,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
                                 <option value='LAGUNA'>LAGUNA</option>
                                 <?php
                                 $storethis = "";
-                                $query1 = "SELECT distinct(city_municipality) FROM barangay_history ORDER BY city_municipality ASC";
+                                $query1 = "SELECT CityName as city_municipality from City ORDER BY CityName ASC;";
                                 $result1 = mysqli_query($con, $query1);
                                 while ($rows3 = mysqli_fetch_array($result1)) {
                                     if ($storethis != $rows3['city_municipality']) {

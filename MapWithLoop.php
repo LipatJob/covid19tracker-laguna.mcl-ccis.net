@@ -14,7 +14,6 @@ function recenter(){
      mymap.closePopup();
     }
 	
-
 </script>
 
 <style>
@@ -40,37 +39,25 @@ p1 {
   line-height:4px;
 }
 
-p2 {
-  font-style: bold;
-  font-weight: 300;
-  font-size: 10;
-  color:  #45433d;
-  line-height:4px;
-  text-align: center;
-}
 p3 {
   font-style: bold;
-  font-weight: 300;
-  font-size: 11;
+  font-weight: 900;
+  font-size: 12;
   line-height:4px;
    color:  #45433d;
 }
 
-
-
-
 #mapid { height: 100%;width:100% }
-</style>
 
+</style>
 </head>
+
 <body>
- 
  
  <div id="mapid">
 
   <script>
      var mymap = L.map('mapid').setView(new L.LatLng(14.250,121.28), 10.115);
-	 
 
      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZGFtYXJ0aWxsYW5vIiwiYSI6ImNrOHd0OWJrODAwNXczbHFya3Q1cG81Z3AifQ.Vc0FW9YcAo3McS6JN3ngbg', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -79,18 +66,15 @@ p3 {
     tileSize: 512,
     zoomOffset: -1,
     accessToken: 'pk.eyJ1IjoiZGFtYXJ0aWxsYW5vIiwiYSI6ImNrOHd0OWJrODAwNXczbHFya3Q1cG81Z3AifQ.Vc0FW9YcAo3McS6JN3ngbg'
-}).addTo(mymap);
+    }).addTo(mymap);
 
 
 
-mymap.on('click', function(){ 
-        mymap.closePopup();
-        mymap.setView(new L.LatLng(14.250,121.28), 10.115);
-        f=0;
-  
-});
-
-
+    mymap.on('click', function(){ 
+            mymap.closePopup();
+            mymap.setView(new L.LatLng(14.250,121.28), 10.115);
+            f=0;
+    });
 
 
 </script>
@@ -109,9 +93,7 @@ mymap.on('click', function(){
     die( "Unable to select database");
   }
 
-
-     
-               
+           
           $msql = "SELECT * FROM COMBINED_DATA_MAP ORDER BY CityName ";
           //fetch
           $result1 = mysqli_query($con, $msql);
@@ -170,19 +152,8 @@ mymap.on('click', function(){
 				 else if($status=="DECEASED"){ $stat=";color: gray";}
 				 else{ $stat=";color: #151563";}
 				 
-				 if($gender=="*NOT SPECIFIED")
-				    $gender= "NA";
-				 if($age==-1){
-					$age="NA";
-					$src="non.png";}
-					
-				 if($gender=="*NOT SPECIFIED"){
-				     $gender= "NA";
-				     $src="non.png";
-				     
-				 }
-
-				 if ($age==-1){ $age="NA";$src="non.png";} 
+				 if($age==-1){$age="NA";$src="non.png";}
+				 if($gender=="*NOT SPECIFIED"){$gender= "NA";$src="non.png";}
 				 
 				 if($age>=60 && $gender=="M")
 					 $src="60-upYearsOld_MALE.png";
@@ -207,31 +178,48 @@ mymap.on('click', function(){
 					 
 				 if(($age=="NA" || $age==-1)&&($gender="M")){ $src="non.png";}
 				 if(($age=="NA" || $age==-1)&&($gender="F")){ $src="non.png";}
+				 
+				 $bgcolor2 = "green";
+				 $fcolor  = "white";
+				 $bgcolor1 = "#090e9e";
+				 
+				 if($status == "RECOVERED")
+				 {
+				     $bgcolor1 = "green";
+				 }
+				 else if($status == "DECEASED")
+				 {
+				     $bgcolor1 = "#79808E";
+				 }
+				 else
+				 {
+				      $bgcolor1 = "#195387";
+				 }
+				    
+				 
 
 				$pdata=	$pdata.	"<td>".
 								"<div style='width:auto;'>".
 								       
-								       	"<div style='background-color: #090e9e;;height: 20px; width: auto;color: white;font-size:13;'>".$caseCode."</div>".
-								       //<span style='font-size:12; font-style: bold ;font-weight: 100;line-height:2px;background-color: #090e9e; color: white; '> ".$caseCode."</span>.
+								       	"<div style='background-color: ".$bgcolor1.";height: 20px; width: auto;color: white;font-size:13;'>".$caseCode."</div>".
 								       	 "<p>        </p>".
 										"<img align='left' src ='icons/". $src. "' width=35 height=35 margin: 0 0 0/>". "<p>        </p>".
 										"<p style='font-size:11; font-style: bold;font-weight: 400;line-height:4px;color: black; margin: 0 0 8; ' >Gender : ".$gender."</p>".
 										"<p style='font-size:11; font-style: bold;font-weight: 400;line-height:4px;color: black; margin: 0 0 8;' >Age     : ".$age."</p>".
 										"<p style='font-size:10; font-style: bold;font-weight: 400;line-height:4px; color: black; margin:0 0 8' >".$dateCon."</p>".
 										"<p>        </p>".
-										"<div style='border-style: solid; border-width: thin;border-color: #626573;height: 18px; text-align:center; margin:0 0 8;font-size:15;".$stat. "'> ".$status."</div>".
-									//	"<span style='font-size:15; font-style: normal;font-weight: 100;line-height:3px;".$stat. "'> ".$status."</span>".
+										"<div style='border-style: solid; border-width: thin;border-color: #626573;height: 20px; text-align:center; margin:0 0 8;font-size:11;padding: 5px;".$stat. "'> ".$status."</div>".
 										"<p>        </p>".
 								"</div>".
 								"</td>";
-				 //close row and open new		
+				 //close row and open new row		
 				 if ($x==1){
 					 $pdata=$pdata."</tr><tr>";
 					 $x=-1;
 				 }		
 		        $x++;
           }
-		  //check is complete 3 in row, if not end table
+		  //check is complete 2 in row, if not end table
 		  if($x<1)
 			 $pdata=$pdata."</tr>";
 		  $pdata=$startT.$pdata.$endT;
@@ -244,17 +232,10 @@ mymap.on('click', function(){
 		}
 	}
 
-     
-
-		   
-		  
 ?>
 <script>
-
+//transfer php data from db to script
 var alam=[<?php echo '"'.implode('","',  $allindi ).'"' ?>];
-
-
-
 var longT=[<?php echo '"'.implode('","',  $longT ).'"' ?>]; 
 var latT=[<?php echo '"'.implode('","',  $latT ).'"' ?>];
 var cities=[<?php echo '"'.implode('","',  $cities ).'"' ?>];
@@ -272,7 +253,7 @@ var f=0;
 var f1=0;
 
 
-
+// compute total cases,total death, and recovery rate
 for(x=0;x<cases.length;x++){
 	totalcases=totalcases+Number(cases[x]);
 	totaldeath=totaldeath+Number(Death[x]);
@@ -283,12 +264,11 @@ for(x=0;x<cases.length;x++){
 	RecoverRate[x]=RecoverRate[x].toFixed(2);
 }
 
-
+//compute case raet
 for(x=0;x<cases.length;x++){
 	Percent[x]=Number(cases[x])/totalcases*100;
     Percent[x]=Percent[x].toFixed(2);
 	}
-
 
 /*
 var coronaIcon = L.icon({
@@ -303,92 +283,81 @@ var coronaIcon = L.icon({
 });
 */
 
-
 for(i=0;i<longT.length;i++){
-//set color for circle	
-var r=Number(cases[i])*100;
-if (cases[i]>=20){
-	var c='red'
-    var f='#f03'}
-else if(cases[i]>=8){
-	var c='#cf643a'
-    var f='#943b18'}
-else {
-	var c='#ebba34'
-    var f='#87640b'}
-var circle1 = L.circle([longT[i],latT[i] ], {
-    color: c,
-    fillColor: f,
-    fillOpacity: 0.5,
-    radius: r
-}).addTo(mymap);
-
-f=0;
-
-circle1.bindPopup("<center></br><p3>"+cities[i]+ " INDIVIDUAL CASES: "+"</p3></center></br>"+alam[i],{maxWidth: 450, minWidth: 300, maxHeight: 325, autoPan: true, autoPanPadding: [0, 0]});
-// put label in marker
-
-var marker1 = L.marker([longT[i],latT[i]]).addTo(mymap).bindTooltip("<center><p2>"+cities[i]+":"+ cases[i]+ " Cases</p2></center>", 
-    {
-        permanent: false, 
-        direction: 'top'
-    });
-marker1.closeTooltip();
-
-//var marker1 = L.marker([longT[i],latT[i]]).addTo(mymap); 
+    //set color for circle	
+    var r=Number(cases[i])*100;
+    if (cases[i]>=20){
+    	var c='red'
+        var f='#f03'}
+    else if(cases[i]>=8){
+    	var c='#cf643a'
+        var f='#943b18'}
+    else {
+    	var c='#ebba34'
+        var f='#87640b'}
+    //create circle and add to map    
+    var circle1 = L.circle([longT[i],latT[i] ], {
+        color: c,
+        fillColor: f,
+        fillOpacity: 0.5,
+        radius: r
+    }).addTo(mymap);
     
-//put click event in marker	
-
-
-
-	marker1.on('click', onClick);
-	function onClick(e) {
-		if (f==0){
-			mymap.setView(new L.LatLng(e.latlng.lat, e.latlng.lng), 14);
-			f=1;
-		}
-		
-		else{
-			//mymap.closePopup();
-			mymap.setView(new L.LatLng(14.202753,121.3370074), 11);	
-			f=0;
-		}
-	}
-
-
-	//check if popup closes
-	circle1.on('popupclose', function (popup) {
-        mymap.setView(new L.LatLng(14.202753,121.3370074), 11);
-        f=0;
-    });
+    //set flag to toggle zoom
+    f=0;
     
-     marker1.on('popupclose', function (popup) {
-       
-        f=0;
-    });
-	
-	//circle1.on('popupopen', function (popup) {
-    //    mymap.setView(new L.LatLng(this.latlng.lat,this.latlng.lng), 11);;
-    //});
-
- 
-
-	// create popup contents for marker
-   
-    var customPopup = "<span style='color: #1a4024;'><center>CASES: " + cases[i]+ " "+ "PROBABLE: " + Probable[i] +" "+ "SUSPECT: " + Suspect[i]+"</center></span><center><p><img src='https://media.giphy.com/media/MCAFTO4btHOaiNRO1k/giphy.gif' alt='maptime logo gif' width='75px'/></p><p>"+cities[i]+" has "+ Percent[i] + "% of Total Cases in LAGUNA</p><p> and records " +Death[i]+ " out of "+totaldeath+" death/s</p><span>*Current Recovery Rate is "+RecoverRate[i]+"%</span></br></br><h1><p1>*computed as total recovered over total cases times 100. 0% might mean patients are still waiting for results</i></p1></h1></center>";
-    // specify popup options 
-    var customOptions =
+    circle1.bindPopup("<center></br><p3><strong>"+cities[i]+ " INDIVIDUAL CASES: "+"</strong></p3></center></br>"+alam[i],{maxWidth: 450, minWidth: 300, maxHeight: 325, autoPan: true, autoPanPadding: [0, 0]});
+    // put label in marker
+    var marker1 = L.marker([longT[i],latT[i]]).addTo(mymap).bindTooltip("<center><p2>"+cities[i]+":"+ cases[i]+ " Cases</p2></center>", 
         {
-        maxWidth:1000,
-        maxHeight:1000
-        }
-	
-    //bind the popup made in marker
+            permanent: false, 
+            direction: 'top'
+        });
+    marker1.closeTooltip();
+    
+    
+        
+      //put click event in marker	
+    	marker1.on('click', onClick);
+    	function onClick(e) {
+    		if (f==0){
+    			mymap.setView(new L.LatLng(e.latlng.lat, e.latlng.lng), 14);
+    			f=1;
+    		}
+    		
+    		else{
+    			//mymap.closePopup();
+    			mymap.setView(new L.LatLng(14.202753,121.3370074), 11);	
+    			f=0;
+    		}
+    	}
+    
+    
+    	//check if popup closes
+    	circle1.on('popupclose', function (popup) {
+            mymap.setView(new L.LatLng(14.202753,121.3370074), 11);
+            f=0;
+        });
+        
+         marker1.on('popupclose', function (popup) {
+           
+            f=0;
+        });
+    	
+    
+    	// create popup contents for marker
+        var customPopup = "<span style='color: #1a4024;'><center>CASES: " + cases[i]+ " "+ "PROBABLE: " + Probable[i] +" "+ "SUSPECT: " + Suspect[i]+"</center></span><center><p><img src='https://media.giphy.com/media/MCAFTO4btHOaiNRO1k/giphy.gif' alt='maptime logo gif' width='75px'/></p><p>"+cities[i]+" has "+ Percent[i] + "% of Total Cases in LAGUNA</p><p> and records " +Death[i]+ " out of "+totaldeath+" death/s</p><span>*Current Recovery Rate is "+RecoverRate[i]+"%</span></br></br><h1><p1>*computed as total recovered over total cases times 100. 0% might mean patients are still waiting for results</i></p1></h1></center>";
+       
+        // specify popup options 
+        var customOptions =
+            {
+            maxWidth:1000,
+            maxHeight:1000
+            }
+    	
+        //bind the popup made in marker
+        marker1.bindPopup(customPopup,customOptions);
 
-    marker1.bindPopup(customPopup,customOptions);
-
-	
-	
 }
 	
 </script> 

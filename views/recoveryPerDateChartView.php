@@ -61,7 +61,8 @@ $(function() {
         scales: {
             xAxes: [{
                 gridLines: {
-                    display: false,
+                    display: false
+                    
                 }
             }],
             yAxes: [{
@@ -75,7 +76,8 @@ $(function() {
                     }
                 },
                 gridLines: {
-                    display: true,
+                    display: true
+                    
                 }
             }]
         }

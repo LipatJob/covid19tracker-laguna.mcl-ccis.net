@@ -6,7 +6,7 @@ $data = getCasesPerDate($_GET["location"]);
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">CASES PER DATE</h3>
+        <h3 class="card-title" style="color: white;">CONFIRMED CASES PER DATE</h3>
     </div>
     <div class="card-body">
         <div class="chart">
@@ -36,20 +36,9 @@ $(function() {
     var areaChartData = {
         labels: <?php echo json_encode($data["Dates"]) ?> ,
         datasets: [{
-            label: 'ACTIVE CASES',
-            type: 'bar',
-            backgroundColor: 'rgb(0,128,128,1)',
-            borderColor: 'rgb(0,128,128,1)',
-            pointRadius: true,
-            pointColor: 'rgb(0,128,128,1)',
-            pointStrokeColor: '#c1c7d1',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: 'rgb(0,128,128,1)',
-            data: <?php echo json_encode($data["CurrentPositiveCases"]) ?>
-        }, {
             label: 'CONFIRMED',
-            type: 'bar',
-            backgroundColor: '#1988C8',
+            type: 'line',
+            backgroundColor: '#6BC9FF',
             borderColor: '#1988C8',
             pointRadius: true,
             pointColor: '#3b8bba',
@@ -123,12 +112,11 @@ $(function() {
     var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
     var lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
     var lineChartData = jQuery.extend(true, {}, areaChartData)
-    lineChartData.datasets[0].fill = false;
-    lineChartData.datasets[1].fill = false;
+    lineChartData.datasets[0].fill = true;
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'bar',
+        type: 'line',
         data: lineChartData,
         options: lineChartOptions
     })

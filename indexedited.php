@@ -436,7 +436,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
             });
 
             //INITIALIZE VIDEO
-            $('#videomodal').modal('show');
+            //$('#videomodal').modal('show');
             $('.modal').on('hidden.bs.modal', function(e) {
                 $iframe = $(this).find("iframe");
                 $iframe.attr("src", $iframe.attr("src"));
@@ -560,8 +560,8 @@ while ($time_update = mysqli_fetch_array($rx)) {
             }
 
             function updateTitleHeader(location) {
-                if (city != 'LAGUNA') $("#localHead").html("TOTAL CASES OF " + location);
-                else $("#localHead").html("TOTAL CASES PER MUNICIPALITY/CITY");
+                if (location != 'LAGUNA') $("#localHead").html("SUMMARY OF CASES: " + location);
+                else $("#localHead").html("SUMMARY OF CASES");
                 var titleHeader = location;
                 if (titleHeader === 'LAGUNA') {
                     titleHeader = "Region IV-A: Province of Laguna";

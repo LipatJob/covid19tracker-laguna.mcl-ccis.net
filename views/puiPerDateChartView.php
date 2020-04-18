@@ -55,8 +55,8 @@ $(function() {
         },{
             label: 'TOTAL PUI',
             type: 'line',
-            backgroundColor: '#FFA47A',
-            borderColor: '#FFA47A',
+            backgroundColor: '#CC3722',
+            borderColor: '#CC3722',
             pointRadius: true,
             pointColor: '#3b8bba',
             pointStrokeColor: '#ffcc00',
@@ -131,7 +131,7 @@ $(function() {
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'line',
+        type: 'bar',
         data: lineChartData,
         options: lineChartOptions
     })

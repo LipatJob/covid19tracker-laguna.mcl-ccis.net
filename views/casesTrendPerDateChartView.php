@@ -44,8 +44,8 @@ $(function() {
         {
             label: 'NEW CASES',
             type: 'bar',
-            backgroundColor: '#2ABB9B',
-            borderColor: '#2ABB9B',
+            backgroundColor: '#080E85',
+            borderColor: '#080E85',
             pointRadius: true,
             pointColor: '#3b8bba',
             pointStrokeColor: '#ffcc00',
@@ -54,16 +54,16 @@ $(function() {
             data: <?php echo json_encode($data["NewCases"]) ?>
         },
         {
-            label: 'RECOVERED',
+            label: 'RECOVERED + DECEASED',
             type: 'bar',
-            backgroundColor: '#1988C8',
-            borderColor: '#1988C8',
+            backgroundColor: '#97FF6B',
+            borderColor: '#97FF6B',
             pointRadius: true,
             pointColor: '#3b8bba',
             pointStrokeColor: '#ffcc00',
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
-            data: <?php echo json_encode($data["Recovered"]) ?>
+            data: <?php echo json_encode($data["SumRecoveredDeceased"]) ?>
         }]
     }
 
@@ -108,7 +108,7 @@ $(function() {
             yAxes: [{
                 ticks: {
                     beginAtZero: true,
-                    //suggestedMax: 5,
+                    suggestedMax: 5,
                     callback: function(value) {
                         if (value % 1 === 0) {
                             return value;

@@ -86,15 +86,7 @@ function getPUIPerDate($location){
     $pui = array();
     $pum = array();
     //$string = "SELECT reference_date, sum(current_pum) AS PUM,sum(current_pui) AS PUI from barangay_history WHERE reference_date >= '2020-03-20' ";
-    $string = "SELECT refDates.ref_date as reference_date, sum(casesN.current_probable_PUI) as PROBABLE, sum(casesN.current_suspect_PUI) as SUSPECT FROM barangay_history_new brgynew
-	INNER JOIN New_Cases casesN
-    ON brgynew.ID = casesN.BarangayHistID
-    INNER JOIN reference_dates refDates
-    ON brgynew.refDateID = refDates.ID
-    INNER JOIN Barangay brgy
-    ON brgynew.barangayID = brgy.ID
-    INNER JOIN City city
-    on brgy.CityID = city.ID ";
+
     
     if($location != "LAGUNA")
     {

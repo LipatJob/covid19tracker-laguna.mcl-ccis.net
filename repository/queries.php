@@ -94,7 +94,7 @@ function getPUIPerDate($location){
     }
     $result2 = mysqli_query($con,$string);
     while($extract = mysqli_fetch_array($result2)){
-        $dates[$i] = $extract['reference_date'];
+        $dates[$i] = str_replace("2020-", "", $extract['reference_date']);
         //$pui[$i] = $extract['PUI'];
         $probable[$i] = $extract['PROBABLE'];
         $suspect[$i] = $extract['SUSPECT'];
@@ -131,7 +131,7 @@ function getCasesPerDate($location){
     
     $result2 = mysqli_query($con,$string);
     while($extract = mysqli_fetch_array($result2)){
-        $dates[$i] = $extract['reference_date'];
+        $dates[$i] = str_replace("2020-", "", $extract['reference_date']);
         $cases[$i] = intval($extract['TOTAL_POSITIVE_CASES']);
         $current[$i] = intval($extract['current']);
         $recovered[$i] = intval($extract['CURRENT_RECOVERED']);
@@ -469,7 +469,7 @@ function getRecoveredPerDate($location){
     
     $result2 = mysqli_query($con,$string);
     while($extract = mysqli_fetch_array($result2)){
-        $dates[$i] = $extract['reference_date'];
+        $dates[$i] = str_replace("2020-", "", $extract['reference_date']);
         $recovered[$i] = intval($extract['TOTAL_RECOVERED']);
         $i++;
     }
@@ -517,7 +517,7 @@ function getDeceasedPerDate($location){
     
     $result2 = mysqli_query($con,$string);
     while($extract = mysqli_fetch_array($result2)){
-        $dates[$i] = $extract['reference_date'];
+        $dates[$i] = str_replace("2020-", "", $extract['reference_date']);
         $deceased[$i] = intval($extract['TOTAL_DECEASED']);
         $i++;
     }
@@ -727,7 +727,7 @@ function getCurrentTrend ($location){
 
     while($extract = mysqli_fetch_array($result1)) {
             
-        $dates[$i] = $extract['reference_date'];
+        $dates[$i] = str_replace("2020-", "", $extract['reference_date']);
         $activecases[$i] = $extract['ACTIVECASES'];
         $newcases[$i] = $extract['NEWCASES'];
         $recovered[$i] = $extract['NEWRECOVERED'];
@@ -735,18 +735,19 @@ function getCurrentTrend ($location){
     }
 
     for ($j = 1; $j < count($dates); $j++) {
-        $recoveredPerDay[$j] = $recovered[$j] - $recovered[$j - 1];
+        $recoveredPerDay[$j - 1] = $recovered[$j] - $recovered[$j - 1];
     }
 
     array_shift($dates);
     array_shift($activecases);
     array_shift($newcases);
+    array_shift($recovered);
     
     return [
         "dates" => $dates,
         "ActiveCases" => $activecases,
         "NewCases" => $newcases,
-        "Recovered" => $recoveredPerDay
+        "Recovered" => $recovered
     ];
     
     

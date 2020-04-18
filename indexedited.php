@@ -434,6 +434,12 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         }
         
         //UPDATE DECORATOR
+        /**
+        * Register a chart for update. All charts must be regsitered below the function.
+        * @param {String} target jQuery selector of the container of the chart 
+        * @param {String} viewlocation location of the view of the chart
+        * @return {Function} function of the ajax update
+        */
         function registerChartUpdate(target, viewlocation) {
             chartUpdate = function(updateData) {
                 $.ajax({

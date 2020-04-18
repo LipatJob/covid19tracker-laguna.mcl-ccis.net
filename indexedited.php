@@ -248,7 +248,7 @@ while($time_update = mysqli_fetch_array($rx)){
 </div>
 
 <!-- Counts-->
-<div class="container-fluid" id="divCount">
+<div class="container-fluid" id="summary">
     <div class="row">
         
     </div>
@@ -259,14 +259,14 @@ while($time_update = mysqli_fetch_array($rx)){
     <div class="row">
         <div class="col-lg-6 col-md-12 col-sm-12">
             <!-- CASE PER DATE -->
-            <div id='barpage' class="item-container">
+            <div id='casesPerDateChart' class="item-container">
             </div>
             <!-- RECOVERY PER DATE -->
-            <div id='recoveryperdate' class="item-container">
+            <div id='recoveryPerDateChart' class="item-container">
             </div>
             
             <!-- CASES BY GENDER -->
-            <div id='graph1' class="item-container">
+            <div id='casesByGenderChart' class="item-container">
                 <!-- CHART -->
             </div>
             <!-- /.card -->
@@ -276,14 +276,14 @@ while($time_update = mysqli_fetch_array($rx)){
         <div class="col-lg-6 col-md-12 col-sm-12">
             
             <!-- CASES BY GENDER -->
-            <div id='linepage' class="item-container">
+            <div id='puiPerDateChart' class="item-container">
             </div>
             <!-- CASES BY GENDER -->
-            <div id='deceasedperdate' class="item-container">
+            <div id='deceasedPerDateChart' class="item-container">
             </div>
             
             <!-- AREA CHART -->
-            <div id='graph2' class="item-container">
+            <div id='casesByAgeGroupChart' class="item-container">
                 <!-- AREA CHART -->
             </div>
             
@@ -299,7 +299,7 @@ while($time_update = mysqli_fetch_array($rx)){
                         TABLE VIEW</button>
                     </div>
                 </div>
-                <div id='graph3'>
+                <div id='summaryPerMunicipalityCityChart'>
                     
                 </div>
                 <div class="container-fluid">
@@ -399,18 +399,18 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         
         //INITIALIZE CONDITIONS            
         var flag = false;
-        $("#graph3").show();
+        $("#summaryPerMunicipalityCityChart").show();
         $("#table").hide();
         
         //EVENT HANDLERS
         $("#toggleLocal").click(function() {
             if (flag == false) {
-                $("#graph3").hide();
+                $("#summaryPerMunicipalityCityChart").hide();
                 $("#table").show();
                 $("#toggleLocal").html("GRAPH VIEW");
                 flag = true;
             } else {
-                $("#graph3").show();
+                $("#summaryPerMunicipalityCityChart").show();
                 $("#table").hide();
                 $("#toggleLocal").html("TABLE VIEW");
                 flag = false;
@@ -453,14 +453,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         }
 
         //REGISTER SERVER SIDE LOADED GRAPHS HERE
-        registerChartUpdate("#divCount", "views/summaryView.php");
-        registerChartUpdate("#barpage", "views/casesPerDateChartView.php");
-        registerChartUpdate("#graph1", "views/casesByGenderChartView.php");
-        registerChartUpdate("#graph2", "views/casesByAgeGroupChartView.php");
-        registerChartUpdate("#linepage", "views/puiPerDateChartView.php");
-        registerChartUpdate("#graph3", "views/summaryPerMunicipalityCityChartView.php");
-        registerChartUpdate("#recoveryperdate", "views/recoveryPerDateView.php");
-        registerChartUpdate("#deceasedperdate", "views/deceasedPerDateView.php");
+        registerChartUpdate("#summary", "views/summaryView.php");
+        registerChartUpdate("#casesPerDateChart", "views/casesPerDateChartView.php");
+        registerChartUpdate("#casesByGenderChart", "views/casesByGenderChartView.php");
+        registerChartUpdate("#casesByAgeGroupChart", "views/casesByAgeGroupChartView.php");
+        registerChartUpdate("#puiPerDateChart", "views/puiPerDateChartView.php");
+        registerChartUpdate("#summaryPerMunicipalityCityChart", "views/summaryPerMunicipalityCityChartView.php");
+        registerChartUpdate("#recoveryPerDateChart", "views/recoveryPerDateChartView.php");
+        registerChartUpdate("#deceasedPerDateChart", "views/deceasedPerDateChartView.php");
         
         //LOAD INITIAL GRAPHS
         updatePage("LAGUNA");
@@ -501,7 +501,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     table.draw();
                 },
                 error: function(data) {
-                    console.log("An error has occured while loading the table: "data);
+                    console.log("An error has occured while loading the table: "+data);
                 }
             })
         }

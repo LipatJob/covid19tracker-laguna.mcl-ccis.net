@@ -397,19 +397,12 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
 
 <!-- SCRIPTS -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="plugins/chart.js/Chart.min.js"></script>
-
-<!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<!-- App -->
-<!-- for demo purposes -->
-<!-- page script -->
-<!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"> </script>
 
 <script>
@@ -446,7 +439,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         
         //EVENT HANDLERS
         $("#toggleLocal").click(function() {
-            
             if (flag == false) {
                 $("#graph3").hide();
                 $("#table").show();
@@ -458,7 +450,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 $("#toggleLocal").html("TABLE VIEW");
                 flag = false;
             }
-            
         });
         
         $("#city").on('change', function() {
@@ -467,19 +458,11 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         });
         
         //HANDLE GRAPH UPDATES
-        //REGISTER GRAPHS HERE
         var registeredCharts = [];
         function updatePage(location) {
+            // Manual register update
             updateTitleHeader(location);
-            //updateSummary(location);
-            updateCasesPerDate(location);
-            updateCasesByGender(location);
-            updateCasesByAgeGroup(location);
-            updatePUIPerDate(location);
-            updateSummaryPerMunicipalityCityChart(location);
             updateSummaryPerMunicipalityCityTable(location);
-            updateRecoveryPerDate(location)
-            updateDeceasedPerDate(location)
             registeredCharts.forEach(function(chart){
                 chart(location);
             });
@@ -503,95 +486,17 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             registeredCharts.push(chartUpdate);
             return chartUpdate;
         }
-        registerChartUpdate("#divCount", "views/summaryView.php")
+        //REGISTER GRAPHS HERE
+        registerChartUpdate("#divCount", "views/summaryView.php");
+        registerChartUpdate("#barpage", "views/casesPerDateChartView.php");
+        registerChartUpdate("#graph1", "views/casesByGenderChartView.php");
+        registerChartUpdate("#graph2", "views/casesByAgeGroupChartView.php");
+        registerChartUpdate("#linepage", "views/puiPerDateChartView.php");
+        registerChartUpdate("#graph3", "views/summaryPerMunicipalityCityChartView.php");
+        registerChartUpdate("#recoveryperdate", "views/recoveryPerDateView.php");
+        registerChartUpdate("#deceasedperdate", "views/deceasedPerDateView.php");
         updatePage("LAGUNA");
-        
-        /**
-        function updateSummary(location) {
-            $.ajax({
-                method: "GET",
-                url: "views/summaryView.php",
-                data: {
-                    location: location
-                },
-                type: "html",
-                success: function(data) {
-                    $("#divCount").html(data);
-                }
-            });
-        }
-        */
-        
-        function updateCasesPerDate(location) {
-            $.ajax({
-                method: "GET",
-                url: "views/casesPerDateChartView.php",
-                data: {
-                    location: location
-                },
-                type: "html",
-                success: function(data) {
-                    $("#barpage").html(data);
-                }
-            });
-        }
-        
-        function updateCasesByGender(location) {
-            $.ajax({
-                method: "GET",
-                url: "views/casesByGenderChartView.php",
-                data: {
-                    location: location
-                },
-                type: "html",
-                success: function(data) {
-                    $("#graph1").html(data);
-                }
-            });
-        }
-        
-        function updateCasesByAgeGroup(location) {
-            $.ajax({
-                method: "GET",
-                url: "views/casesByAgeGroupChartView.php",
-                data: {
-                    location: location
-                },
-                type: "html",
-                success: function(data) {
-                    $("#graph2").html(data);
-                }
-            });
-        }
-        
-        function updatePUIPerDate(location) {
-            $.ajax({
-                method: "GET",
-                url: "views/puiPerDateChartView.php",
-                data: {
-                    location: location
-                },
-                type: "html",
-                success: function(data) {
-                    $("#linepage").html(data);
-                }
-            });
-        }
-        
-        function updateSummaryPerMunicipalityCityChart(location) {
-            $.ajax({
-                method: "GET",
-                url: "views/summaryPerMunicipalityCityChartView.php",
-                data: {
-                    location: location
-                },
-                type: "html",
-                success: function(data) {
-                    $("#graph3").html(data);
-                }
-            });
-        }
-        
+         
         function updateSummaryPerMunicipalityCityTable(location) {
             $.ajax({
                 type: "GET",
@@ -649,34 +554,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         }
         
 
-        
-        function updateRecoveryPerDate(location) {
-            $.ajax({
-                method: "GET",
-                url: "views/recoveryPerDateView.php",
-                data: {
-                    location: location
-                },
-                type: "html",
-                success: function(data) {
-                    $("#recoveryperdate").html(data);
-                }
-            });
-        }
-        
-        function updateDeceasedPerDate(location) {
-            $.ajax({
-                method: "GET",
-                url: "views/deceasedPerDateView.php",
-                data: {
-                    location: location
-                },
-                type: "html",
-                success: function(data) {
-                    $("#deceasedperdate").html(data);
-                }
-            });
-        }
     });
 </script>
 

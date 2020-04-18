@@ -433,6 +433,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             });
         }
         
+        //UPDATE DECORATOR
         function registerChartUpdate(target, viewlocation) {
             chartUpdate = function(updateData) {
                 $.ajax({
@@ -450,7 +451,8 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             registeredCharts.push(chartUpdate);
             return chartUpdate;
         }
-        //REGISTER GRAPHS HERE
+
+        //REGISTER SERVER SIDE LOADED GRAPHS HERE
         registerChartUpdate("#divCount", "views/summaryView.php");
         registerChartUpdate("#barpage", "views/casesPerDateChartView.php");
         registerChartUpdate("#graph1", "views/casesByGenderChartView.php");
@@ -459,6 +461,8 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         registerChartUpdate("#graph3", "views/summaryPerMunicipalityCityChartView.php");
         registerChartUpdate("#recoveryperdate", "views/recoveryPerDateView.php");
         registerChartUpdate("#deceasedperdate", "views/deceasedPerDateView.php");
+        
+        //LOAD INITIAL GRAPHS
         updatePage("LAGUNA");
         
         function updateSummaryPerMunicipalityCityTable(location) {
@@ -497,7 +501,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     table.draw();
                 },
                 error: function(data) {
-                    console.log(data);
+                    console.log("An error has occured while loading the table: "data);
                 }
             })
         }

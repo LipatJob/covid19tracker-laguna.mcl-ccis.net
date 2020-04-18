@@ -18,6 +18,7 @@ function getConnection(){
 */
 function getSummary($location){
     $con = getConnection();
+    $testdate = "";
     $dbCity = $location;
     $dbCity = str_replace("%20","",$location);
     if ($dbCity == 'LAGUNA') {
@@ -51,13 +52,26 @@ function getSummary($location){
         $PUI = $extract['PUI'];
     }
     
+    $query2 = "select max(date_of_status) as testmax from individual_cases ";
+
+    if ($dbCity != 'ALL') {
+        $query2 .= "where barangay = '" . $dbCity . "'";
+    }
+    $resultCount2 = mysqli_query($con, $query2);
+    while($extract2 = mysqli_fetch_array($resultCount2)){
+      $testdate = $extract2['testmax'];
+      $outputdate = date('M d, Y', strtotime($testdate));
+    }
+
     return [
         "ConfirmedCases" => $POSCASES,
         "ActiveCases" => $CURRENTPOS,
         "Deceased" => $DECEASED,
         "Recovered" => $RECOVERED,
         "Suspect" => $PUM,
-        "Probable" => $PUI
+        "Probable" => $PUI,
+        "MaxDate" => $testdate,
+        "LookDate" => $outputdate
     ];
 }
 

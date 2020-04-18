@@ -225,7 +225,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
                                 while ($rows3 = mysqli_fetch_array($result1)) {
                                     if ($storethis != $rows3['city_municipality']) {
                                 ?>
-                                        <option value="<?php echo str_replace(" ", "%20 ", $rows3['city_municipality']); ?>">
+                                        <option value="<?php echo $rows3['city_municipality'] ?>">
                                             <?php echo $rows3['city_municipality']; ?>
                                         </option>
 

@@ -5,10 +5,6 @@ $data = getSummaryPerCityMunicipalityChart($_GET["location"]);
 
 
 
-<div class="card card-danger2">
-    <div class="card-header">
-        <h3 class="card-title" style="color: white;"><?php echo json_encode($data["Header"]) ?></h3>
-    </div>
     <div class="card-body">
         <div class="chart">
             <canvas id="barChart2"

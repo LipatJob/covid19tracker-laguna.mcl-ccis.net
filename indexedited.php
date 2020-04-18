@@ -1,21 +1,6 @@
 <?php
 include 'phpcore/connection.php';
 
-$result1 = mysqli_query($con,"SELECT SUM(NEW_POSITIVE_CASES) as NEWPOS, SUM(TOTAL_CURRENT_POSITIVE) as CURRENTPOS, SUM(TOTAL_DECEASED) as DECEASED, SUM(TOTAL_RECOVERED) as RECOVERED, SUM(TOTAL_POSITIVE_CASES) as POSCASES, SUM(TOTAL_PUM) as PUM, SUM(TOTAL_PUI) as PUI FROM ALL_TOTAL");
-while($extract = mysqli_fetch_array($result1)){
-    $NEWPOS = $extract['NEWPOS'];
-    $CURRENTPOS = $extract['CURRENTPOS'];
-    $DECEASED = $extract['DECEASED'];
-    $RECOVERED = $extract['RECOVERED'];
-    $POSCASES = $extract['POSCASES'];
-    $PUM = $extract['PUM'];
-    $PUI = $extract['PUI'];
-}
-
-$result2 = mysqli_query($con,"SELECT SUM(current_positive_case) AND  reference_date IN (SELECT MAX(reference_date) from barangay_history) AS TOTAL_CASES from barangay_history");
-while($extract2 = mysqli_fetch_array($result2)){
-    $positive_current_case = $extract2['TOTAL_CASES'];
-}
 
 $query1 = "SELECT * FROM barangay_history order by reference_date";
 $result1 = mysqli_query($con,$query1);
@@ -35,32 +20,6 @@ $ref2 = $rowsData1;
 $msql = "SELECT * FROM ALL_TOTAL";
 //$msql2 = "SELECT SUM(`new_positive_case`) as sum1, SUM(`current_positive_case`) as sum2, SUM(`current_deceased`) as sum3, SUM(`current_recovered`) as sum4, SUM(`total_positive_cases`) as sum5, SUM(`current_pum`) as sum6, SUM(`current_pui`) as sum7 FROM `barangay_history`";
 $msql2 = "SELECT SUM(`new_positive_case`) as sum1, SUM(`current_positive_case`) as sum2, SUM(`current_deceased`) as sum3, SUM(`current_recovered`) as sum4, SUM(`total_positive_cases`) as sum5, SUM(`current_pum`) as sum6, SUM(`current_pui`) as sum7 FROM `barangay_history` where reference_date = (SELECT Max(reference_date) from barangay_history)";
-if(isset($_POST['submit']))
-{
-    $startdate = $_POST['startdate'];
-    $enddate = $_POST['enddate'];
-    $msql = "SELECT `city_municipality`, SUM(`new_positive_case`), SUM(`current_positive_case`), SUM(`current_deceased`), SUM(`current_recovered`), SUM(`total_positive_cases`), SUM(`current_pum`), SUM(`current_pui`) FROM `barangay_history` where reference_date between '$startdate' and '$enddate' GROUP BY `city_municipality` ORDER BY MAX(total_positive_cases) DESC";
-    //$msql2 = "SELECT SUM(`new_positive_case`) as sum1, SUM(`current_positive_case`) as sum2, SUM(`current_deceased`) as sum3, SUM(`current_recovered`) as sum4, SUM(`total_positive_cases`) as sum5, SUM(`current_pum`) as sum6, SUM(`current_pui`) as sum7 FROM `barangay_history` where reference_date between '$startdate' and '$enddate'";
-    $msql2 = "SELECT SUM(`new_positive_case`) as sum1, SUM(`current_positive_case`) as sum2, SUM(`current_deceased`) as sum3, SUM(`current_recovered`) as sum4, SUM(`total_positive_cases`) as sum5, SUM(`current_pum`) as sum6, SUM(`current_pui`) as sum7 FROM `barangay_history` where reference_date = (SELECT Max(reference_date) from barangay_history)";
-    $thisresult = mysqli_query($con,$msql);
-    $count = mysqli_num_rows($thisresult);
-    if ($count == "0")
-    {
-        $ref1 = $rowsData2;
-        $ref2 = $rowsData1;
-        $message="No cases found within the dates.";
-        echo "<script type='text/javascript'>alert('$message');</script>";
-        $msql = "SELECT `city_municipality`, SUM(`new_positive_case`), SUM(`current_positive_case`), SUM(`current_deceased`), SUM(`current_recovered`), SUM(`total_positive_cases`), SUM(`current_pum`), SUM(`current_pui`) FROM `barangay_history` GROUP BY `city_municipality` ORDER BY MAX(total_positive_cases) DESC`";
-        //$msql2 = "SELECT SUM(`new_positive_case`) as sum1, SUM(`current_positive_case`) as sum2, SUM(`current_deceased`) as sum3, SUM(`current_recovered`) as sum4, SUM(`total_positive_cases`) as sum5, SUM(`current_pum`) as sum6, SUM(`current_pui`) as sum7 FROM `barangay_history`";
-        $msql2 = "SELECT SUM(`new_positive_case`) as sum1, SUM(`current_positive_case`) as sum2, SUM(`current_deceased`) as sum3, SUM(`current_recovered`) as sum4, SUM(`total_positive_cases`) as sum5, SUM(`current_pum`) as sum6, SUM(`current_pui`) as sum7 FROM `barangay_history` where reference_date = (SELECT Max(reference_date) from barangay_history)";
-        
-    }
-    else
-    {
-        $ref1 = $startdate;
-        $ref2 = $enddate;
-    }
-}
 
 $result1 = mysqli_query($con, $msql2);
 while($extract = mysqli_fetch_array($result1)){
@@ -78,7 +37,6 @@ while($time_update = mysqli_fetch_array($rx)){
     $last_update = date('F j, Y',strtotime($time_update['TIME_UPDATE']));
 }
 
-?>
 ?>
 
 <!DOCTYPE html>
@@ -432,6 +390,13 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             }, 1000);
         });
         
+        //INITIALIZE VIDEO
+        $('#videomodal').modal('show'); 
+        $('.modal').on('hidden.bs.modal', function (e) {
+            $iframe = $(this).find("iframe");
+            $iframe.attr("src", $iframe.attr("src"));
+        });
+        
         //INITIALIZE CONDITIONS            
         var flag = false;
         $("#graph3").show();
@@ -467,7 +432,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 chart(location);
             });
         }
-
+        
         function registerChartUpdate(target, viewlocation) {
             chartUpdate = function(updateData) {
                 $.ajax({
@@ -495,7 +460,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         registerChartUpdate("#recoveryperdate", "views/recoveryPerDateView.php");
         registerChartUpdate("#deceasedperdate", "views/deceasedPerDateView.php");
         updatePage("LAGUNA");
-         
+        
         function updateSummaryPerMunicipalityCityTable(location) {
             $.ajax({
                 type: "GET",
@@ -552,7 +517,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             document.getElementById('title_header').innerHTML = titleHeader;
         }
         
-
+        
     });
 </script>
 

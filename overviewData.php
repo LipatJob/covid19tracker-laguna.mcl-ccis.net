@@ -24,6 +24,8 @@ function getData($brgyname,$con){
     $header = [];
     $body = [];
     $footer = [];
+
+    
     
     // initialize queries
     if($brgyname == 'LAGUNA'){
@@ -39,6 +41,7 @@ function getData($brgyname,$con){
                 on brgy.CityID = city.ID
                 INNER JOIN reference_dates refDates
                 on brgynew.refDateID = refDates.ID 
+                WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates))
                 GROUP BY city.CityName";
         //$footerQuery = "SELECT Province, SUM(TOTAL_POSITIVE_CASES) as POSCASES, SUM(NEW_POSITIVE_CASES) as NEWPOS, SUM(TOTAL_CURRENT_POSITIVE) as ACTIVE,SUM(TOTAL_RECOVERED) as RECOVERED,  SUM(TOTAL_SUSPECT) as PUI,SUM(TOTAL_PROBABLE) as PUM, SUM(TOTAL_DECEASED) as DECEASED FROM ALL_TOTAL";
         $footerQuery = "SELECT city.CityName, SUM(brgynew.total_positive_cases), SUM(brgynew.new_positive_case), SUM(brgynew.current_positive_case), SUM(brgynew.current_recovered), SUM(casesN.current_suspect_PUI), SUM(casesN.current_probable_PUI), SUM(brgynew.current_deceased)

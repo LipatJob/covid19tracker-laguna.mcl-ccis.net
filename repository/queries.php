@@ -224,7 +224,6 @@ function getSummaryPerCityMunicipalityTable($brgyname){
     return $data;
 }
 
-
 function getSummaryPerCityMunicipalityChart($location){
     $con = getConnection();
     $header = "";
@@ -288,7 +287,6 @@ function getSummaryPerCityMunicipalityChart($location){
     "CasesMax" => $max1, "DeceasedMax" => $max2, "RecoveredMax" => $max3, "TotalMax" => $totalMax, "Header" => $header];
     
 }
-
 
 function getCasesByGender($location){
     $con = getConnection();
@@ -466,7 +464,7 @@ function getRecoveredPerDate($location){
         }else{
             $current = $recovered[$i] - $recovered[$i - 1];
         }
-
+        
         if($current < 0){
             array_push($specificRecovered, 0);
         }else{
@@ -506,7 +504,7 @@ function getDeceasedPerDate($location){
         $deceased[$i] = intval($extract['TOTAL_DECEASED']);
         $i++;
     }
-
+    
     $specificDeceased = [];
     for($i = 0; $i < sizeof($deceased); $i++){
         $current = 0;
@@ -515,18 +513,38 @@ function getDeceasedPerDate($location){
         }else{
             $current = $deceased[$i] - $deceased[$i - 1];
         }
-
+        
         if($current < 0){
             array_push($specificDeceased, 0);
         }else{
             array_push($specificDeceased, $current);
         }
     }
-
+    
     return [
         "Dates" => $dates,
         "Deceased" => $specificDeceased
     ];
+    
+}
+
+
+function getCityMunicipalities(){
+    $con = getConnection();
+    $storethis = "";
+    $query1 = "SELECT CityName FROM City ORDER BY CityName ASC";
+    $result1 = mysqli_query($con,$query1);
+    $cityNames = ["LAGUNA"];
+
+    while($rows3 = mysqli_fetch_array($result1))
+    {
+        if($storethis!=$rows3['CityName'])
+        {
+            array_push($cityNames, $rows3['CityName']);
+        }
+    }
+    echo json_encode($cityNames);
+    return $cityNames;
     
 }
 

@@ -460,10 +460,17 @@ function getRecoveredPerDate($location){
     }
     $specificRecovered = [];
     for($i = 0; $i < sizeof($recovered); $i++){
+        $current = 0;
         if($i == 0){
-            array_push($specificRecovered, $recovered[$i]);
+            $current = $recovered[$i];
         }else{
-            array_push($specificRecovered, $recovered[$i] - $recovered[$i - 1]);
+            $current = $recovered[$i] - $recovered[$i - 1];
+        }
+
+        if($current < 0){
+            array_push($specificRecovered, 0);
+        }else{
+            array_push($specificRecovered, $current);
         }
     }
     
@@ -502,10 +509,17 @@ function getDeceasedPerDate($location){
 
     $specificDeceased = [];
     for($i = 0; $i < sizeof($deceased); $i++){
+        $current = 0;
         if($i == 0){
-            array_push($specificDeceased, $deceased[$i]);
+            $current = $deceased[$i];
         }else{
-            array_push($specificDeceased, $deceased[$i] - $deceased[$i - 1]);
+            $current = $deceased[$i] - $deceased[$i - 1];
+        }
+
+        if($current < 0){
+            array_push($specificDeceased, 0);
+        }else{
+            array_push($specificDeceased, $current);
         }
     }
 

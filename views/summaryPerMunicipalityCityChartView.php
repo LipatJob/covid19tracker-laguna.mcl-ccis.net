@@ -20,7 +20,7 @@ $data = getSummaryPerCityMunicipalityChart($_GET["location"]);
         var areaChartData = {
             labels: <?php echo json_encode($data["Locals"])?> ,
             datasets: [{
-                    label: 'TOTAL POSITIVE CASES',
+                    label: 'CONFIRMED',
                     backgroundColor: 'rgba(60,141,188,0.5)',
                     borderColor: 'rgba(60,141,188,0.5)',
                     pointRadius: true,
@@ -109,13 +109,13 @@ $data = getSummaryPerCityMunicipalityChart($_GET["location"]);
             },
             scales: {
                 xAxes: [{
-                    stacked: true,
+                    stacked: false,
                     gridLines: {
                         display: false,
                     }
                 }],
                 yAxes: [{
-                    stacked: true,
+                    stacked: false,
                     ticks: {
                         beginAtZero: true,
                         suggestedMax: 5,

@@ -27,6 +27,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    <!-- App -->	
+    <script src="dist/js/adminlte.min.js"></script>	
+    <!-- for demo purposes -->	
+    <script src="dist/js/demo.js"></script>
     
     <style>
         #title {

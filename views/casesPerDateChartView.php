@@ -48,26 +48,15 @@ $(function() {
             data: <?php echo json_encode($data["CurrentPositiveCases"]) ?>
         }, {
             label: 'CONFIRMED',
-            type: 'line',
-            backgroundColor: 'rgba(60,141,188,0.5)',
-            borderColor: 'rgba(60,141,188,0.5)',
+            type: 'bar',
+            backgroundColor: '#1988C8',
+            borderColor: '#1988C8',
             pointRadius: true,
             pointColor: '#3b8bba',
             pointStrokeColor: 'rgba(60,141,188, .5)',
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(60,141,188, .5)',
             data: <?php echo json_encode($data["TotalPositiveCases"]) ?>
-        }, {
-            label: 'RECOVERED',
-            type: 'bar',
-            backgroundColor: 'rgba(60,141,188,0.5)',
-            borderColor: 'rgba(60,141,188,0.5)',
-            pointRadius: true,
-            pointColor: '#3b8bba',
-            pointStrokeColor: 'rgba(60,141,188, .5)',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: 'rgba(60,141,188, .5)',
-            data: <?php echo json_encode($data["CurrentRecovered"]) ?>
         }]
     }
 

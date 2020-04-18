@@ -9,38 +9,7 @@ while($time_update = mysqli_fetch_array($rx)){
     $last_update = date('F j, Y',strtotime($time_update['TIME_UPDATE']));
 }
  ?>   
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163203245-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        
-        gtag('config', 'UA-163203245-1');
-    </script>
-    <!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, user-scalable=false;">
-<meta property="og:image" content="http://covid19tracker-lagunadev.mcl-ccis.net/imgs/mcl.PNG">
-<meta property="og:image:type" content="imgs/mcl.PNG">
-<meta property="og:image:width" content="200">
-<meta property="og:image:height" content="200">
-
-    <title>COVID-19 CASE TRACKER</title>
-    <link rel="icon" type="image/x-icon" href="imgs/favicon.ico">
-    
-    <!-- STYLES -->
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- DataTables -->
-    <!--<link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="fontawesome/css/all.css">
-    <link rel="stylesheet" href="dist/css/adminlte.css">
-    <link rel="stylesheet" href="css/flexme.css">
+   <?php include_once 'phpcore/include_header.php' ?>
     
     <style>
         #title {
@@ -207,42 +176,12 @@ box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
         <!-- Title bar and city/municipality selector -->
         <div class="container-fluid" >
             <div class="row">
-                <div class=" col-lg-9 col-md-12 col-sm-12">
-                <h4 id="title_header" style="margin-left: 15px;"> Region IV-A: Province of Laguna<br>
-                        <h6 style="margin-left: 15px; font-weight: 400;" >SUMMARY AS OF  <?php echo $last_update?></h6></h4> 
-                    </div>
-                    
-                    <div class="col-lg-3 col-md-12 col-sm-12"  style="display: none;">
-                        <div class="info-box bg-info">
-                            <span class="info-box-icon"><i class="fa fa-flag"></i></span>
-                            
-                            <div class="info-box-content ">
-                                <span class="info-box-text" style="padding: 3px;">Select City / Municipality</span>
-                                
-                                <select id='city' class="form-control" style="padding: 0px; margin: 0px;">
-                                    <option value='LAGUNA'>LAGUNA</option>
-                                    <?php
-                                    $storethis = "";
-                                    $query1 = "SELECT distinct(city_municipality) FROM barangay_history ORDER BY city_municipality ASC";
-                                    $result1 = mysqli_query($con,$query1);
-                                    while($rows3 = mysqli_fetch_array($result1))
-                                    {
-                                        if($storethis!=$rows3['city_municipality'])
-                                        {
-                                            ?>
-                                            <option value="<?php echo str_replace(" ","%20 ",$rows3['city_municipality']); ?>">
-                                                <?php echo $rows3['city_municipality']; ?>
-                                            </option>
-                                            
-                                            <?php
-                                            $storethis=$rows3['city_municipality'];
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                <div class=" col-lg-7 col-md-5 col-sm-7">
+                <div style="width: 100%:"><h4 id="title_header" style="margin-left: 15px;"> Region IV-A: Province of Laguna <br> <h6 style="margin-left: 15px; font-weight: 400; " >SUMMARY AS OF  <?php echo $last_update?></h6></h4> </div></div>
+                <div class=" col-lg-5 col-md-7 col-sm-5">
+                <div style="align: justify;">&nbsp;<i class="fa fa-map-marker-alt" style="color: #195387; height: 22px; width: 22px;"></i>Click a blue marker to zoom in and view Covid-19 data for each locality.<br><img src="imgs/marker.png" alt="Individual" height="24" width="20">&nbsp; Click inside the circumference of the circle to view individual cases. </div> 
+                </div>
+                
                 </div>
             </div>
             </div>
@@ -256,7 +195,7 @@ box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
 
     <!-- END OF NAVIGATION BAR-->
     <div class="container-fluid" >
-         <div class="card card-danger2" style="height: 72.5%; width: 100%; padding: 10px; margin: 5px; margin-left: 0px; margin-right: 0px">
+         <div class="card card-danger2" style="height: 69%; width: 100%; padding: 10px; margin: 5px; margin-left: 0px; margin-right: 0px">
             <?php include_once 'MapWithLoop.php' ?>
         </div>
         </div>   </div> 

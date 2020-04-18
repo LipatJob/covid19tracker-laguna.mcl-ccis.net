@@ -17,10 +17,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=false;">
-        <meta property="og:image" content="http://covid19tracker-lagunadev.mcl-ccis.net/imgs/mcl.PNG">
-        <meta property="og:image:type" content="imgs/mcl.PNG">
-        <meta property="og:image:width" content="200">
-        <meta property="og:image:height" content="200">
+        <meta property="og:image" content="http://covid19tracker-lagunadev.mcl-ccis.net/imgs/thumb_256.jpg">
+        <meta property="og:image:title" content="COVID-19 CASE TRACKER">
+        <meta property="og:image:type" content="jpg">
+        <meta property="og:image:width" content="256">
+        <meta property="og:image:height" content="256">
+    
 
     <title>COVID-19 CASE TRACKER</title>
     <link rel="icon" type="image/x-icon" href="imgs/favicon.ico">

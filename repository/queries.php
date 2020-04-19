@@ -823,10 +823,12 @@ function getCurrentTrend ($location){
         $totalRecoveryDeceased[$j] = $recoveredPerDay[$j] + $deceasedPerDay[$j];
     }
 
-    array_shift($dates);
-    array_shift($activecases);
-    array_shift($newcases);
-    array_shift($recovered);
+    if ($dates[0] < '03-25') {
+        array_shift($dates);
+        array_shift($activecases);
+        array_shift($newcases);
+        array_shift($recovered);
+    }
     
     return [
         "dates" => $dates,

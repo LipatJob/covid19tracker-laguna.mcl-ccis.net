@@ -95,7 +95,7 @@ function getPUIPerDate($location){
     if($location != "LAGUNA")
     {
         $string = "SELECT refDates.ref_date as reference_date, 0 as PROBABLE, 0 as SUSPECT, sum(casesO.current_PUI) as TOTALPUI FROM barangay_history_new brgynew
-            INNER JOIN old_cases casesO
+            INNER JOIN Old_Cases casesO
             ON brgynew.ID = casesO.BarangayHistID
             INNER JOIN reference_dates refDates
             ON brgynew.refDateID = refDates.ID
@@ -124,7 +124,7 @@ function getPUIPerDate($location){
     {
         //$string.=" GROUP BY reference_date";
         $string = "SELECT refDates.ref_date as reference_date, 0 as PROBABLE, 0 as SUSPECT, sum(casesO.current_PUI) as TOTALPUI FROM barangay_history_new brgynew
-            INNER JOIN old_cases casesO
+            INNER JOIN Old_Cases casesO
             ON brgynew.ID = casesO.BarangayHistID
             INNER JOIN reference_dates refDates
             ON brgynew.refDateID = refDates.ID

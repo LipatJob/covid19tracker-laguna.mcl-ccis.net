@@ -41,8 +41,8 @@ $data = getSummary($_GET["location"]);
                 <h1><?php echo $data["Recovered"]; ?></h1>
 
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">RECOVERED</p>
-                <div class="parent-container-horizontal"
-                    style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; color: #2ABB9B"> - </div>
+               <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date == $data["MaxDate"] || $data["MaxDate"] == "") echo "color: #2ABB9B;"; ?>"> <?php if($date > $data["MaxDate"] && $data["MaxDate"] != "") echo ''.$data["RecoverCount"].' recovered cases from '.$data["LookDate"].''; else echo "-" ?> </div>
+              
             </div>
             <div class="icon">
                 <i class="fa fa-hand-holding-heart"></i>
@@ -117,8 +117,8 @@ $data = getSummary($_GET["location"]);
                 <h1><?php echo $data["Deceased"] ?></h1>
 
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">DECEASED</p>
-                <div class="parent-container-horizontal"
-                    style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; color: #7d7d7d;">-</div>
+                <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date == $data["MaxDate"] || $data["MaxDate"] == "") echo "color: #7d7d7d;"; ?>"> <?php if($date > $data["MaxDate"] && $data["MaxDate"] != "") echo ''.$data["DeceasedCount"].' deceased cases from '.$data["LookDate"].''; else echo "-" ?> </div>
+             
             </div>
             <div class="icon">
                 <i class="fa fa-skull-crossbones"></i>

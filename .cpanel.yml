@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/mclccisn/covid19tracker-Laguna.mcl-ccis.net/Dev
+    - /bin/cp -R * $DEPLOYPATH

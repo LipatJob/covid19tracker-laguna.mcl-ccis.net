@@ -452,12 +452,12 @@ while ($time_update = mysqli_fetch_array($rx)) {
                 if (flag == false) {
                     $("#summaryPerMunicipalityCityChart").hide();
                     $("#table").show();
-                    $("#toggleLocal").html("GRAPH VIEW");
+                    $("#toggleLocal").html("SWITCH TO GRAPH VIEW");
                     flag = true;
                 } else {
                     $("#summaryPerMunicipalityCityChart").show();
                     $("#table").hide();
-                    $("#toggleLocal").html("TABLE VIEW");
+                    $("#toggleLocal").html("SWITCH TO TABLE VIEW");
                     flag = false;
                 }
             });

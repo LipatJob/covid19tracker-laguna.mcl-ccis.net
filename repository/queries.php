@@ -65,6 +65,25 @@ function getSummary($location){
 
     $recoveredDeceased[0] = $RECOVERED;
     $recoveredDeceased[1] = $DECEASED;
+	
+	
+	 $query3 = "select count(case_status) as recovercount from individual_cases where date_of_status = '$testdate' AND case_status = 'RECOVERED' ";
+     $query4 = "select count(case_status) as deceasedcount from individual_cases where date_of_status = '$testdate' AND case_status = 'DECEASED' ";
+     
+     if ($dbCity != 'ALL') {
+        $query3 .= "and barangay = '" . $dbCity . "'";
+        $query4 .= "and barangay = '" . $dbCity . "'";
+    }
+    
+    $resultCount3 = mysqli_query($con, $query3);
+    while($extract3 = mysqli_fetch_array($resultCount3)){
+      $recovercount = $extract3['recovercount'];
+    }
+
+    $resultCount4 = mysqli_query($con, $query4);
+    while($extract4 = mysqli_fetch_array($resultCount4)){
+      $deceasedcount = $extract4['deceasedcount'];
+    }
 
     return [
         "ConfirmedCases" => $POSCASES,
@@ -75,7 +94,9 @@ function getSummary($location){
         "Probable" => $PUI,
         "MaxDate" => $testdate,
         "LookDate" => $outputdate,
-        "RecoveredDeceased" => $recoveredDeceased
+        "RecoveredDeceased" => $recoveredDeceased,
+	    "RecoverCount" => $recovercount,
+	    "DeceasedCount" => $deceasedcount
     ];
 }
 

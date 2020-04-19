@@ -90,13 +90,20 @@ function getData($brgyname,$con){
     $footerData = mysqli_query($con, $footerQuery);
     if($bodyData){
         // put data into lists
+        $sum = 0;
         foreach ($bodyData as $keyrow => $row) {
             // body data
             $rowData = array();
+            $sum = 0;
             foreach ($row as $keycell => $cell) {
+                if (is_numeric($cell)) {
+                    $sum = $sum + $cell;
+                }
                 array_push($rowData,$cell);
             }
-            array_push($body, $rowData);
+            if($sum != 0) {
+                array_push($body, $rowData);
+            }            
         }
     }
     if($footerData){

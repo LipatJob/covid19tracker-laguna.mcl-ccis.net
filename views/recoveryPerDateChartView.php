@@ -7,8 +7,14 @@
     $deceasedPercent = [];
 
     for ($i = 0; $i < count($data['CumulativeRecovered']); $i++) {
-        $recoveryPercent[$i] = number_format(($data['CumulativeRecovered'][$i] / $summary['ConfirmedCases']) * 100, 2, '.', '');
-        $deceasedPercent[$i] = number_format(($dataDeceased['CumulativeDeceased'][$i] / $summary['ConfirmedCases']) * 100, 2, '.', '');
+        if ($summary['ConfirmedCases'] != 0) {
+            $recoveryPercent[$i] = number_format(($data['CumulativeRecovered'][$i] / $summary['ConfirmedCases']) * 100, 2, '.', '');
+            $deceasedPercent[$i] = number_format(($dataDeceased['CumulativeDeceased'][$i] / $summary['ConfirmedCases']) * 100, 2, '.', '');
+        }
+        else {
+            $recoveryPercent[$i] = 0;
+            $deceasedPercent[$i] = 0;
+        }
     }
 
     //Chart should be like Gender Graph, it wil show percentage and count when hovered to a specific date
@@ -38,7 +44,7 @@ $(function() {
     var areaChartData = {
         labels: <?php echo json_encode($data["Dates"]) ?> ,
         datasets: [{
-            label: 'RECOVERED',
+            label: 'RECOVERY RATE',
             type: 'line',
             backgroundColor: 'rgba(42, 187, 155, 1)',
             borderColor: 'rgba(42, 187, 155, 1)',
@@ -49,7 +55,7 @@ $(function() {
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
             data: <?php echo json_encode($recoveryPercent) ?>
         },{
-            label: 'DECEASED',
+            label: 'DEATH RATE',
             type: 'line',
             backgroundColor: '#7d7d7d',
             borderColor: '#7d7d7d',
@@ -60,7 +66,7 @@ $(function() {
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
             data: <?php echo json_encode($deceasedPercent) ?>
         },{
-            label: 'RECOVERED',
+            label: 'RECOVERED CASES',
             type: 'bar',
             backgroundColor: 'rgba(42, 187, 155, 1)',
             borderColor: 'rgba(42, 187, 155, 1)',
@@ -72,7 +78,7 @@ $(function() {
             data: <?php echo json_encode($data['Recovered']) ?>
         }
         ,{
-            label: 'DECEASED',
+            label: 'DECEASED CASES',
             type: 'bar',
             backgroundColor: '#7d7d7d',
             borderColor: '#7d7d7d',
@@ -89,7 +95,35 @@ $(function() {
         maintainAspectRatio: false,
         responsive: true,
         legend: {
-            display: true
+            labels: {
+                filter: function(item, chart) {
+                    // Logic to remove a particular legend item goes here
+                    return !item.text.includes('line');
+                }
+            },
+            onClick: function(e, legendItem) {
+                var index = legendItem.datasetIndex;
+                var ci = this.chart;
+                var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci
+                    .getDatasetMeta(index).hidden;
+                var flag = false;
+
+                ci.data.datasets.forEach(function(e, i) {
+                    var meta = ci.getDatasetMeta(i);
+
+                    if (i !== index) {
+                        if (!alreadyHidden) {
+                            meta.hidden = meta.hidden === null ? !meta.hidden : null;
+                        } else if (meta.hidden === null) {
+                            meta.hidden = null;
+                        }
+                    } else if (i === index) {
+                        meta.hidden = null;
+                    }
+                });
+
+                ci.update();
+            }
         },
         scales: {
             xAxes: [{

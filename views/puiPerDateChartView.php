@@ -6,7 +6,7 @@ $data = getPUIPerDate($_GET["location"]);
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">PUI PER DATE</h3>
+        <h3 class="card-title" style="color: white;">PERSONS UNDER INVESTIGATION</h3>
     </div>
     <div class="card-body">
         <div class="chart">

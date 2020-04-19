@@ -6,7 +6,7 @@ $data = getCurrentTrend($_GET["location"]);
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">CASES TREND</h3>
+        <h3 class="card-title" style="color: white;">NEW CASES</h3>
     </div>
     <div class="card-body">
         <div class="chart">
@@ -29,7 +29,7 @@ $(function() {
     var areaChartData = {
 
         labels: <?php echo json_encode($data["dates"]) ?> ,
-        datasets: [{
+        datasets: [/*{
             label: 'ACTIVE CASES',
             type: 'line',
             backgroundColor: '#008080',
@@ -40,7 +40,7 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
             data: <?php echo json_encode($data["ActiveCases"]) ?>
-        },
+        },*/
         {
             label: 'NEW CASES',
             type: 'bar',
@@ -52,7 +52,7 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
             data: <?php echo json_encode($data["NewCases"]) ?>
-        },
+        }/*,
         {
             label: 'RECOVERED + DECEASED',
             type: 'bar',
@@ -64,7 +64,7 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
             data: <?php echo json_encode($data["SumRecoveredDeceased"]) ?>
-        }]
+        }*/]
     }
 
 
@@ -127,7 +127,7 @@ $(function() {
     var lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
     var lineChartData = jQuery.extend(true, {}, areaChartData)
     lineChartData.datasets[0].fill = false;
-    lineChartData.datasets[1].fill = false;
+    //lineChartData.datasets[1].fill = false;
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {

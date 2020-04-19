@@ -1,12 +1,13 @@
 <?php
 include "../repository/queries.php";
 $data = getCasesPerDate($_GET["location"]);
+$dataTrend = getCurrentTrend($_GET["location"]);
 ?>
 
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">CONFIRMED CASES PER DATE</h3>
+        <h3 class="card-title" style="color: white;">CONFIRMED AND ACTIVE CASES</h3>
     </div>
     <div class="card-body">
         <div class="chart">
@@ -46,6 +47,17 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(60,141,188, .5)',
             data: <?php echo json_encode($data["TotalPositiveCases"]) ?>
+        },{
+            label: 'ACTIVE CASES',
+            type: 'bar',
+            backgroundColor: '#008080',
+            borderColor: '#008080',
+            pointRadius: true,
+            pointColor: '#3b8bba',
+            pointStrokeColor: '#ffcc00',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: '#ffcc00',
+            data: <?php echo json_encode($dataTrend["ActiveCases"]) ?>
         }]
     }
 
@@ -112,11 +124,11 @@ $(function() {
     var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
     var lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
     var lineChartData = jQuery.extend(true, {}, areaChartData)
-    lineChartData.datasets[0].fill = true;
+    lineChartData.datasets[0].fill = false;
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'line',
+        type: 'bar',
         data: lineChartData,
         options: lineChartOptions
     })

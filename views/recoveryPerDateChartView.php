@@ -1,14 +1,24 @@
 <?php
-include "../repository/queries.php";
-$data = getRecoveredPerDate($_GET["location"]);
-$dataDeceased = getDeceasedPerDate(($_GET["location"]));
+    include "../repository/queries.php";
+    $data = getRecoveredPerDate($_GET["location"]);
+    $dataDeceased = getDeceasedPerDate($_GET["location"]);
+    $summary = getSummary($_GET["location"]);
+    $recoveryPercent = [];
+    $deceasedPercent = [];
+
+    for ($i = 0; $i < count($data['CumulativeRecovered']); $i++) {
+        $recoveryPercent[$i] = number_format(($data['CumulativeRecovered'][$i] / $summary['ConfirmedCases']) * 100, 2, '.', '');
+        $deceasedPercent[$i] = number_format(($dataDeceased['CumulativeDeceased'][$i] / $summary['ConfirmedCases']) * 100, 2, '.', '');
+    }
+
+    //Chart should be like Gender Graph, it wil show percentage and count when hovered to a specific date
+    //Change Legends Logic
+    //Legend, Two Legends, Cases Per Date (Bar), Recovery and Death Rate (Line)
 ?>
-
-
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">RECOVERY VERSUS DEATH PER DATE</h3>
+        <h3 class="card-title" style="color: white;">RECOVERED AND DECEASED</h3>
     </div>
     <div class="card-body">
         <div class="chart">
@@ -29,6 +39,28 @@ $(function() {
         labels: <?php echo json_encode($data["Dates"]) ?> ,
         datasets: [{
             label: 'RECOVERED',
+            type: 'line',
+            backgroundColor: 'rgba(42, 187, 155, 1)',
+            borderColor: 'rgba(42, 187, 155, 1)',
+            pointRadius: true,
+            pointColor: 'rgba(42, 187, 155, 1)',
+            pointStrokeColor: '#c1c7d1',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(42, 187, 155, 1)',
+            data: <?php echo json_encode($recoveryPercent) ?>
+        },{
+            label: 'DECEASED',
+            type: 'line',
+            backgroundColor: '#7d7d7d',
+            borderColor: '#7d7d7d',
+            pointRadius: true,
+            pointColor: 'rgba(42, 187, 155, 1)',
+            pointStrokeColor: '#c1c7d1',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(42, 187, 155, 1)',
+            data: <?php echo json_encode($deceasedPercent) ?>
+        },{
+            label: 'RECOVERED',
             type: 'bar',
             backgroundColor: 'rgba(42, 187, 155, 1)',
             borderColor: 'rgba(42, 187, 155, 1)',
@@ -37,8 +69,9 @@ $(function() {
             pointStrokeColor: '#c1c7d1',
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
-            data: <?php echo json_encode($data["Recovered"]) ?>
-        },{
+            data: <?php echo json_encode($data['Recovered']) ?>
+        }
+        ,{
             label: 'DECEASED',
             type: 'bar',
             backgroundColor: '#7d7d7d',
@@ -48,7 +81,7 @@ $(function() {
             pointStrokeColor: '#c1c7d1',
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
-            data: <?php echo json_encode($dataDeceased["Deceased"]) ?>
+            data: <?php echo json_encode($dataDeceased['Deceased']) ?>
         }]
     }
 
@@ -88,6 +121,7 @@ $(function() {
     var lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
     var lineChartData = jQuery.extend(true, {}, areaChartData)
     lineChartData.datasets[0].fill = false;
+    lineChartData.datasets[1].fill = false;
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {

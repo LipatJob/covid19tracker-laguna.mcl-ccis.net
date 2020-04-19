@@ -63,6 +63,9 @@ function getSummary($location){
       $outputdate = date('M d, Y', strtotime($testdate));
     }
 
+    $recoveredDeceased[0] = $RECOVERED;
+    $recoveredDeceased[1] = $DECEASED;
+
     return [
         "ConfirmedCases" => $POSCASES,
         "ActiveCases" => $CURRENTPOS,
@@ -71,7 +74,8 @@ function getSummary($location){
         "Suspect" => $PUM,
         "Probable" => $PUI,
         "MaxDate" => $testdate,
-        "LookDate" => $outputdate
+        "LookDate" => $outputdate,
+        "RecoveredDeceased" => $recoveredDeceased
     ];
 }
 
@@ -539,7 +543,8 @@ function getRecoveredPerDate($location){
 
     return [
         "Dates" => $dates,
-        "Recovered" => $specificRecovered
+        "Recovered" => $specificRecovered,
+        "CumulativeRecovered" => $recovered
     ];
 }
 
@@ -586,7 +591,8 @@ function getDeceasedPerDate($location){
     
     return [
         "Dates" => $dates,
-        "Deceased" => $specificDeceased
+        "Deceased" => $specificDeceased,
+        "CumulativeDeceased" => $deceased
     ];
     
 }
@@ -750,7 +756,7 @@ function getCurrentTrend ($location){
         ON brgynew.barangayID = brgy.ID
         INNER JOIN City city
         on brgy.CityID = city.ID 
-        WHERE refDates.ref_date >= '2020-03-31' and city.cityName = '" . $location . "'
+        WHERE refDates.ref_date >= '2020-03-19' and city.cityName = '" . $location . "'
         GROUP BY refDates.ref_date;";
     }
     else
@@ -767,7 +773,7 @@ function getCurrentTrend ($location){
         ON brgynew.barangayID = brgy.ID
         INNER JOIN City city
         on brgy.CityID = city.ID 
-        WHERE refDates.ref_date >= '2020-03-31' 
+        WHERE refDates.ref_date >= '2020-03-19' 
         GROUP BY refDates.ref_date";
     }
 

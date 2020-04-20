@@ -2,6 +2,8 @@
 include "../repository/queries.php";
 date_default_timezone_set("Asia/Singapore");
 $date = date('Y-m-d');
+$date = date('Y-m-d', strtotime('-1 day', strtotime($date)));
+$pastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
 $data = getSummary($_GET["location"]);
 ?>
 
@@ -24,9 +26,7 @@ $data = getSummary($_GET["location"]);
                 </strong>
 
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">CONFIRMED</p>
-                <!--<div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date == $data["MaxDate"] || $data["MaxDate"] == "") echo "color: #1988C8;"; ?>"> <?php if($date > $data["MaxDate"] && $data["MaxDate"] != "") echo 'No new cases since '.$data["LookDate"].''; else echo "-" ?> </div>-->
-                <div class="parent-container-horizontal"
-                    style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; color: #008080"> - </div>
+                <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["CountDays"] || $data["CountDays"] == "") echo "color: #1988C8;"; ?>"> <?php if($data["CountDays"] == $date){ echo ''.$data["TotalConfirmed"].' new cases as of '.$data['CountDays'].'';} else if($data["CountDays"] == $pastdate){ echo ''.$data["TotalConfirmed"].' new cases'; } else if($date > $data["CountDays"] && $data["CountDays"] != "") echo 'No new cases since '.$data["OutputConfirmed"].''; else echo "-" ?> </div>
               
             </div>
             <div class="icon">
@@ -34,18 +34,14 @@ $data = getSummary($_GET["location"]);
             </div>
         </div>
     </div>
-
-
     <div class="col-lg-2 col-md-6 col-sm-6">
         <!-- small card -->
         <div class="small-box" style="background-color: #2ABB9B !important; color: white;">
             <div class="inner">
                 <h1><?php echo $data["Recovered"]; ?></h1>
-
+				
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">RECOVERED</p>
-               <!--<div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date == $data["MaxDate"] || $data["MaxDate"] == "") echo "color: #2ABB9B;"; ?>"> <?php if($date > $data["MaxDate"] && $data["MaxDate"] != "") echo ''.$data["RecoverCount"].' new recoveries for '.$data["LookDate"].''; else echo "-" ?> </div>-->
-               <div class="parent-container-horizontal"
-                    style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; color: #008080"> - </div>
+               <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["RecoverDate"] || $data["RecoverDate"] == "") echo "color: #2ABB9B;"; ?>"> <?php if($data["RecoverDate"] == $date){ echo ''.$data["RecoverCheck"].' new recovered as of '.$data['RecoverDate'].''; } else if($data["RecoverDate"] == $pastdate){ echo ''.$data["RecoverCheck"].' new recovered'; } else if($date > $data["RecoverDate"] && $data["RecoverDate"] != ""){ echo 'No new recoveries since '.$data["OutputRecovered"].'';} else echo "-" ?> </div>
               
             </div>
             <div class="icon">
@@ -121,9 +117,7 @@ $data = getSummary($_GET["location"]);
                 <h1><?php echo $data["Deceased"] ?></h1>
 
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">DECEASED</p>
-                <!--<div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date == $data["MaxDate"] || $data["MaxDate"] == "") echo "color: #7d7d7d;"; ?>"> <?php if($date > $data["MaxDate"] && $data["MaxDate"] != "") echo ''.$data["DeceasedCount"].' new death/s for '.$data["LookDate"].''; else echo "-" ?> </div>-->
-                <div class="parent-container-horizontal"
-                    style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; color: #008080"> - </div>
+                <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["DeceasedDate"] || $data["DeceasedDate"] == "") echo "color: #7d7d7d;"; ?>"> <?php if($data["DeceasedDate"] == $date){ echo ''.$data["DeceasedCheck"].' new deaths as of '.$data['DeceasedDate'].''; } else if($data["DeceasedDate"] == $pastdate){ echo ''.$data["DeceasedCheck"].' new deaths'; } else if($date > $data["DeceasedDate"] && $data["DeceasedDate"] != ""){ echo 'No new deaths since '.$data["OutputDeceased"].'';} else echo "-" ?> </div>
             </div>
             <div class="icon">
                 <i class="fa fa-skull-crossbones"></i>

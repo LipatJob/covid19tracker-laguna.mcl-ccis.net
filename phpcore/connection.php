@@ -1,5 +1,5 @@
 <?php
-  $config = parse_ini_file(realpath("./phpcore/setup.ini"));
+  $config = parse_ini_file(dirname(__FILE__).("/setup.ini"));
   $DB_HOST = $config["DB_HOST"];
   $DB_USER = $config["DB_USER"];
   $DB_PASS = $config["DB_PASS"];

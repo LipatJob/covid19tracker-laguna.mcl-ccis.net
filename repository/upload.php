@@ -56,8 +56,9 @@ function updateIndividualCases($apiLinks){
         echo "Commit transaction failed";
         exit();
     }else{
-        echo "success";
+        echo "Imported data without any errors";
     }
+    return TRUE;
     
 }
 
@@ -94,14 +95,15 @@ function updateBarangayHistory($apiLinks){
             $insertQuery .= "(".$referenceDate.", ".$cityMunicipality.", ".$barangay.", ".$newPositiveCase.", ".$currentPositiveCase.", ".$currentDeceased.", ".$currentRecovered.", ".$totalPositiveCases.", ".$currentPUI.", ".$suspectPUI.", ".$probablePUI.", 0), ";
         }
         $insertQuery  = substr($insertQuery, 0, -2).";";
-        mysqli_query($con, $insertQuery)  or die(mysqli_error($con));
+        mysqli_query($con, $insertQuery) or die(mysqli_error($con));
     }
     if (!mysqli_commit($con)) {
         echo "Commit transaction failed";
         exit();
     }else{
-        echo "success";
+        echo "Imported data without any errors";
     }
+    return TRUE;
 }
 
 /**
@@ -111,7 +113,7 @@ function updateBarangayHistory($apiLinks){
 function updateBarangayHistoryNew($apiLinks){
     $con = getConnection();       
     mysqli_autocommit($con, FALSE); 
-
+    
     // TRUNCATE TABLE
     $truncateQuery = "TRUNCATE barangay_history_new; TRUNCATE New_Cases;";
     mysqli_query($con, $truncateQuery);
@@ -142,19 +144,41 @@ function updateBarangayHistoryNew($apiLinks){
         echo "Commit transaction failed";
         exit();
     }else{
-        echo "success";
+        echo "Imported data without any errors";
     }
+    return TRUE;
 }
 
 
 /**
-* Calls the update database functions with the API links
+* Calls the update updateIndividualCases with the API links
 */
-function callUpdates(){
-    /**
-     * @todo decide where to put the API links
-     * @todo call the functions with the API links
-     */
+function callUpdateIndividualCases(){
+    $links =  json_decode(file_get_contents("links.json"), true);
+    $individualLinks = $links["individual"];
+    updateIndividualCases($individualLinks);
+
 }
+
+/**
+* Calls the update updateBarangayHistory with the API links
+*/
+function callUpdateBarangayHistory(){
+    $links =  json_decode(file_get_contents("links.json"), true);
+    $overviewLinks = $links["overview"];
+    updateBarangayHistory($overviewLinks);
+    
+}
+
+/**
+* Calls the update updateBarangayHistoryNew with the API links
+*/
+function callUpdateBarangayHistoryNew(){
+    $links =  json_decode(file_get_contents("links.json"), true);
+    $overviewLinks = $links["overview"];
+    updateBarangayHistory($overviewLinks);
+}
+
+
 
 ?>

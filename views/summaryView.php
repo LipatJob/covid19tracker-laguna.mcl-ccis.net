@@ -26,7 +26,7 @@ $data = getSummary($_GET["location"]);
                 </strong>
 
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">CONFIRMED</p>
-                <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["CountDays"] || $data["CountDays"] == "") echo "color: #1988C8;"; ?>"> <?php if($data["CountDays"] == $date){ echo ''.$data["TotalConfirmed"].' new cases as of '.$data['CountDays'].'';} else if($data["CountDays"] == $pastdate){ echo ''.$data["TotalConfirmed"].' new cases'; } else if($date > $data["CountDays"] && $data["CountDays"] != "") echo 'No new cases since '.$data["OutputConfirmed"].''; else echo "-" ?> </div>
+                <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["CountDays"] || $data["CountDays"] == "") echo "color: #1988C8;"; ?>"> <?php if($data["CountDays"] == $date){ echo ''.$data["TotalConfirmed"].' new cases';} else if($data["CountDays"] == $pastdate){ echo ''.$data["TotalConfirmed"].' new cases'; } else if($date > $data["CountDays"] && $data["CountDays"] != "") echo 'No new cases since '.$data["OutputConfirmed"].''; else echo "-" ?> </div>
               
             </div>
             <div class="icon">
@@ -41,7 +41,7 @@ $data = getSummary($_GET["location"]);
                 <h1><?php echo $data["Recovered"]; ?></h1>
 				
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">RECOVERED</p>
-               <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["RecoverDate"] || $data["RecoverDate"] == "") echo "color: #2ABB9B;"; ?>"> <?php if($data["RecoverDate"] == $date){ echo ''.$data["RecoverCheck"].' new recovered as of '.$data['RecoverDate'].''; } else if($data["RecoverDate"] == $pastdate){ echo ''.$data["RecoverCheck"].' new recovered'; } else if($date > $data["RecoverDate"] && $data["RecoverDate"] != ""){ echo 'No new recoveries since '.$data["OutputRecovered"].'';} else echo "-" ?> </div>
+               <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["RecoverDate"] || $data["RecoverDate"] == "") echo "color: #2ABB9B;"; ?>"> <?php if($data["RecoverDate"] == $date){ echo ''.$data["RecoverCheck"].' new recovered'; } else if($data["RecoverDate"] == $pastdate){ echo ''.$data["RecoverCheck"].' new recovered'; } else if($date > $data["RecoverDate"] && $data["RecoverDate"] != ""){ echo 'No new recoveries since '.$data["OutputRecovered"].'';} else echo "-" ?> </div>
               
             </div>
             <div class="icon">
@@ -78,7 +78,7 @@ $data = getSummary($_GET["location"]);
                 </strong>
 
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">SUSPECT</p>
-                <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["PUMDate"] || $data["PUMDate"] == "") echo "color: #FF712D;"; ?>"> <?php if($data["PUMDate"] == $date){ echo ''.$data["PUMCheck"].' new suspect as of '.$data['PUMDate'].''; } else if($data["PUMDate"] == $pastdate){ echo ''.$data["PUMCheck"].' new suspect'; } else if($date > $data["PUMDate"] && $data["PUMDate"] != ""){ echo 'No new suspect since '.$data["OutputPUM"].'';} else echo "-" ?> </div>
+                <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["PUMDate"] || $data["PUMDate"] == "") echo "color: #FF712D;"; ?>"> <?php if($data["PUMDate"] == $date){ echo ''.$data["PUMCheck"].' new suspect'; } else if($data["PUMDate"] == $pastdate){ echo ''.$data["PUMCheck"].' new suspect'; } else if($date > $data["PUMDate"] && $data["PUMDate"] != ""){ echo 'No new suspect since '.$data["OutputPUM"].'';} else echo "-" ?> </div>
             </div>
             <div class="icon">
                 <i class="fa fa-user-injured"></i>
@@ -96,7 +96,7 @@ $data = getSummary($_GET["location"]);
 
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">PROBABLE</p>
 					
-					<div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["PUIDate"] || $data["PUIDate"] == "") echo "color: #FF7F7F;"; ?>"> <?php if($data["PUIDate"] == $date){ echo ''.$data["PUICheck"].' new probable as of '.$data['PUIDate'].''; } else if($data["PUIDate"] == $pastdate){ echo ''.$data["PUICheck"].' new probable'; } else if($date > $data["PUIDate"] && $data["PUIDate"] != ""){ echo 'No new probable since '.$data["OutputPUI"].'';} else echo "-" ?> </div>
+					<div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["PUIDate"] || $data["PUIDate"] == "") echo "color: #FF7F7F;"; ?>"> <?php if($data["PUIDate"] == $date){ echo ''.$data["PUICheck"].' new probable'; } else if($data["PUIDate"] == $pastdate){ echo ''.$data["PUICheck"].' new probable'; } else if($date > $data["PUIDate"] && $data["PUIDate"] != ""){ echo 'No new probable since '.$data["OutputPUI"].'';} else echo "-" ?> </div>
             </div>
             <div class="icon">
                 <i class="fa fa-search"></i>
@@ -114,7 +114,7 @@ $data = getSummary($_GET["location"]);
                 <h1><?php echo $data["Deceased"] ?></h1>
 
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">DECEASED</p>
-                <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["DeceasedDate"] || $data["DeceasedDate"] == "") echo "color: #7d7d7d;"; ?>"> <?php if($data["DeceasedDate"] == $date){ echo ''.$data["DeceasedCheck"].' new deaths as of '.$data['DeceasedDate'].''; } else if($data["DeceasedDate"] == $pastdate){ echo ''.$data["DeceasedCheck"].' new deaths'; } else if($date > $data["DeceasedDate"] && $data["DeceasedDate"] != ""){ echo 'No new deaths since '.$data["OutputDeceased"].'';} else echo "-" ?> </div>
+                <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["DeceasedDate"] || $data["DeceasedDate"] == "") echo "color: #7d7d7d;"; ?>"> <?php if($data["DeceasedDate"] == $date){ echo ''.$data["DeceasedCheck"].' new deaths'; } else if($data["DeceasedDate"] == $pastdate){ echo ''.$data["DeceasedCheck"].' new deaths'; } else if($date > $data["DeceasedDate"] && $data["DeceasedDate"] != ""){ echo 'No new deaths since '.$data["OutputDeceased"].'';} else echo "-" ?> </div>
             </div>
             <div class="icon">
                 <i class="fa fa-skull-crossbones"></i>

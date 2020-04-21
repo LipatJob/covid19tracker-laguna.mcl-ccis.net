@@ -23,6 +23,8 @@ function getSummary($location){
 	$checkcount2 = 0;
 	$checkcount = 0;
 	$checkcount3 = 0;
+	$PUIcount = 0;
+	$PUMcount = 0;
     $dbCity = $location;
     $dbCity = str_replace("%20","",$location);
     if ($dbCity == 'LAGUNA') {
@@ -85,7 +87,12 @@ function getSummary($location){
 	 $resultCount5 = mysqli_query($con, $query5);
 	 
 	 while($extract5 = mysqli_fetch_array($resultCount5)){
+		 if($POSCASES != 0){
       $checkcount = $extract5['NEWPOS'];
+		 }else
+		{
+			$testbool = "false";
+		}
     }
 	
 	if($checkcount == 0)
@@ -96,12 +103,111 @@ function getSummary($location){
 	{
 		if($date != $days_ago)
 		{
-			$days_ago = date('Y-m-d', strtotime('+1 day', strtotime($days_ago)));
 		}
 		$testbool = "false";
 	}
 	
 	}
+	
+	$days_ago_PUM = $date;
+	$testbool = "true";
+	
+	
+	
+	
+	while($testbool == "true")
+	{
+	
+    $query5 = "SELECT SUM(cases.current_suspect_PUI) as PUM FROM barangay_history_new as brgynew
+    INNER JOIN New_Cases as cases
+    on brgynew.ID = cases.BarangayHistID
+    INNER JOIN Barangay as brgy
+    on brgynew.barangayID = brgy.ID
+    INNER JOIN City as city
+    on brgy.CityID = city.ID
+    WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$days_ago_PUM')";
+    
+    if ($dbCity != 'ALL') {
+        $query5 .= " AND city.CityName = '" . $dbCity . "'";
+    }
+	
+	 $resultCount5 = mysqli_query($con, $query5);
+	 
+	 while($extract5 = mysqli_fetch_array($resultCount5)){
+		 if($days_ago_PUM >= '2020-03-25')
+		 {
+      $PUMcount = $extract5['PUM'];
+		 }else
+		{
+			$testbool = "false";
+		}
+    }
+	
+	if($PUMcount == 0)
+	{
+		$days_ago_PUM = date('Y-m-d', strtotime('-1 day', strtotime($days_ago_PUM)));
+	}
+	else
+	{
+		if($date != $days_ago_PUM)
+		{
+			$days_ago_PUM = date('Y-m-d', strtotime('+1 day', strtotime($days_ago_PUM)));
+		}
+		$testbool = "false";
+	}
+	
+	}
+	
+	$days_ago_PUI = $date;
+	$testbool = "true";
+	
+	
+	
+	
+	while($testbool == "true")
+	{
+	
+    $query5 = "SELECT SUM(cases.current_probable_PUI) as PUI FROM barangay_history_new as brgynew
+    INNER JOIN New_Cases as cases
+    on brgynew.ID = cases.BarangayHistID
+    INNER JOIN Barangay as brgy
+    on brgynew.barangayID = brgy.ID
+    INNER JOIN City as city
+    on brgy.CityID = city.ID
+    WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$days_ago_PUI')";
+    
+    if ($dbCity != 'ALL') {
+        $query5 .= " AND city.CityName = '" . $dbCity . "'";
+    }
+	
+	 $resultCount5 = mysqli_query($con, $query5);
+	 
+	 while($extract5 = mysqli_fetch_array($resultCount5)){
+		 if($days_ago_PUI >= '2020-03-25')
+		 {
+      $PUIcount = $extract5['PUI'];
+		 }else
+		{
+			$testbool = "false";
+		}
+    }
+	
+	if($PUIcount == 0)
+	{
+		$days_ago_PUI = date('Y-m-d', strtotime('-1 day', strtotime($days_ago_PUI)));
+	}
+	else
+	{
+		if($date != $days_ago_PUI)
+		{
+			$days_ago_PUI = date('Y-m-d', strtotime('+1 day', strtotime($days_ago_PUI)));
+		}
+		$testbool = "false";
+	}
+	
+	}
+	
+	
 	
 	
 	$days_ago2 = $date;
@@ -272,7 +378,9 @@ function getSummary($location){
 	
 	
 	
-	$outputconfirmed=$days_ago;
+	$outputconfirmed=date('Y-m-d', strtotime('+1 day', strtotime($days_ago)));
+	$outputPUM=date('Y-m-d', strtotime('+1 day', strtotime($days_ago_PUM)));
+	$outputPUI=date('Y-m-d', strtotime('+1 day', strtotime($days_ago_PUI)));
 	$outputdeceased=date('Y-m-d', strtotime('+1 day', strtotime($days_ago2)));
 	$outputrecovered=date('Y-m-d', strtotime('+1 day', strtotime($days_ago3)));
 	
@@ -296,7 +404,13 @@ function getSummary($location){
 		"TotalConfirmed" => $checkcount,
 		"OutputConfirmed" => $outputconfirmed,
 		"OutputDeceased" => $outputdeceased,
-		"OutputRecovered" => $outputrecovered
+		"OutputRecovered" => $outputrecovered,
+		"PUMDate" => $days_ago_PUM,
+		"PUIDate" => $days_ago_PUI,
+		"PUICheck" => $PUIcount,
+		"PUMCheck" => $PUMcount,
+		"OutputPUM" => $outputPUM,
+		"OutputPUI" => $outputPUI
     ];
 }
 

@@ -46,7 +46,7 @@ if($data['ThisCity'] == 'All')
                 <h1><?php echo $data["Recovered"]; ?></h1>
 				
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">RECOVERED</p>
-               <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["RecoverDate"] || $data["RecoverDate"] == "") echo "color: #2ABB9B;"; ?>"> <?php if($data["RecoverDate"] == $date){ echo ''.$data["RecoverCheck"].' new recovered'; if($data["RecoverCheck"] >= $number) echo " &nbsp<span class='fas fa-grin-alt'></span>"; } else if($data["RecoverDate"] == $pastdate){ echo ''.$data["RecoverCheck"].' new recovered'; } else if($date > $data["RecoverDate"] && $data["RecoverDate"] != ""){ echo 'No new recoveries since '.$data["OutputRecovered"].'';} else echo "-" ?> </div>
+               <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["RecoverDate"] || $data["RecoverDate"] == "") echo "color: #2ABB9B;"; ?>"> <?php if($data["RecoverDate"] == $date){ echo ''.$data["RecoverCheck"].' new recovered patients'; if($data["RecoverCheck"] >= $number) echo " &nbsp<span class='fas fa-grin-alt'></span>"; } else if($data["RecoverDate"] == $pastdate){ echo ''.$data["RecoverCheck"].' new recovered patients'; } else if($date > $data["RecoverDate"] && $data["RecoverDate"] != ""){ echo 'No new recoveries since '.$data["OutputRecovered"].'';} else echo "-" ?> </div>
               
             </div>
             <div class="icon">

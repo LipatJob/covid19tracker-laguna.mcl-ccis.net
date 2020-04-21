@@ -78,9 +78,7 @@ $data = getSummary($_GET["location"]);
                 </strong>
 
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">SUSPECT</p>
-                <div class="parent-container-horizontal"
-                    style="width:100%; font-size: 12px; margin-top: -3px; padding-top: 3px; ">(PUI na di pa natetest)
-                </div>
+                <div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["PUMDate"] || $data["PUMDate"] == "") echo "color: #FF712D;"; ?>"> <?php if($data["PUMDate"] == $date){ echo ''.$data["PUMCheck"].' new suspect as of '.$data['PUMDate'].''; } else if($data["PUMDate"] == $pastdate){ echo ''.$data["PUMCheck"].' new suspect'; } else if($date > $data["PUMDate"] && $data["PUMDate"] != ""){ echo 'No new suspect since '.$data["OutputPUM"].'';} else echo "-" ?> </div>
             </div>
             <div class="icon">
                 <i class="fa fa-user-injured"></i>
@@ -97,9 +95,8 @@ $data = getSummary($_GET["location"]);
                 </strong>
 
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">PROBABLE</p>
-                <div class="parent-container-horizontal"
-                    style="width:100%; font-size: 12px; margin-top: -3px; padding-top: 3px;">(PUI na wala pang resulta
-                    ang test)</div>
+					
+					<div class="parent-container-horizontal" style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["PUIDate"] || $data["PUIDate"] == "") echo "color: #FF7F7F;"; ?>"> <?php if($data["PUIDate"] == $date){ echo ''.$data["PUICheck"].' new probable as of '.$data['PUIDate'].''; } else if($data["PUIDate"] == $pastdate){ echo ''.$data["PUICheck"].' new probable'; } else if($date > $data["PUIDate"] && $data["PUIDate"] != ""){ echo 'No new probable since '.$data["OutputPUI"].'';} else echo "-" ?> </div>
             </div>
             <div class="icon">
                 <i class="fa fa-search"></i>

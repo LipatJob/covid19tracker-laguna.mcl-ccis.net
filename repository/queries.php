@@ -410,7 +410,9 @@ function getSummary($location){
 		"PUICheck" => $PUIcount,
 		"PUMCheck" => $PUMcount,
 		"OutputPUM" => $outputPUM,
-		"OutputPUI" => $outputPUI
+		"OutputPUI" => $outputPUI,
+		"ThisCity" => $dbCity
+		
     ];
 }
 

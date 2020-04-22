@@ -165,106 +165,104 @@ while ($time_update = mysqli_fetch_array($rx)) {
 </head>
 
 <body>
-    <!-- NAVIGATION BAR -->
-    <div class="col col-md-12 col-lg-12 col-sm-12" style="padding: 0px; margin:0px;">
-        <nav class="navbar navbar-light" id="title">
-            <a style="color: white; font-size: 1.315em; font-weight: 600;">
-                <img src="imgs/apple-icon-120x120.png" class="logo-image" style="height: 36px; width: 36px; margin-right: 5px; -webkit-box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);
-                -moz-box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);
-                box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
-            </a>
-            <div>
-                <img src="imgs/DOH.png" class="logo-image">
-                <img src="imgs/DOH_calabarzon.png" class="logo-image">
-                <img src="imgs/mcl.png" class="logo-image">
-            </div>
-        </nav>
-    </div>
-
-
-    <div id="navtop" class=" navbar-light bg-light mb-4" style="padding: 0px !important;  border-bottom: 0.5px solid #2F333D !important; margin-top: -10px; overflow: hidden; width: 100% !important; ">
-        <ul class="row p-2" style="padding: 0px; margin: 0px;">
-            <li class="" id="indexNav" style="padding: 0px; margin: 0px;">
-                <a class="nav-link" href="index.php"> Dashboard </a>
-            </li>
-            <li class="" id="individualNav" style="padding: 0px; margin: 0px;">
-                <a class="nav-link" id="maps" href="maps.php"> Map </a>
-            </li>
-            <li class="" id="sourcesNav" style="padding: 0px; margin: 0px;">
-                <a class="nav-link" href="info.php"> Hotlines </a>
-            </li>
-            <span id="mcl_timer" class="navbar-text" style="font-size: 20px; font-weight: 400; color:black; "></span>
-        </ul>
-    </div>
-    <!-- END OF NAVIGATION BAR-->
-
-    <!-- MAIN CONTENT-->
-    <div class="content container-fluid">
-        <!-- Title bar and city/municipality selector -->
-        <div class="container-fluid">
-            <div class="row">
-                <div class=" col-lg-9 col-md-12 col-sm-12">
-                    <h4 id="title_header" style="padding-left: 15px;"> Region IV-A: Province of Laguna<br>
-                        <h6 style="padding-left: 15px; font-weight: 400;">SUMMARY AS OF <?php echo $last_update ?></h6>
-                    </h4>
+    <div class="container-fluid">
+        <!-- NAVIGATION BAR -->
+        <div class="col col-md-12 col-lg-12 col-sm-12" style="padding: 0px; margin:0px;">
+            <nav class="navbar navbar-light" id="title">
+                <a style="color: white; font-size: 1.315em; font-weight: 600;">
+                    <img src="imgs/apple-icon-120x120.png" class="logo-image" style="height: 36px; width: 36px; margin-right: 5px; -webkit-box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);
+                    -moz-box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);
+                    box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
+                </a>
+                <div>
+                    <img src="imgs/DOH.png" class="logo-image">
+                    <img src="imgs/DOH_calabarzon.png" class="logo-image">
+                    <img src="imgs/mcl.png" class="logo-image">
                 </div>
+            </nav>
+        </div>
+        <div id="navtop" class=" navbar-light bg-light mb-4" style="padding: 0px !important;  border-bottom: 0.5px solid #2F333D !important; margin-top: -10px; overflow: hidden; width: 100% !important; ">
+            <ul class="row p-2" style="padding: 0px; margin: 0px;">
+                <li class="" id="indexNav" style="padding: 0px; margin: 0px;">
+                    <a class="nav-link" href="index.php"> Dashboard </a>
+                </li>
+                <li class="" id="individualNav" style="padding: 0px; margin: 0px;">
+                    <a class="nav-link" id="maps" href="maps.php"> Map </a>
+                </li>
+                <li class="" id="sourcesNav" style="padding: 0px; margin: 0px;">
+                    <a class="nav-link" href="info.php"> Hotlines </a>
+                </li>
+                <span id="mcl_timer" class="navbar-text" style="font-size: 20px; font-weight: 400; color:black; "></span>
+            </ul>
+        </div>
+        <!-- END OF NAVIGATION BAR-->
 
-                <div class="col-lg-3 col-md-12 col-sm-12">
-                    <div class="info-box bg-info">
-                        <span class="info-box-icon"><i class="fa fa-flag"></i></span>
+        <!-- MAIN CONTENT-->
+        <div class="content container-fluid">
+            <!-- Title bar and city/municipality selector -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class=" col-lg-9 col-md-12 col-sm-12">
+                        <h4 id="title_header" style="padding-left: 15px;"> Region IV-A: Province of Laguna<br>
+                            <h6 style="padding-left: 15px; font-weight: 400;">SUMMARY AS OF <?php echo $last_update ?></h6>
+                        </h4>
+                    </div>
 
-                        <div class="info-box-content ">
-                            <span class="info-box-text" style="padding: 3px;">Select City / Municipality</span>
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <div class="info-box bg-info">
+                            <span class="info-box-icon"><i class="fa fa-flag"></i></span>
 
-                            <select id='city' class="form-control" style="padding: 0px; margin: 0px;">
-                                <option value='LAGUNA'>LAGUNA</option>
-                                <?php
-                                $storethis = "";
-                                $query1 = "SELECT CityName as city_municipality from City ORDER BY CityName ASC;";
-                                $result1 = mysqli_query($con, $query1);
-                                while ($rows3 = mysqli_fetch_array($result1)) {
-                                    if ($storethis != $rows3['city_municipality']) {
-                                ?>
-                                        <option value="<?php echo $rows3['city_municipality'] ?>">
-                                            <?php echo $rows3['city_municipality']; ?>
-                                        </option>
+                            <div class="info-box-content ">
+                                <span class="info-box-text" style="padding: 3px;">Select City / Municipality</span>
 
-                                <?php
-                                        $storethis = $rows3['city_municipality'];
+                                <select id='city' class="form-control" style="padding: 0px; margin: 0px;">
+                                    <option value='LAGUNA'>LAGUNA</option>
+                                    <?php
+                                    $storethis = "";
+                                    $query1 = "SELECT CityName as city_municipality from City ORDER BY CityName ASC;";
+                                    $result1 = mysqli_query($con, $query1);
+                                    while ($rows3 = mysqli_fetch_array($result1)) {
+                                        if ($storethis != $rows3['city_municipality']) {
+                                    ?>
+                                            <option value="<?php echo $rows3['city_municipality'] ?>">
+                                                <?php echo $rows3['city_municipality']; ?>
+                                            </option>
+
+                                    <?php
+                                            $storethis = $rows3['city_municipality'];
+                                        }
                                     }
-                                }
-                                ?>
-                            </select>
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Counts-->
-    <div class="container-fluid" id="summary">
-        <style>
-            .small-box {
-                margin: 0px;
-            }
-        </style>
-        <div class="row">
+        <!-- Counts-->
+        <div class="container-fluid" id="summary">
+            <style>
+                .small-box {
+                    margin: 0px;
+                }
+            </style>
+            <div class="row">
 
-        </div>
-    </div>
-
-    <!-- Graphs -->
-    <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <!-- CASE PER DATE -->
-                <div id='casesPerDateChart' class="item-container"></div>
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <!-- CURRENT CASES TREND -->
-                <div id='currentTrendChart' class="item-container"></div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <!-- CASE PER DATE -->
+                    <div id='casesPerDateChart' class="item-container"></div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <!-- CURRENT CASES TREND -->
+                    <div id='currentTrendChart' class="item-container"></div>
+                </div>
             </div>
         </div>
 
@@ -364,11 +362,11 @@ while ($time_update = mysqli_fetch_array($rx)) {
 
             <!-- END OF MAIN CONTENT-->
         </div>
+
         <div class="modal-footer">
         </div>
     </div>
-    </div>
-    </div>
+
 
     <!-- INCLUDE FOOTER-->
     <?php include("phpcore/footer.php") ?>

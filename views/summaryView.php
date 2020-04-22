@@ -21,10 +21,10 @@ if($data['ThisCity'] == 'ALL')
 </style>
 
 
-<div class="parent-container-horizontal row">
+<div class="row">
 
 
-    <div class="col-lg-2 col-md-6 col-sm-6">
+    <div class="col-lg-2 col-md-6 col-sm-12 p-1">
         <!-- small card -->
         <div class="small-box" style="background-color: #1988C8;  color: white;">
             <div class="inner">
@@ -41,7 +41,8 @@ if($data['ThisCity'] == 'ALL')
             </div>
         </div>
     </div>
-    <div class="col-lg-2 col-md-6 col-sm-6">
+
+    <div class="col-lg-2 col-md-6 col-sm-12 p-1">
         <!-- small card -->
         <div class="small-box" style="background-color: #2ABB9B !important; color: white;">
             <div class="inner">
@@ -58,7 +59,7 @@ if($data['ThisCity'] == 'ALL')
     </div>
 
 
-    <div class="col-lg-2 col-md-6 col-sm-6">
+    <div class="col-lg-2 col-md-6 col-sm-12 p-1">
         <!-- small card -->
         <div class="small-box" style="background-color: #008080 !important; color: white;">
             <div class="inner">
@@ -75,7 +76,7 @@ if($data['ThisCity'] == 'ALL')
         </div>
     </div>
 
-    <div class="col-lg-2 col-md-6 col-sm-6">
+    <div class="col-lg-2 col-md-6 col-sm-12 p-1">
 
         <div class="small-box" style="background-color: #FF712D; color: white;">
             <div class="inner">
@@ -92,7 +93,7 @@ if($data['ThisCity'] == 'ALL')
         </div>
     </div>
 
-    <div class="col-lg-2 col-md-6 col-sm-6">
+    <div class="col-lg-2 col-md-6 col-sm-12 p-1">
         <!-- small card -->
         <div class="small-box" style="background-color: #FF7F7F; color: white;">
             <div class="inner">
@@ -113,7 +114,7 @@ if($data['ThisCity'] == 'ALL')
 
 
 
-    <div class="col-lg-2 col-md-6 col-sm-6">
+    <div class="col-lg-2 col-md-6 col-sm-12 p-1">
         <!-- small card -->
         <div class="small-box" style="background-color: #7d7d7d;color: white;">
             <div class="inner">

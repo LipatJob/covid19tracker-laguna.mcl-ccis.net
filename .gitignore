@@ -1,2 +1,3 @@
 phpcore/setup.ini
 repository/links.json
+repository/cached/*

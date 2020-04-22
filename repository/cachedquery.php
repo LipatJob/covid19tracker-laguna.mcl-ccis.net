@@ -2,33 +2,46 @@
 include "cache.php";
 include "queries.php";
 
+function getQueryCache($functionName, $location){
+    $location = str_replace(' ', '', $location);
+    return getCached($functionName.$location, $functionName, $location);
+}
 
 function getCachedSummary($location){
-    return getCached("getSummary", "getSummary", $location);
+    return getQueryCache("getSummary", $location);
 }
+
 function getCachedPUIPerDate($location){
-    return getCached("getPUIPerDate", "getPUIPerDate", $location);
+    return getQueryCache("getPUIPerDate", $location);
 }
+
 function getCachedCasesPerDate($location){
-    return getCached("getCasesPerDate", "getCasesPerDate", $location);
+    return getQueryCache("getCasesPerDate", $location);
 }
+
 function getCachedSummaryPerCityMunicipalityTable($brgyname){
-    return getCached("getSummaryPerCityMunicipalityTable", "getSummaryPerCityMunicipalityTable", $brgyname);
+    return getQueryCache("getSummaryPerCityMunicipalityTable", $location);
 }
+
 function getCachedSummaryPerCityMunicipalityChart($location){
-    return getCached("getSummaryPerCityMunicipalityChart", "getSummaryPerCityMunicipalityChart", $location);
+    return getQueryCache("getSummaryPerCityMunicipalityChart", $location);
 }
+
 function getCachedCasesByGender($location){
-    return getCached("getCasesByGender", "getCasesByGender", $location);
+    return getQueryCache("getCasesByGender", $location);
 }
+
 function getCachedCasesByAgeGroup($location){
-    return getCached("getCasesByAgeGroup", "getCasesByAgeGroup", $location);
+    return getQueryCache("getCasesByAgeGroup", $location);
 }
+
 function getCachedRecoveredPerDate($location){
-    return getCached("getRecoveredPerDate", "getRecoveredPerDate", $location);
+    return getQueryCache("getRecoveredPerDate", $location);
 }
+
 function getCachedDeceasedPerDate($location){
-    return getCached("getDeceasedPerDate", "getDeceasedPerDate", $location);
+    return getQueryCache("getDeceasedPerDate", $location);
 }
-print_r(getCachedSummary("BINAN"));
+
+print_r(getCachedDeceasedPerDate("CALAMBA"));
 ?>

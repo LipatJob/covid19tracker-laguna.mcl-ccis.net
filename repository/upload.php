@@ -8,6 +8,7 @@
 *
 * @author Job Lipat
 */
+<<<<<<< HEAD
 
 /**
  * Executes the function on button press
@@ -51,12 +52,31 @@ function callUpdateBarangayHistoryNew(){
     $links =  json_decode(file_get_contents("links.json"), true);
     $overviewLinks = $links["overview"];
     updateBarangayHistoryNew($overviewLinks);
+=======
+function getConnection(){
+    include '../phpcore/connection.php';
+    return $con;
+}
+
+/**
+* Helper function to aid inserting string in SQL. Puts quotes around a string.
+*
+* @param String $string the string to enclose in quotation marks
+* @return String returns the string enclosed in quotation marks. 
+*/
+function getSqlStr($string){
+    return "'".$string."'";
+>>>>>>> 46d6ee2324d302c21ff4867460a36c63f40846c9
 }
 
 /**
 * Updates the individual cases table using data from the google sheets.
 *
+<<<<<<< HEAD
 * @param array $apiLinks the list of google sheet csv file links to import
+=======
+* @param Array $apiLinks the list of google sheet csv file links to import
+>>>>>>> 46d6ee2324d302c21ff4867460a36c63f40846c9
 */
 function updateIndividualCases($apiLinks){
     $con = getConnection();       
@@ -103,7 +123,11 @@ function updateIndividualCases($apiLinks){
 /**
 * Updates the barangay history table using data from the google sheets
 *
+<<<<<<< HEAD
 * @param array $apiLinks the list of google sheet csv file links to import
+=======
+* @param Array $apiLinks the list of google sheet csv file links to import
+>>>>>>> 46d6ee2324d302c21ff4867460a36c63f40846c9
 */
 function updateBarangayHistory($apiLinks){
     $con = getConnection();       
@@ -152,7 +176,11 @@ function updateBarangayHistory($apiLinks){
 /**
 * Updates the barangay history new table using data from the google sheets
 *
+<<<<<<< HEAD
 * @param array $apiLinks the list of google sheet csv file links to import
+=======
+* @param Array $apiLinks the list of google sheet csv file links to import
+>>>>>>> 46d6ee2324d302c21ff4867460a36c63f40846c9
 */
 function updateBarangayHistoryNew($apiLinks){
     $con = getConnection();       
@@ -197,6 +225,7 @@ function updateBarangayHistoryNew($apiLinks){
 }
 
 /**
+<<<<<<< HEAD
  * 
  */
 function getConnection(){
@@ -215,6 +244,49 @@ function getSqlStr($string){
 }
 
 
+=======
+* Calls the update updateIndividualCases with the API links
+*/
+function callUpdateIndividualCases(){
+    $links =  json_decode(file_get_contents("links.json"), true);
+    $individualLinks = $links["individual"];
+    updateIndividualCases($individualLinks);
+    
+}
+
+/**
+* Calls the update updateBarangayHistory with the API links
+*/
+function callUpdateBarangayHistory(){
+    $links =  json_decode(file_get_contents("links.json"), true);
+    $overviewLinks = $links["overview"];
+    updateBarangayHistory($overviewLinks);
+    
+}
+
+/**
+* Calls the update updateBarangayHistoryNew with the API links
+*/
+function callUpdateBarangayHistoryNew(){
+    $links =  json_decode(file_get_contents("links.json"), true);
+    $overviewLinks = $links["overview"];
+    updateBarangayHistoryNew($overviewLinks);
+}
+
+/**
+ * Executes the function on button press
+ */
+if(isset($_POST["submitButton"])){
+    $val = $_POST["submitButton"];
+    if($val == "updateIndividualCases"){
+        callUpdateIndividualCases();
+    }else if($val == "updateBarangayHistory"){
+        callUpdateBarangayHistory();
+    }if($val == "updateBarangayHistoryNew"){
+        callUpdateBarangayHistoryNew();
+    }
+}
+>>>>>>> 46d6ee2324d302c21ff4867460a36c63f40846c9
 
 
 ?>

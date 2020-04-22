@@ -5,6 +5,8 @@
 * THIS CODE IS WORK IN PROGRESS
 * I have decided to not put all data in memory as it might cause performance issues.
 * I, however, am not confident about this decision. Please raise an issue in the repo if this may lead to future issues.
+*
+* @author Job Lipat
 */
 function getConnection(){
     include '../phpcore/connection.php';
@@ -13,6 +15,7 @@ function getConnection(){
 
 /**
 * Helper function to aid inserting string in SQL. Puts quotes around a string.
+*
 * @param String $string the string to enclose in quotation marks
 * @return String returns the string enclosed in quotation marks. 
 */
@@ -22,6 +25,7 @@ function getSqlStr($string){
 
 /**
 * Updates the individual cases table using data from the google sheets.
+*
 * @param Array $apiLinks the list of google sheet csv file links to import
 */
 function updateIndividualCases($apiLinks){
@@ -38,6 +42,7 @@ function updateIndividualCases($apiLinks){
         foreach ($lines as $line) {
             $current = str_getcsv($line);
             
+            //extract data from line of csv
             $barangay = getSqlStr($current[0]);
             $cityMunicipality = getSqlStr($current[1]);
             $caseCode = getSqlStr($current[2]);
@@ -47,17 +52,19 @@ function updateIndividualCases($apiLinks){
             $caseStatus = getSqlStr($current[6]);
             $dateOfStatus = getSqlStr($current[7]);
             
+            //build query
             $insertQuery .= "(".$barangay.", ".$cityMunicipality.", ".$caseCode.", ".$gender.", ".$age.", ".$dateConfirmed.", ".$caseStatus.", ".$dateOfStatus."), ";
         }
+        //remove space and comma and replace with semicolon
         $insertQuery  = substr($insertQuery, 0, -2).";";
         mysqli_query($con, $insertQuery)  or die(mysqli_error($con));
     }
     if (!mysqli_commit($con)) {
-        echo "Commit transaction failed";
+        echo "Commit transaction failed"; //Query Fails
         exit();
     }else{
         $lastInsertID = mysqli_insert_id($con);
-        echo "Imported data to individual_cases without any errors. Last insert ID: ".$lastInsertID;
+        echo "Imported data to individual_cases without any errors. Last insert ID: ".$lastInsertID; //Query Succeeds
     }
     return TRUE;
     
@@ -65,6 +72,7 @@ function updateIndividualCases($apiLinks){
 
 /**
 * Updates the barangay history table using data from the google sheets
+*
 * @param Array $apiLinks the list of google sheet csv file links to import
 */
 function updateBarangayHistory($apiLinks){
@@ -81,6 +89,7 @@ function updateBarangayHistory($apiLinks){
         foreach ($lines as $line) {
             $current = str_getcsv($line);
             
+            //extract data from line of csv
             $referenceDate = getSqlStr($current[0]);
             $cityMunicipality = getSqlStr($current[1]);
             $barangay = getSqlStr($current[2]);
@@ -93,23 +102,26 @@ function updateBarangayHistory($apiLinks){
             $suspectPUI = $current[8];
             $probablePUI = $current[9];
             
+            //build query
             $insertQuery .= "(".$referenceDate.", ".$cityMunicipality.", ".$barangay.", ".$newPositiveCase.", ".$currentPositiveCase.", ".$currentDeceased.", ".$currentRecovered.", ".$totalPositiveCases.", ".$currentPUI.", ".$suspectPUI.", ".$probablePUI.", 0), ";
         }
+        //remove space and comma and replace with semicolon
         $insertQuery  = substr($insertQuery, 0, -2).";";
         mysqli_query($con, $insertQuery) or die(mysqli_error($con));
     }
     if (!mysqli_commit($con)) {
-        echo "Commit transaction failed";
+        echo "Commit transaction failed"; //Query Fails
         exit();
     }else{
         $lastInsertID = mysqli_insert_id($con);
-        echo "Imported data to barangay_history without any errors. Last insert ID: ".$lastInsertID;
+        echo "Imported data to barangay_history without any errors. Last insert ID: ".$lastInsertID; //Query Succeeds
     }
     return TRUE;
 }
 
 /**
 * Updates the barangay history new table using data from the google sheets
+*
 * @param Array $apiLinks the list of google sheet csv file links to import
 */
 function updateBarangayHistoryNew($apiLinks){
@@ -126,6 +138,7 @@ function updateBarangayHistoryNew($apiLinks){
         foreach ($lines as $line) {
             $current = str_getcsv($line);
             
+            //extract data from line of csv
             $referenceDate = getSqlStr($current[0]);
             $cityMunicipality = getSqlStr($current[1]);
             $barangay = getSqlStr($current[2]);
@@ -138,16 +151,17 @@ function updateBarangayHistoryNew($apiLinks){
             $probablePUI = $current[9];
             $totalPUI = $current[10];
             
+            //build query
             $insertQuery = "CALL `normInsertBarangayHistoryNew`(".$referenceDate.", ".$cityMunicipality.", ".$barangay.", ".$newPositiveCase.", ".$currentPositiveCase.", ".$currentDeceased.", ".$currentRecovered.", ".$totalPositiveCases.", ".$suspectPUI.", ".$probablePUI.", ".$totalPUI."); ";
             mysqli_query($con, $insertQuery) or die(mysqli_error($con));
         }
     }
     if (!mysqli_commit($con)) {
-        echo "Commit transaction failed";
+        echo "Commit transaction failed"; //Query Fails
         exit();
     }else{
         $lastInsertID = mysqli_insert_id($con);
-        echo "Imported data to barangay_history_new without any errors. Last insert ID: ".$lastInsertID;
+        echo "Imported data to barangay_history_new without any errors. Last insert ID: ".$lastInsertID; //Query Succeeds
     }
     return TRUE;
 }
@@ -182,7 +196,9 @@ function callUpdateBarangayHistoryNew(){
     updateBarangayHistoryNew($overviewLinks);
 }
 
-
+/**
+ * Executes the function on button press
+ */
 if(isset($_POST["submitButton"])){
     $val = $_POST["submitButton"];
     if($val == "updateIndividualCases"){

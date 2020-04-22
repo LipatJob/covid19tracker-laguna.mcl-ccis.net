@@ -11,5 +11,12 @@
       <input type="submit" name="submitButton" value = "updateBarangayHistory">
       <input type="submit" name="submitButton" value = "updateBarangayHistoryNew">
     </form>
+    <br>
+    <p>
+    Notice: <br> 
+    - Updating may take up to 3 minutes. <br>
+    - Updating will truncate the table and reinsert data from the CSV files. <br>
+    - It is recommended to edit the data from the database directly for small edits
+    </p>
 </body>
 </html>

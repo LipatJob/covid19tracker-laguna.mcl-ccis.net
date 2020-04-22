@@ -8,7 +8,7 @@ $data = getSummary($_GET["location"]);
 $number = 1;
 $number2 = 1;
 $number3 = 5;
-if($data['ThisCity'] == 'All')
+if($data['ThisCity'] == 'ALL')
 {
 	$number = 5;
 }
@@ -48,7 +48,7 @@ if($data['ThisCity'] == 'All')
                 <h1><?php echo $data["Recovered"]; ?></h1>
 				
                 <p style="margin-bottom:0px; padding-bottom:0px; padding-top: 0px;">RECOVERED</p>
-               <div style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["RecoverDate"] || $data["RecoverDate"] == "") echo "color: #2ABB9B;"; ?>"><b> <?php if($data["RecoverDate"] == $date){ echo ''.$data["RecoverCheck"].' new recovered patient/s'; if($data["RecoverCheck"] >= $number) echo " &nbsp<span class='fas fa-grin-alt'></span>"; } else if($data["RecoverDate"] == $pastdate){ echo ''.$data["RecoverCheck"].' new recovered patient/s'; } else echo ''.$data["RecoverCheck"].' new recovered patient/s' ?> </b></div>
+               <div style="width:100%; font-size: 14px; margin-top: -3px; padding-top: 3px; <?php if($date < $data["RecoverDate"] || $data["RecoverDate"] == "") echo "color: #2ABB9B;"; ?>"><b> <?php if($data["RecoverDate"] == $date){ echo ''.$data["RecoverCheck"].' new recovered patient/s'; if($data["RecoverCheck"] >= $number) echo " &nbsp<span class='fas fa-grin-alt'></span>"; } else if($data["RecoverDate"] == $pastdate){ echo ''.$data["RecoverCheck"].' new recovered patient/s'; if($data["RecoverCheck"] >= $number) echo " &nbsp<span class='fas fa-grin-alt'></span>"; } else echo ''.$data["RecoverCheck"].' new recovered patient/s'; ?> </b></div>
               
             </div>
             <div class="icon">

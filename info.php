@@ -108,10 +108,38 @@
             padding: 0;
         }
     }
+    
+      #mt {
+         font-size: 18;
+         border-style: none;
+         color: #2D76A8;
+         text-align: left;
+         border-top: 1px;
+         border-bottom: 1px;
+         font-weight: 500;
+      }
+      
+      #mt:hover {
+          font-size: 22;
+          font-weight: 600;
+      }
+      
+        #picbox {
+         justify-content: space-around;
+         border-style: solid;
+         border-width: 2px;
+         border-color: #095779;
+ 
+      }
+      
+      #picbox:hover {
+          border-width: 5px;
+          border-color: #095779; 
+      }
 
     </style>
-
-    <title>COVID-19 Tracker for LAGUNA</title>
+    
+        <title>COVID-19 Tracker for LAGUNA</title>
 </head>
 
 <body onload="">
@@ -143,7 +171,7 @@ box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
         <li class="" id="sourcesNav" style="padding: 0px; margin: 0px;">
             <a class="nav-link" href="info.php"> Hotlines </a>
         </li>
-        <span id="mcl_timer" class="navbar-text" style="font-size: 20px; font-weight: 400; color:black; margin-top: 15px;"></span>
+        <span id="mcl_timer" class="navbar-text" style="font-size: 20px; font-weight: 400; color:black;"></span>
     </ul>
 </div>
 <!-- END OF NAVIGATION BAR-->
@@ -180,20 +208,20 @@ box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
                             
 
                             
-                                <div class="parent-container-horizontal col-sm-12 col-lg-12"  style=" justify-content: space-around;">
-                                                                                <div class="col-sm-12 col-lg-4" style="padding-top: 15px;">
-                                                                                    <div class="card card-danger2">
+                                <div class="parent-container-horizontal col-sm-12 col-lg-12"  style=" justify-content: space-evenly;">
+                                                                                <div  class="col-sm-12 col-lg-4" style="padding-top: 15px;">
+                                                                                    <div id="picbox" class="card card-danger2">
                                                                                         <img class="img-fluid" style="height: auto;" src="imgs/hotline_01.jpg">
                                                                                     </div>
                                                                                 </div>
                                                                                                                 
                                      <div class="col-sm-12 col-lg-4" style="padding-top: 15px;">
-                                                                                    <div class="card card-danger2" >
+                                                                                    <div  id="picbox" class="card card-danger2" >
                                                                                         <img class="img-fluid" style="height: auto;" id="himg" src="imgs/hotline_02.jpg" >
                                                                                     </div>
                                                                                 </div>
                                      <div class="col-sm-12 col-lg-4" style="padding-top: 15px;">
-                                                                                    <div class="card card-danger2" >
+                                                                                    <div id="picbox" class="card card-danger2" >
                                                                                         <img class="img-fluid" style="height: auto;" id="himg" src="imgs/hotline_03.jpg">
                                                                                     </div>
                                                                                 </div>
@@ -201,52 +229,53 @@ box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
                                 
                                </div>
                             
-                            
-                             
-                              <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: center; text-align: center;" >
-                                   <a href="https://web.facebook.com/mdrrm.alaminos" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Alaminos</a>
-                                   <a href="https://web.facebook.com/Lokal-na-Pamahalaan-ng-Bayan-ng-Bay-459322491527615" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Bay</a>
-                                   <a href="https://web.facebook.com/pg/CIOBinan" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">City of Binan</a>
-                                   <a href="https://web.facebook.com/pg/ciocabuyaoph" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">City of Cabuyao</a>
-                                   <a href="https://web.facebook.com/IIPESO" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">City of Calamba</a>
-                              </div>
-                                    <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: center; text-align: center;" >
-                                   <a href="https://www.facebook.com/calauanlgu.gov.ph" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Calauan</a>
-                                   <a href="https://web.facebook.com/profile.php?id=100001231141441&sk=photos" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Cavinti</a>
-                                   <a href="https://www.facebook.com/mayoredwinpangilinan/" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Famy</a>
-                                   <a href="https://www.facebook.com/sandy.laganapan.3" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Kalayaan</a>
-                                   <a href="https://web.facebook.com/municipalityofliliw.laguna.1" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Liliw</a>
-                               </div>
-                                   <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: center; text-align: center;" >
-                                   <a href="https://web.facebook.com/elbilagunaph" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Los Banos</a>
-                                   <a href="https://www.facebook.com/rhu.luisiana.5" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Luisiana</a>
-                                   <a href="https://web.facebook.com/lumban.laguna.3" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Lumban</a>
-                                   <a href="https://www.facebook.com/rhu.mabitaclaguna/photos_all" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Mabitac</a>
-                                   <a href="https://www.facebook.com/DiscoverMagdalenaPH/" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Magdalena</a>
-                             </div>
-                                    <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: center; text-align: center;" >
-                                   <a href="https://www.facebook.com/carloclado" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Majayjay</a>
-                                   <a href="https://www.facebook.com/NagcarlanOfficial" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipal of Nagcarlan</a>
-                                   <a href="https://web.facebook.com/mutuk.bagabaldo?sk=photos" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Paete</a>
-                                   <a href="https://web.facebook.com/pambayang.pangkalusugan.3?_rdc=1&_rdr" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Pagsanjan</a>
-                                   <a href="https://web.facebook.com/panguil.laguna.96" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Panguil</a>
-                               </div>
-                            <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: center; text-align: center;" >
-                                   <a href="https://www.facebook.com/VinceSoriano2022/" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Pakil</a>
-                                   <a href="https://web.facebook.com/pg/municipalityofpila" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Pila</a>
-                                   <a href="https://www.facebook.com/MunicipalityofRizalLaguna/" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Rizal</a>
-                                   <a href="https://www.facebook.com/spcanticovid.taskforce" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">City of San Pablo</a>
-                                   <a href="https://www.facebook.com/CityofSanPedroOfficial/" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">City of San Pedro</a>
-                                   
-                                   
+                            <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: space-evenly; width: 100%;" >
                             </div>
-                               <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: center; text-align: center;" >
-                                   <a href="https://web.facebook.com/pg/SantaCruzLagunaCityhood/photos" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Santa Cruz</a>
-                                   <a href="https://www.facebook.com/MayorCindySML/" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Santa Maria</a>
-                                   <a href="https://web.facebook.com/pg/citygovernmentofsantarosa" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">City of Santa Rosa</a>
-                                   <a href="https://www.facebook.com/SiniloanKongMahal/" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Siniloan</a>
-                                   <a href="https://web.facebook.com/pg/VictoriaCovid19" target="_blank" style = "border-style: solid;" class = "col-sm-12 col-lg-2">Municipality of Victoria</a>
-                               </div>
+                             
+                              <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: space-evenly; width: 100%;" >
+                                 <a id="mt" href="https://web.facebook.com/mdrrm.alaminos" target="_blank" class = "col-sm-12 col-lg-2">Municipality of Alaminos</a>
+                                 <a id="mt" href="https://web.facebook.com/Lokal-na-Pamahalaan-ng-Bayan-ng-Bay-459322491527615" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Bay</a>
+                                 <a id="mt" href="https://web.facebook.com/pg/CIOBinan" target="_blank"  class = "col-sm-12 col-lg-2">City of Binan</a>
+                                 <a id="mt" href="https://web.facebook.com/pg/ciocabuyaoph" target="_blank"  class = "col-sm-12 col-lg-2">City of Cabuyao</a>
+                                 <a id="mt" href="https://web.facebook.com/IIPESO" target="_blank"  class = "col-sm-12 col-lg-2">City of Calamba</a>
+                            </div>
+                                  <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: space-evenly; width: 100%;" >
+                                 <a id="mt" href="https://www.facebook.com/calauanlgu.gov.ph" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Calauan</a>
+                                 <a id="mt" href="https://web.facebook.com/profile.php?id=100001231141441&sk=photos" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Cavinti</a>
+                                 <a id="mt" href="https://www.facebook.com/mayoredwinpangilinan/" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Famy</a>
+                                 <a id="mt" href="https://www.facebook.com/sandy.laganapan.3" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Kalayaan</a>
+                                 <a id="mt" href="https://web.facebook.com/municipalityofliliw.laguna.1" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Liliw</a>
+                             </div>
+                                 <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: space-evenly; width: 100%;" >
+                                 <a id="mt" href="https://web.facebook.com/elbilagunaph" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Los Banos</a>
+                                 <a id="mt" href="https://www.facebook.com/rhu.luisiana.5" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Luisiana</a>
+                                 <a id="mt" href="https://web.facebook.com/lumban.laguna.3" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Lumban</a>
+                                 <a id="mt" href="https://www.facebook.com/rhu.mabitaclaguna/photos_all" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Mabitac</a>
+                                 <a id="mt" href="https://www.facebook.com/DiscoverMagdalenaPH/" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Magdalena</a>
+                           </div>
+                                  <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: space-evenly; width: 100%;" >
+                                 <a id="mt" href="https://www.facebook.com/carloclado" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Majayjay</a>
+                                 <a id="mt" href="https://www.facebook.com/NagcarlanOfficial" target="_blank"  class = "col-sm-12 col-lg-2">Municipal of Nagcarlan</a>
+                                 <a id="mt" href="https://web.facebook.com/mutuk.bagabaldo?sk=photos" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Paete</a>
+                                 <a id="mt" href="https://web.facebook.com/pambayang.pangkalusugan.3?_rdc=1&_rdr" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Pagsanjan</a>
+                                 <a id="mt" href="https://web.facebook.com/panguil.laguna.96" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Panguil</a>
+                             </div>
+                          <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: space-evenly; width: 100%;" >
+                                 <a id="mt" href="https://www.facebook.com/VinceSoriano2022/" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Pakil</a>
+                                 <a id="mt" href="https://web.facebook.com/pg/municipalityofpila" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Pila</a>
+                                 <a id="mt" href="https://www.facebook.com/MunicipalityofRizalLaguna/" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Rizal</a>
+                                 <a id="mt" href="https://www.facebook.com/spcanticovid.taskforce" target="_blank"  class = "col-sm-12 col-lg-2">City of San Pablo</a>
+                                 <a id="mt" href="https://www.facebook.com/CityofSanPedroOfficial/" target="_blank"  class = "col-sm-12 col-lg-2">City of San Pedro</a>
+                                 
+                                 
+                          </div>
+                             <div class="row col-sm-12 col-lg-12" style = "display: flex; justify-content: space-evenly; width: 100%;" >
+                                 <a id="mt" href="https://web.facebook.com/pg/SantaCruzLagunaCityhood/photos" target="_blank" class = "col-sm-12 col-lg-2">Municipality of Santa Cruz</a>
+                                 <a id="mt" href="https://www.facebook.com/MayorCindySML/" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Santa Maria</a>
+                                 <a id="mt"href="https://web.facebook.com/pg/citygovernmentofsantarosa" target="_blank" class = "col-sm-12 col-lg-2">City of Santa Rosa</a>
+                                 <a id="mt" href="https://www.facebook.com/SiniloanKongMahal/" target="_blank" class = "col-sm-12 col-lg-2">Municipality of Siniloan</a>
+                                 <a id="mt" href="https://web.facebook.com/pg/VictoriaCovid19" target="_blank"  class = "col-sm-12 col-lg-2">Municipality of Victoria</a>
+                             </div>
                               
 
                  

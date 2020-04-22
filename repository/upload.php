@@ -8,25 +8,55 @@
 *
 * @author Job Lipat
 */
-function getConnection(){
-    include '../phpcore/connection.php';
-    return $con;
+
+/**
+ * Executes the function on button press
+ */
+if(isset($_POST["submitButton"])){
+    $val = $_POST["submitButton"];
+    if($val == "updateIndividualCases"){
+        callUpdateIndividualCases();
+    }else if($val == "updateBarangayHistory"){
+        callUpdateBarangayHistory();
+    }if($val == "updateBarangayHistoryNew"){
+        callUpdateBarangayHistoryNew();
+    }
+}
+
+
+/**
+* Calls the update updateIndividualCases with the API links
+*/
+function callUpdateIndividualCases(){
+    $links =  json_decode(file_get_contents("links.json"), true);
+    $individualLinks = $links["individual"];
+    updateIndividualCases($individualLinks);
+    
 }
 
 /**
-* Helper function to aid inserting string in SQL. Puts quotes around a string.
-*
-* @param String $string the string to enclose in quotation marks
-* @return String returns the string enclosed in quotation marks. 
+* Calls the update updateBarangayHistory with the API links
 */
-function getSqlStr($string){
-    return "'".$string."'";
+function callUpdateBarangayHistory(){
+    $links =  json_decode(file_get_contents("links.json"), true);
+    $overviewLinks = $links["overview"];
+    updateBarangayHistory($overviewLinks);
+    
+}
+
+/**
+* Calls the update updateBarangayHistoryNew with the API links
+*/
+function callUpdateBarangayHistoryNew(){
+    $links =  json_decode(file_get_contents("links.json"), true);
+    $overviewLinks = $links["overview"];
+    updateBarangayHistoryNew($overviewLinks);
 }
 
 /**
 * Updates the individual cases table using data from the google sheets.
 *
-* @param Array $apiLinks the list of google sheet csv file links to import
+* @param array $apiLinks the list of google sheet csv file links to import
 */
 function updateIndividualCases($apiLinks){
     $con = getConnection();       
@@ -73,7 +103,7 @@ function updateIndividualCases($apiLinks){
 /**
 * Updates the barangay history table using data from the google sheets
 *
-* @param Array $apiLinks the list of google sheet csv file links to import
+* @param array $apiLinks the list of google sheet csv file links to import
 */
 function updateBarangayHistory($apiLinks){
     $con = getConnection();       
@@ -122,7 +152,7 @@ function updateBarangayHistory($apiLinks){
 /**
 * Updates the barangay history new table using data from the google sheets
 *
-* @param Array $apiLinks the list of google sheet csv file links to import
+* @param array $apiLinks the list of google sheet csv file links to import
 */
 function updateBarangayHistoryNew($apiLinks){
     $con = getConnection();       
@@ -166,49 +196,25 @@ function updateBarangayHistoryNew($apiLinks){
     return TRUE;
 }
 
-
 /**
-* Calls the update updateIndividualCases with the API links
-*/
-function callUpdateIndividualCases(){
-    $links =  json_decode(file_get_contents("links.json"), true);
-    $individualLinks = $links["individual"];
-    updateIndividualCases($individualLinks);
-    
-}
-
-/**
-* Calls the update updateBarangayHistory with the API links
-*/
-function callUpdateBarangayHistory(){
-    $links =  json_decode(file_get_contents("links.json"), true);
-    $overviewLinks = $links["overview"];
-    updateBarangayHistory($overviewLinks);
-    
-}
-
-/**
-* Calls the update updateBarangayHistoryNew with the API links
-*/
-function callUpdateBarangayHistoryNew(){
-    $links =  json_decode(file_get_contents("links.json"), true);
-    $overviewLinks = $links["overview"];
-    updateBarangayHistoryNew($overviewLinks);
-}
-
-/**
- * Executes the function on button press
+ * 
  */
-if(isset($_POST["submitButton"])){
-    $val = $_POST["submitButton"];
-    if($val == "updateIndividualCases"){
-        callUpdateIndividualCases();
-    }else if($val == "updateBarangayHistory"){
-        callUpdateBarangayHistory();
-    }if($val == "updateBarangayHistoryNew"){
-        callUpdateBarangayHistoryNew();
-    }
+function getConnection(){
+    include '../phpcore/connection.php';
+    return $con;
 }
+
+/**
+* Helper function to aid inserting string in SQL. Puts quotes around a string.
+*
+* @param string $string the string to enclose in quotation marks
+* @return string returns the string enclosed in quotation marks. 
+*/
+function getSqlStr($string){
+    return "'".$string."'";
+}
+
+
 
 
 ?>

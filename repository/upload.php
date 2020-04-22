@@ -27,7 +27,7 @@ function getSqlStr($string){
 function updateIndividualCases($apiLinks){
     $con = getConnection();       
     mysqli_autocommit($con, FALSE); 
-    
+
     // TRUNCATE TABLE
     $truncateQuery = "TRUNCATE individual_cases;";
     mysqli_query($con, $truncateQuery);
@@ -56,7 +56,8 @@ function updateIndividualCases($apiLinks){
         echo "Commit transaction failed";
         exit();
     }else{
-        echo "Imported data without any errors";
+        $lastInsertID = mysqli_insert_id($con);
+        echo "Imported data to individual_cases without any errors. Last insert ID: ".$lastInsertID;
     }
     return TRUE;
     
@@ -101,7 +102,8 @@ function updateBarangayHistory($apiLinks){
         echo "Commit transaction failed";
         exit();
     }else{
-        echo "Imported data without any errors";
+        $lastInsertID = mysqli_insert_id($con);
+        echo "Imported data to barangay_history without any errors. Last insert ID: ".$lastInsertID;
     }
     return TRUE;
 }
@@ -144,7 +146,8 @@ function updateBarangayHistoryNew($apiLinks){
         echo "Commit transaction failed";
         exit();
     }else{
-        echo "Imported data without any errors";
+        $lastInsertID = mysqli_insert_id($con);
+        echo "Imported data to barangay_history_new without any errors. Last insert ID: ".$lastInsertID;
     }
     return TRUE;
 }
@@ -157,7 +160,7 @@ function callUpdateIndividualCases(){
     $links =  json_decode(file_get_contents("links.json"), true);
     $individualLinks = $links["individual"];
     updateIndividualCases($individualLinks);
-
+    
 }
 
 /**
@@ -176,9 +179,20 @@ function callUpdateBarangayHistory(){
 function callUpdateBarangayHistoryNew(){
     $links =  json_decode(file_get_contents("links.json"), true);
     $overviewLinks = $links["overview"];
-    updateBarangayHistory($overviewLinks);
+    updateBarangayHistoryNew($overviewLinks);
 }
 
+
+if(isset($_POST["submitButton"])){
+    $val = $_POST["submitButton"];
+    if($val == "updateIndividualCases"){
+        callUpdateIndividualCases();
+    }else if($val == "updateBarangayHistory"){
+        callUpdateBarangayHistory();
+    }if($val == "updateBarangayHistoryNew"){
+        callUpdateBarangayHistoryNew();
+    }
+}
 
 
 ?>

@@ -66,6 +66,7 @@ function getSummary($location){
 	date_default_timezone_set("Asia/Singapore");
 	$date = date('Y-m-d');
 	$date = date('Y-m-d', strtotime('-1 day', strtotime($date)));
+	$mypastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
 	$days_ago = $date;
 	$testbool = "true";
 	
@@ -102,8 +103,10 @@ function getSummary($location){
 	}
 	else
 	{
-		if($date != $days_ago)
+		if($days_ago == $mypastdate)
 		{
+			$checkcount = 0;
+			$days_ago = $date;
 		}
 		$testbool = "false";
 	}
@@ -328,7 +331,9 @@ function getSummary($location){
     }
 	$minusthis = 0;
 	$minusthis = $checkcount2 - $testingthisone;
-	
+	?>
+	<!-- if > 0 -->
+	<?php
 	
 	if($minusthis == 0)
 	{
@@ -336,10 +341,17 @@ function getSummary($location){
 	}
 	else
 	{
+		
 		$days_ago2 = $past_days;
+		
 		if($date != $days_ago2)
 		{
 			$days_ago2 = date('Y-m-d', strtotime('+1 day', strtotime($days_ago2)));
+		}
+		if($days_ago2 == $mypastdate)
+		{
+			$minusthis = 0;
+			$days_ago2 = $date;
 		}
 		
 		$testbool = "false";
@@ -357,8 +369,6 @@ function getSummary($location){
 	
 	
 	
-	while($testbool == "true")
-	{
 	
     $query6 = "SELECT SUM(brgynew.current_recovered) as RECOVERED FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
@@ -405,33 +415,11 @@ function getSummary($location){
 		 {
       $testingthisone2 = $extract7['RECOVERED'];
 		 }
-		 else
-		 {
-			 $testbool = "false";
-		 }
     }
 	$minusthis2 = 0;
 	$minusthis2 = $checkcount3 - $testingthisone2;
 	
-
 	
-	
-	if($minusthis2 == 0)
-	{
-		$past_days = date('Y-m-d', strtotime('-1 day', strtotime($past_days)));
-	}
-	else
-	{
-		$days_ago3 = $past_days;
-		if($date != $days_ago3)
-		{
-			$days_ago3 = date('Y-m-d', strtotime('+1 day', strtotime($days_ago3)));
-		}
-		
-		$testbool = "false";
-	}
-	
-	}
 	
 	
 	
@@ -442,9 +430,9 @@ function getSummary($location){
 	$outputdeceased=date('Y-m-d', strtotime('+1 day', strtotime($days_ago2)));
 	$outputrecovered=date('Y-m-d', strtotime('+1 day', strtotime($days_ago3)));
 	
-	$outputconfirmed = date('M d, Y', strtotime($outputconfirmed));
-	$outputdeceased = date('M d, Y', strtotime($outputdeceased));
-	$outputrecovered = date('M d, Y', strtotime($outputrecovered));
+	$outputconfirmed = date('M. d', strtotime($outputconfirmed));
+	$outputdeceased = date('M. d', strtotime($outputdeceased));
+	$outputrecovered = date('M. d', strtotime($outputrecovered));
     
 	
 

@@ -442,7 +442,9 @@ function getSummary($location){
 	$outputdeceased=date('Y-m-d', strtotime('+1 day', strtotime($days_ago2)));
 	$outputrecovered=date('Y-m-d', strtotime('+1 day', strtotime($days_ago3)));
 	
-	
+	$outputconfirmed = date('M d, Y', strtotime($outputconfirmed));
+	$outputdeceased = date('M d, Y', strtotime($outputdeceased));
+	$outputrecovered = date('M d, Y', strtotime($outputrecovered));
     
 	
 

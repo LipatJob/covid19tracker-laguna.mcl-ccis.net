@@ -48,7 +48,7 @@ function getSummary($location){
     
     //$resultCount = mysqli_query($con,"SELECT SUM(NEW_POSITIVE_CASES) as NEWPOS, SUM(TOTAL_CURRENT_POSITIVE) as CURRENTPOS, SUM(TOTAL_DECEASED) as DECEASED, SUM(TOTAL_RECOVERED) as RECOVERED, SUM(TOTAL_POSITIVE_CASES) as POSCASES, SUM(TOTAL_PUM) as PUM, SUM(TOTAL_PUI) as PUI FROM ". $dbCity ."_TOTAL");
     $resultCount = mysqli_query($con, $query);
-    
+	
     while($extract = mysqli_fetch_array($resultCount)){
         $NEWPOS = $extract['NEWPOS'];
         $CURRENTPOS = $extract['CURRENTPOS'];
@@ -57,6 +57,7 @@ function getSummary($location){
         $POSCASES = $extract['POSCASES'];
         $PUM = $extract['PUM'];
         $PUI = $extract['PUI'];
+		
     }
 
     $recoveredDeceased[0] = $RECOVERED;

@@ -12,10 +12,12 @@
 * Returns the data given the function key. Executes the function and
 * caches the data if needed or gets the cached data if cache exists and is not expired
 *
+*
 * @param Function $functionToCache an annonymous function that is to be cached
 * @param string $functionKey a unique string to identify cached data in storage. The function key may only contain alphanumeric numbers.
 */
 function getCached($functionKey, $functionToCache, $parameters){
+    date_default_timezone_set('Asia/Singapore');
     //Validation
     validateFunctionKey($functionKey) or die("Invalid function key");
     $data = [];
@@ -111,12 +113,13 @@ function writeCacheFile($functionKey, $data){
  * @return int the difference between the dates
  */
 function getMinuteDateDifference($date1, $date2){
-    $dateDiff = $date1->diff($date2); //get difference
+    echo $date1->format("Y-m-d h:i").", ".$date2->format("Y-m-d h:i")." ";
+    $dateDiff = $date1->diff($date2, TRUE); //get difference
     $minuteDiff = 0;
-    $minuteDiff += abs(43800 * $dateDiff->m); //month
-    $minuteDiff += abs(1440 * $dateDiff->d); //day
-    $minuteDiff += abs(60 * $dateDiff->h); //hour
-    $minuteDiff += abs($dateDiff->i); //minutes
+    $minuteDiff += (43800 * $dateDiff->m); //month
+    $minuteDiff += (1440 * $dateDiff->d); //day
+    $minuteDiff += (60 * $dateDiff->h); //hour
+    $minuteDiff += ($dateDiff->i); //minutes
     echo "Minutes Since Cached: ".$minuteDiff."<br>"; //DEBUG
     return $minuteDiff;
 }
@@ -143,8 +146,6 @@ function testCache(){
 
     echo "PASSED:". $passed. ". FAILED: ".$failed;
 }
-
-
 
 
 

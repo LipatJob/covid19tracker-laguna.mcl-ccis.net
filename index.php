@@ -430,7 +430,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
                 
                 setInterval(function() {
                     var date = moment(new Date());
-                    $('#mcl_timer').html(date.format('dddd, MMMM Do YYYY, h:mm:ss a'));
+                    $('#mcl_timer').html(date.format('dddd, Do of MMMM YYYY | h:mm:ss a'));
                 }, 1000);
                 
                 

@@ -134,7 +134,7 @@ $(function() {
             yAxes: [{
                 ticks: {
                     beginAtZero: true,
-                    suggestedMax: 100,
+                    suggestedMax: 50,
                     callback: function(value) {
                         if (value % 1 === 0) {
                             return value;

@@ -10,21 +10,35 @@
 */
 
 /**
- * Executes the function on button press
- */
+* Executes the function on button press
+*/
 if(isset($_POST["submitButton"])){
     $val = $_POST["submitButton"];
     if($val == "updateIndividualCases"){
         callUpdateIndividualCases();
     }else if($val == "updateBarangayHistory"){
         callUpdateBarangayHistory();
-    }if($val == "updateBarangayHistoryNew"){
+    }else if($val == "updateBarangayHistoryNew"){
         callUpdateBarangayHistoryNew();
+    }else if($val == "clearCache"){
+        clearCache();
     }
 }
 //Link to allow user to return to uploadView.php
 echo "<br><a href = 'uploadView.php'>Return to uploader</a>";
 
+/**
+ * Deletes all cached queries.
+ */
+function clearCache(){
+    $files = glob(dirname(__FILE__).("/cached/*")); // get all file names
+    foreach($files as $file){ // iterate files
+        if(is_file($file))
+        unlink($file); // delete file
+    }
+    echo "Cache Cleared";
+
+}
 
 /**
 * Calls the update updateIndividualCases with the API links
@@ -63,7 +77,7 @@ function callUpdateBarangayHistoryNew(){
 function updateIndividualCases($apiLinks){
     $con = getConnection();       
     mysqli_autocommit($con, FALSE); 
-
+    
     // TRUNCATE TABLE
     $truncateQuery = "TRUNCATE individual_cases;";
     mysqli_query($con, $truncateQuery);
@@ -204,8 +218,8 @@ function updateBarangayHistoryNew($apiLinks){
 }
 
 /**
- * 
- */
+* 
+*/
 function getConnection(){
     include '../phpcore/connection.php';
     return $con;

@@ -10,6 +10,7 @@
       <input type="submit" name="submitButton" value = "updateIndividualCases">
       <input type="submit" name="submitButton" value = "updateBarangayHistory">
       <input type="submit" name="submitButton" value = "updateBarangayHistoryNew">
+      <input type="submit" name="submitButton" value = "clearCache">
     </form>
     <br>
     <p>

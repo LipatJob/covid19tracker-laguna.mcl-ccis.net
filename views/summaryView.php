@@ -1,18 +1,12 @@
 <?php
 include "../repository/queries.php";
-date_default_timezone_set("Asia/Singapore");
-$date = date('Y-m-d');
-$date = date('Y-m-d', strtotime('-1 day', strtotime($date)));
+$data = getSummary($_GET["location"]);
+$date = $data['MyDate'];
 $pastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
 $outputdate = date('M. d', strtotime($pastdate));
-$data = getSummary($_GET["location"]);
 $number = 1;
 $number2 = 1;
 $number3 = 5;
-if($data['ThisCity'] == 'ALL')
-{
-	$number = 5;
-}
 
 ?>
 

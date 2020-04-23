@@ -63,10 +63,12 @@ function getSummary($location){
     $recoveredDeceased[0] = $RECOVERED;
     $recoveredDeceased[1] = $DECEASED;
 	
+	$query = "select max(ref_date) as MaxDate from reference_dates";
+	  $resultCount = mysqli_query($con, $query);
 	
-	date_default_timezone_set("Asia/Singapore");
-	$date = date('Y-m-d');
-	$date = date('Y-m-d', strtotime('-1 day', strtotime($date)));
+    while($extract = mysqli_fetch_array($resultCount)){
+		$date = $extract['MaxDate'];
+	}
 	$mypastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
 	$days_ago = $date;
 	$testbool = "true";
@@ -461,7 +463,8 @@ function getSummary($location){
 		"OutputPUM" => $outputPUM,
 		"OutputPUI" => $outputPUI,
 		"ThisCity" => $dbCity,
-		"ActiveCheck" => $Activecount
+		"ActiveCheck" => $Activecount,
+		"MyDate" => $date,
 		
     ];
 }

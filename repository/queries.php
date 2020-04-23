@@ -899,7 +899,7 @@ function getRecoveredPerDate($location){
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     
-    $string = "SELECT reference_date, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history WHERE reference_date >= '2020-03-31' ";
+    $string = "SELECT reference_date, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history WHERE reference_date >= '2020-03-24' ";
     
     if($location != "LAGUNA")
     {
@@ -947,7 +947,7 @@ function getDeceasedPerDate($location){
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     
-    $string = "SELECT reference_date, sum(current_deceased) AS TOTAL_DECEASED from barangay_history WHERE reference_date >= '2020-03-31' ";
+    $string = "SELECT reference_date, sum(current_deceased) AS TOTAL_DECEASED from barangay_history WHERE reference_date >= '2020-03-24' ";
 
     if($location != "LAGUNA")
     {

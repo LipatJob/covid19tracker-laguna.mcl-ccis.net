@@ -1,5 +1,6 @@
 <?php
-
+include "../phpcore/simpleauth.php";
+require_auth();
 /**
 * WARNING:
 * THIS CODE IS WORK IN PROGRESS

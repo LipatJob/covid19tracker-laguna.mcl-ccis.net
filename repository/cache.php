@@ -20,18 +20,23 @@ function getCached($functionKey, $functionToCache, $parameters){
     validateFunctionKey($functionKey) or die("Invalid function key");
     $data = [];
     if(isCached($functionKey)){ //If the function is cached and data is not expired return the cached version of the data,
-        echo "CACHED FILE FOUND  <br>"; 
+        echo $functionKey.": CACHED FILE FOUND <br>"; //DEBUG
         $data = retrieveCache($functionKey);
         if(isCacheExpired($data)){ //Cache again if cache is expired
-            echo "CACHED EXPIRED  <br>"; 
+            echo $functionKey.": CACHED EXPIRED. STARTING CACHE <br>"; //DEBUG
             $data = $functionToCache($parameters);
             doCache($functionKey, $data);
+            echo $functionKey.": CACHING COMPLETE <br>"; //DEBUG
+        }else{
+            echo $functionKey. ": USING CACHED FILE <br>"; //DEBUG
         }
     }else{ //else cache the function and return the data 
-        echo "FUNCITON NOT CACHED <br>"; 
+        echo $functionKey. ": FUNCITON NOT CACHED. STARTING CACHE <br>";   //DEBUG
         $data = $functionToCache($parameters);
         doCache($functionKey, $data);
+        echo $functionKey.": CACHING COMPLETE <br>";   //DEBUG
     }
+    echo "<br>";
     return $data;
 }
 
@@ -108,10 +113,11 @@ function writeCacheFile($functionKey, $data){
 function getMinuteDateDifference($date1, $date2){
     $dateDiff = $date1->diff($date2); //get difference
     $minuteDiff = 0;
-    $minuteDiff += 43800 * $dateDiff->m; //month
-    $minuteDiff += 1440 * $dateDiff->d; //day
-    $minuteDiff += 60 * $dateDiff->h; //hour
-    $minuteDiff += $dateDiff->i; //minutes
+    $minuteDiff += abs(43800 * $dateDiff->m); //month
+    $minuteDiff += abs(1440 * $dateDiff->d); //day
+    $minuteDiff += abs(60 * $dateDiff->h); //hour
+    $minuteDiff += abs($dateDiff->i); //minutes
+    echo "Minutes Since Cached: ".$minuteDiff."<br>"; //DEBUG
     return $minuteDiff;
 }
 
@@ -123,7 +129,7 @@ function getMinuteDateDifference($date1, $date2){
  * @return bool returns TRUE when the key is valid and FALSE if the key is invalid
  */
 function validateFunctionKey($functionKey){
-    return ctype_alnum($functionKey);
+    return preg_match("/^[a-zA-Z0-9\s]*$/", $functionKey);
 }
 
 function testCache(){

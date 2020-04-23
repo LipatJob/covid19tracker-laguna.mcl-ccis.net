@@ -1,11 +1,11 @@
 <?php
-include "../repository/queries.php";
+include "../repository/cachedqueries.php";
 date_default_timezone_set("Asia/Singapore");
 $date = date('Y-m-d');
 $date = date('Y-m-d', strtotime('-1 day', strtotime($date)));
 $pastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
 $outputdate = date('M. d', strtotime($pastdate));
-$data = getSummary($_GET["location"]);
+$data = getCachedSummary($_GET["location"]);
 $number = 1;
 $number2 = 1;
 $number3 = 5;

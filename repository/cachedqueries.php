@@ -1,11 +1,14 @@
 <?php
-include "cache.php";
-include "queries.php";
+include_once "cache.php";
+include_once "queries.php";
 
 function getQueryCache($functionName, $location){
-    $location = str_replace(' ', '', $location);
     return getCached($functionName.$location, $functionName, $location);
 }
+
+/**
+ * WRAPPER FUNCTIONS FOR CACHE AND QUERIES
+ */
 
 function getCachedSummary($location){
     return getQueryCache("getSummary", $location);
@@ -43,5 +46,8 @@ function getCachedDeceasedPerDate($location){
     return getQueryCache("getDeceasedPerDate", $location);
 }
 
-print_r(getCachedDeceasedPerDate("CALAMBA"));
+function getCachedCurrentTrend($location){
+    return getQueryCache("getCurrentTrend", $location);
+}
+
 ?>

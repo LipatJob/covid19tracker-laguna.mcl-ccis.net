@@ -8,7 +8,6 @@
 *
 * @author Job Lipat
 */
-<<<<<<< HEAD
 
 /**
  * Executes the function on button press
@@ -23,6 +22,8 @@ if(isset($_POST["submitButton"])){
         callUpdateBarangayHistoryNew();
     }
 }
+//Link to allow user to return to uploadView.php
+echo "<br><a href = 'uploadView.php'>Return to uploader</a>";
 
 
 /**
@@ -52,31 +53,12 @@ function callUpdateBarangayHistoryNew(){
     $links =  json_decode(file_get_contents("links.json"), true);
     $overviewLinks = $links["overview"];
     updateBarangayHistoryNew($overviewLinks);
-=======
-function getConnection(){
-    include '../phpcore/connection.php';
-    return $con;
-}
-
-/**
-* Helper function to aid inserting string in SQL. Puts quotes around a string.
-*
-* @param String $string the string to enclose in quotation marks
-* @return String returns the string enclosed in quotation marks. 
-*/
-function getSqlStr($string){
-    return "'".$string."'";
->>>>>>> 46d6ee2324d302c21ff4867460a36c63f40846c9
 }
 
 /**
 * Updates the individual cases table using data from the google sheets.
 *
-<<<<<<< HEAD
 * @param array $apiLinks the list of google sheet csv file links to import
-=======
-* @param Array $apiLinks the list of google sheet csv file links to import
->>>>>>> 46d6ee2324d302c21ff4867460a36c63f40846c9
 */
 function updateIndividualCases($apiLinks){
     $con = getConnection();       
@@ -123,11 +105,7 @@ function updateIndividualCases($apiLinks){
 /**
 * Updates the barangay history table using data from the google sheets
 *
-<<<<<<< HEAD
 * @param array $apiLinks the list of google sheet csv file links to import
-=======
-* @param Array $apiLinks the list of google sheet csv file links to import
->>>>>>> 46d6ee2324d302c21ff4867460a36c63f40846c9
 */
 function updateBarangayHistory($apiLinks){
     $con = getConnection();       
@@ -154,8 +132,9 @@ function updateBarangayHistory($apiLinks){
             $totalPositiveCases = $current[7];
             $currentPUI = $current[10];
             $suspectPUI = $current[8];
+            if($suspectPUI < 0) $suspectPUI = 0;
             $probablePUI = $current[9];
-            
+            if($probablePUI < 0) $probablePUI = 0;
             //build query
             $insertQuery .= "(".$referenceDate.", ".$cityMunicipality.", ".$barangay.", ".$newPositiveCase.", ".$currentPositiveCase.", ".$currentDeceased.", ".$currentRecovered.", ".$totalPositiveCases.", ".$currentPUI.", ".$suspectPUI.", ".$probablePUI.", 0), ";
         }
@@ -176,19 +155,17 @@ function updateBarangayHistory($apiLinks){
 /**
 * Updates the barangay history new table using data from the google sheets
 *
-<<<<<<< HEAD
 * @param array $apiLinks the list of google sheet csv file links to import
-=======
-* @param Array $apiLinks the list of google sheet csv file links to import
->>>>>>> 46d6ee2324d302c21ff4867460a36c63f40846c9
 */
 function updateBarangayHistoryNew($apiLinks){
     $con = getConnection();       
     mysqli_autocommit($con, FALSE); 
     
     // TRUNCATE TABLE
-    $truncateQuery = "TRUNCATE barangay_history_new; TRUNCATE New_Cases;";
-    mysqli_query($con, $truncateQuery);
+    $truncateBarangayHistory = "TRUNCATE barangay_history_new;";
+    mysqli_query($con, $truncateBarangayHistory) or die("Failed to truncate barangay_history_new");
+    $truncateNewCases = "TRUNCATE New_Cases;" or die("Failed to truncate New_Cases");
+    mysqli_query($con, $truncateNewCases);
     foreach ($apiLinks as $link) {
         $insertQuery = "";
         $apiContent = file_get_contents($link);
@@ -206,7 +183,9 @@ function updateBarangayHistoryNew($apiLinks){
             $currentRecovered = $current[6];
             $totalPositiveCases = $current[7];
             $suspectPUI = $current[8];
+            if($suspectPUI < 0) $suspectPUI = 0;
             $probablePUI = $current[9];
+            if($probablePUI < 0) $probablePUI = 0;
             $totalPUI = $current[10];
             
             //build query
@@ -225,7 +204,6 @@ function updateBarangayHistoryNew($apiLinks){
 }
 
 /**
-<<<<<<< HEAD
  * 
  */
 function getConnection(){
@@ -244,49 +222,6 @@ function getSqlStr($string){
 }
 
 
-=======
-* Calls the update updateIndividualCases with the API links
-*/
-function callUpdateIndividualCases(){
-    $links =  json_decode(file_get_contents("links.json"), true);
-    $individualLinks = $links["individual"];
-    updateIndividualCases($individualLinks);
-    
-}
-
-/**
-* Calls the update updateBarangayHistory with the API links
-*/
-function callUpdateBarangayHistory(){
-    $links =  json_decode(file_get_contents("links.json"), true);
-    $overviewLinks = $links["overview"];
-    updateBarangayHistory($overviewLinks);
-    
-}
-
-/**
-* Calls the update updateBarangayHistoryNew with the API links
-*/
-function callUpdateBarangayHistoryNew(){
-    $links =  json_decode(file_get_contents("links.json"), true);
-    $overviewLinks = $links["overview"];
-    updateBarangayHistoryNew($overviewLinks);
-}
-
-/**
- * Executes the function on button press
- */
-if(isset($_POST["submitButton"])){
-    $val = $_POST["submitButton"];
-    if($val == "updateIndividualCases"){
-        callUpdateIndividualCases();
-    }else if($val == "updateBarangayHistory"){
-        callUpdateBarangayHistory();
-    }if($val == "updateBarangayHistoryNew"){
-        callUpdateBarangayHistoryNew();
-    }
-}
->>>>>>> 46d6ee2324d302c21ff4867460a36c63f40846c9
 
 
 ?>

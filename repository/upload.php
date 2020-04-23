@@ -12,6 +12,7 @@
 /**
 * Executes the function on button press
 */
+
 if(isset($_POST["submitButton"])){
     $val = $_POST["submitButton"];
     if($val == "updateIndividualCases"){
@@ -44,6 +45,10 @@ function clearCache(){
 * Calls the update updateIndividualCases with the API links
 */
 function callUpdateIndividualCases(){
+    if(!file_exists("links.json")){
+        echo "links.json is not found please contact the developers";
+        return;
+    }
     $links =  json_decode(file_get_contents("links.json"), true);
     $individualLinks = $links["individual"];
     updateIndividualCases($individualLinks);
@@ -54,6 +59,10 @@ function callUpdateIndividualCases(){
 * Calls the update updateBarangayHistory with the API links
 */
 function callUpdateBarangayHistory(){
+    if(!file_exists("links.json")){
+        echo "links.json is not found please contact the developers";
+        return;
+    }
     $links =  json_decode(file_get_contents("links.json"), true);
     $overviewLinks = $links["overview"];
     updateBarangayHistory($overviewLinks);
@@ -64,6 +73,10 @@ function callUpdateBarangayHistory(){
 * Calls the update updateBarangayHistoryNew with the API links
 */
 function callUpdateBarangayHistoryNew(){
+    if(!file_exists("links.json")){
+        echo "links.json is not found please contact the developers";
+        return;
+    }
     $links =  json_decode(file_get_contents("links.json"), true);
     $overviewLinks = $links["overview"];
     updateBarangayHistoryNew($overviewLinks);

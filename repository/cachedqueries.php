@@ -23,7 +23,7 @@ function getCachedCasesPerDate($location){
 }
 
 function getCachedSummaryPerCityMunicipalityTable($brgyname){
-    return getQueryCache("getSummaryPerCityMunicipalityTable", $location);
+    return getQueryCache("getSummaryPerCityMunicipalityTable", $brgyname);
 }
 
 function getCachedSummaryPerCityMunicipalityChart($location){

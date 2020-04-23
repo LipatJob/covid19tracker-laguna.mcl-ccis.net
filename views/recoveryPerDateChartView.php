@@ -17,9 +17,8 @@
         }
     }
 
-    //Chart should be like Gender Graph, it wil show percentage and count when hovered to a specific date
-    //Change Legends Logic
-    //Legend, Two Legends, Cases Per Date (Bar), Recovery and Death Rate (Line)
+    array_shift($recoveryPercent);
+    array_shift($deceasedPercent);
 ?>
 
 <div class="card card-danger2">
@@ -135,7 +134,7 @@ $(function() {
             yAxes: [{
                 ticks: {
                     beginAtZero: true,
-                    suggestedMax: 5,
+                    suggestedMax: 100,
                     callback: function(value) {
                         if (value % 1 === 0) {
                             return value;
@@ -159,7 +158,7 @@ $(function() {
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'bar',
+        type: 'line',
         data: lineChartData,
         options: lineChartOptions
     })

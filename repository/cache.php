@@ -14,12 +14,12 @@
 *
 *
 * @param Function $functionToCache an annonymous function that is to be cached
-* @param string $functionKey a unique string to identify cached data in storage. The function key may only contain alphanumeric numbers.
+* @param string $functionKey a unique string to identify cached data in storage. The function key may only contain alphanumeric numbers or space.
 */
 function getCached($functionKey, $functionToCache, $parameters){
     date_default_timezone_set('Asia/Singapore');
-    //Validation
-    validateFunctionKey($functionKey) or die("Invalid function key");
+    validateFunctionKey($functionKey) or die("Invalid function key"); //Validation
+
     $data = [];
     if(isCached($functionKey)){ //If the function is cached and data is not expired return the cached version of the data,
         echo $functionKey.": CACHED FILE FOUND <br>"; //DEBUG
@@ -38,7 +38,7 @@ function getCached($functionKey, $functionToCache, $parameters){
         doCache($functionKey, $data);
         echo $functionKey.": CACHING COMPLETE <br>";   //DEBUG
     }
-    echo "<br>";
+    echo "<br>"; //DEBUG
     return $data;
 }
 
@@ -91,13 +91,19 @@ function isCacheExpired($data){
     }
     return TRUE;
 }
-
+/**
+ * Gets the file using the function key
+ * 
+ * @param string $functionKey 
+ */
 function getCacheFile($functionKey){
     $cacheLocation = dirname(__FILE__).("/cached/".$functionKey.".json");
     $cacheContent = json_decode(file_get_contents($cacheLocation), true);
     return $cacheContent;
 }
-
+/**
+ * 
+ */
 function writeCacheFile($functionKey, $data){
     $cacheLocation = dirname(__FILE__).("/cached/".$functionKey.".json");
     $cacheFile = fopen($cacheLocation, 'w') or die("Cannot find cached file");
@@ -116,17 +122,17 @@ function getMinuteDateDifference($date1, $date2){
     echo $date1->format("Y-m-d h:i").", ".$date2->format("Y-m-d h:i")." ";
     $dateDiff = $date1->diff($date2, TRUE); //get difference
     $minuteDiff = 0;
-    $minuteDiff += (43800 * $dateDiff->m); //month
-    $minuteDiff += (1440 * $dateDiff->d); //day
-    $minuteDiff += (60 * $dateDiff->h); //hour
-    $minuteDiff += ($dateDiff->i); //minutes
+    $minuteDiff += (43800 * $dateDiff->m);  //month
+    $minuteDiff += (1440 * $dateDiff->d);   //day
+    $minuteDiff += (60 * $dateDiff->h);     //hour
+    $minuteDiff += ($dateDiff->i);          //minutes
     echo "Minutes Since Cached: ".$minuteDiff."<br>"; //DEBUG
     return $minuteDiff;
 }
 
 /**
  * Validates wheter the function key is valid.
- * The function key is valid when it only contains aphanumeric characters.
+ * The function key is valid when it only contains aphanumeric characters or a space.
  * 
  * @param string $functionKey the key to validate
  * @return bool returns TRUE when the key is valid and FALSE if the key is invalid

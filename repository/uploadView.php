@@ -1,3 +1,8 @@
+<?php
+include "../phpcore/simpleauth.php";
+require_auth();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

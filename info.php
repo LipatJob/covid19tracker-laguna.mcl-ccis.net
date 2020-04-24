@@ -328,12 +328,22 @@ box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
             </script>
             <script>
                  $(function() {  
-                
+                    
                     $(document).ready(function(e) {
                     $.ajaxSetup({cache:false});
+
+                    <?php
+                        date_default_timezone_set('Asia/Manila');
+                        // Prints something like: Monday 8th of August 2005 03:12:46 PM
+                        //echo date('l\, jS \of F Y \| h:i:s A');
+                        $date = date('l\, jS \of F Y \| ');
+                    ?>
+
+                    var date = "<?php echo $date; ?>";
+
                     setInterval(function() {
-                        $('#mcl_timer').load('timer.php');
-                    },1000);
+                        $('#mcl_timer').html(date + new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1"));
+                    }, 1000);
                 });
                 
             })

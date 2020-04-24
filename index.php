@@ -414,6 +414,17 @@ while ($time_update = mysqli_fetch_array($rx)) {
     </script>
 
     <script>
+        function timeNow() {
+            var timeStr = "";
+            var d = new Date(),
+                h = (d.getHours()<10?'0':'') + d.getHours(),
+                m = (d.getMinutes()<10?'0':'') + d.getMinutes();
+                s = (d.getSeconds()<10?'0':'') + d.getSeconds();
+            timeStr = h + ':' + m + ':' + s;
+
+            return timeStr;
+        }
+
         $(document).ready(function() {
             //INITIALIZE NAVBAR
             $("#indexNav a").addClass("active");
@@ -430,8 +441,16 @@ while ($time_update = mysqli_fetch_array($rx)) {
                 $.ajaxSetup({
                     cache: false
                 });
+
+                <?php
+                    date_default_timezone_set('Asia/Manila');
+                    $date = date('l\, jS \of F Y \| ');
+                 ?>
+
+                var date = "<?php echo $date; ?>";
+
                 setInterval(function() {
-                    $('#mcl_timer').load('timer.php');
+                    $('#mcl_timer').html(date + new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1"));
                 }, 1000);
             });
 

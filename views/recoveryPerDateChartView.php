@@ -1,8 +1,8 @@
 <?php
-    include "../repository/queries.php";
-    $data = getRecoveredPerDate($_GET["location"]);
-    $dataDeceased = getDeceasedPerDate($_GET["location"]);
-    $summary = getSummary($_GET["location"]);
+    include "../repository/cachedqueries.php";
+    $data = getCachedRecoveredPerDate($_GET["location"]);
+    $dataDeceased = getCachedDeceasedPerDate($_GET["location"]);
+    $summary = getCachedSummary($_GET["location"]);
     $recoveryPercent = [];
     $deceasedPercent = [];
 

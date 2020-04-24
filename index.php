@@ -281,40 +281,6 @@ while ($time_update = mysqli_fetch_array($rx)) {
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-    </div>
-
-
-    <!-- SCRIPTS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="plugins/chart.js/Chart.min.js"></script>
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>-->
-    <!--<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"> </script>-->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"> </script>
-    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-
-    <script>
-        //INITIALIZE NAVBAR
-        $("#indexNav a").addClass("active");
-    </script>
-
-    <script>
-        function timeNow() {
-            var timeStr = "";
-            var d = new Date(),
-                h = (d.getHours()<10?'0':'') + d.getHours(),
-                m = (d.getMinutes()<10?'0':'') + d.getMinutes();
-                s = (d.getSeconds()<10?'0':'') + d.getSeconds();
-            timeStr = h + ':' + m + ':' + s;
-
-            return timeStr;
-        }
-
-        $(document).ready(function() {
-=======
         
         
         <!-- SCRIPTS -->
@@ -329,7 +295,6 @@ while ($time_update = mysqli_fetch_array($rx)) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         
         <script>
->>>>>>> d91dd9742c9515f179361464ddba9e32d3b461f2
             //INITIALIZE NAVBAR
             $("#indexNav a").addClass("active");
         </script>

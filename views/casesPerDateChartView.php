@@ -1,7 +1,7 @@
 <?php
-include "../repository/queries.php";
-$data = getCasesPerDate($_GET["location"]);
-$dataTrend = getCurrentTrend($_GET["location"]);
+include "../repository/cachedqueries.php";
+$data = getCachedCasesPerDate($_GET["location"]);
+$dataTrend = getCachedCurrentTrend($_GET["location"]);
 ?>
 
 

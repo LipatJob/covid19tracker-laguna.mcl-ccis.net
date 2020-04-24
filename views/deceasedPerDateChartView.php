@@ -17,7 +17,7 @@ $data = getCachedDeceasedPerDate($_GET["location"]);
     <!-- /.card-body -->
 </div>
 
-<script src="plugins/chart.js/Chart.min.js"></script>
+<!--<script src="plugins/chart.js/Chart.min.js"></script>-->
 <script>
 $(function() {
     /* ChartJS

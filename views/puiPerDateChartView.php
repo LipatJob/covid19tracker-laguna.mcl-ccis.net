@@ -19,7 +19,7 @@ $data = getCachedPUIPerDate($_GET["location"]);
 
 
 <!-- ChartJS -->
-<script src="plugins/chart.js/Chart.min.js"></script>
+<!--<script src="plugins/chart.js/Chart.min.js"></script>-->
 
 
 <script>

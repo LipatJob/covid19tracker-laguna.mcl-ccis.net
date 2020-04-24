@@ -35,10 +35,12 @@
     <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">-->
     
     <link rel="stylesheet" href="fontawesome/css/all.css">
-    <link rel="stylesheet" href="dist/css/adminlte.css">
-    <!--<link rel="stylesheet" href="dist/css/adminlte.min.css">-->
+    <!--<link rel="stylesheet" href="dist/css/adminlte.css">-->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
 
-    <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.css">
 
     <link rel="stylesheet" href="css/flexme.min.css">
     <link rel="stylesheet" href="css/custom.min.css">

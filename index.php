@@ -42,11 +42,6 @@ while ($time_update = mysqli_fetch_array($rx)) {
 
 <head>
     <?php include_once 'phpcore/include_header.php' ?>
-    
-    <style>
-        
-    </style>
-    <!-- END OF STYLES-->
 </head>
 
 <body>
@@ -54,14 +49,14 @@ while ($time_update = mysqli_fetch_array($rx)) {
     <div class="col col-md-12 col-lg-12 col-sm-12" style="padding: 0px; margin:0px;">
         <nav class="navbar navbar-light" id="title">
             <a style="color: white; font-size: 1.315em; font-weight: 600;">
-                <img src="imgs/apple-icon-120x120.png" class="logo-image" style="height: 36px; width: 36px; margin-right: 5px; -webkit-box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);
+                <img src="imgs/android-icon-48x48.png" class="logo-image" style="height: 36px; width: 36px; margin-right: 5px; -webkit-box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);
                 -moz-box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);
                 box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
             </a>
             <div>
-                <img src="imgs/DOH.png" class="logo-image">
-                <img src="imgs/DOH_calabarzon.png" class="logo-image">
-                <img src="imgs/mcl.png" class="logo-image">
+                <img src="imgs/DOH-min.png" class="logo-image">
+                <img src="imgs/DOH_calabarzon-min.png" class="logo-image">
+                <img src="imgs/mcl-min.png" class="logo-image">
             </div>
         </nav>
     </div>
@@ -287,11 +282,12 @@ while ($time_update = mysqli_fetch_array($rx)) {
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-        <script src="plugins/chart.js/Chart.min.js"></script>
+        <!--<script src="plugins/chart.js/Chart.min.js"></script>-->
         <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"> </script>
-        <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+        <!--<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>-->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"> </script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"> </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         
         <script>

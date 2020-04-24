@@ -63,10 +63,12 @@ function getSummary($location){
     $recoveredDeceased[0] = $RECOVERED;
     $recoveredDeceased[1] = $DECEASED;
 	
+	$query = "select max(ref_date) as MaxDate from reference_dates";
+	  $resultCount = mysqli_query($con, $query);
 	
-	date_default_timezone_set("Asia/Singapore");
-	$date = date('Y-m-d');
-	$date = date('Y-m-d', strtotime('-1 day', strtotime($date)));
+    while($extract = mysqli_fetch_array($resultCount)){
+		$date = $extract['MaxDate'];
+	}
 	$mypastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
 	$days_ago = $date;
 	$testbool = "true";
@@ -461,7 +463,8 @@ function getSummary($location){
 		"OutputPUM" => $outputPUM,
 		"OutputPUI" => $outputPUI,
 		"ThisCity" => $dbCity,
-		"ActiveCheck" => $Activecount
+		"ActiveCheck" => $Activecount,
+		"MyDate" => $date,
 		
     ];
 }
@@ -899,7 +902,7 @@ function getRecoveredPerDate($location){
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     
-    $string = "SELECT reference_date, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history WHERE reference_date >= '2020-03-31' ";
+    $string = "SELECT reference_date, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history WHERE reference_date >= '2020-03-24' ";
     
     if($location != "LAGUNA")
     {
@@ -947,7 +950,7 @@ function getDeceasedPerDate($location){
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     
-    $string = "SELECT reference_date, sum(current_deceased) AS TOTAL_DECEASED from barangay_history WHERE reference_date >= '2020-03-31' ";
+    $string = "SELECT reference_date, sum(current_deceased) AS TOTAL_DECEASED from barangay_history WHERE reference_date >= '2020-03-24' ";
 
     if($location != "LAGUNA")
     {

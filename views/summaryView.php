@@ -1,18 +1,12 @@
 <?php
 include "../repository/cachedqueries.php";
-date_default_timezone_set("Asia/Singapore");
-$date = date('Y-m-d');
-$date = date('Y-m-d', strtotime('-1 day', strtotime($date)));
+$data = getCachedSummary($_GET["location"]);
+$date = $data['MyDate'];
 $pastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
 $outputdate = date('M. d', strtotime($pastdate));
-$data = getCachedSummary($_GET["location"]);
 $number = 1;
 $number2 = 1;
-$number3 = 5;
-if($data['ThisCity'] == 'ALL')
-{
-	$number = 5;
-}
+$number3 = 1;
 
 ?>
 

@@ -289,9 +289,10 @@ while ($time_update = mysqli_fetch_array($rx)) {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="plugins/chart.js/Chart.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"> </script>
-    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>-->
+    <!--<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"> </script>-->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"> </script>
+    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
         //INITIALIZE NAVBAR

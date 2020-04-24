@@ -1,6 +1,6 @@
 <?php
-include "../repository/queries.php";
-$data = getSummary($_GET["location"]);
+include "../repository/cachedqueries.php";
+$data = getCachedSummary($_GET["location"]);
 $date = $data['MyDate'];
 $pastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
 $outputdate = date('M. d', strtotime($pastdate));

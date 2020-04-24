@@ -176,10 +176,6 @@ box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
 </div>
 <!-- END OF NAVIGATION BAR-->
 <!-- END OF NAVIGATION BAR-->
-     <script>
-            //INITIALIZE NAVBAR
-            $("#sourcesNav a").addClass("active");
-        </script>
 
 
     <div class="main-parent-container">
@@ -315,6 +311,7 @@ box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
             <!-- DataTables -->
             <script src="plugins/datatables/jquery.dataTables.js"></script>
             <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
             <script>
                 $('').DataTable({
@@ -327,23 +324,13 @@ box-shadow: 1px 1px 5px 0px rgba(252,247,252,1);">COVID-19 Case Tracker
                 });
             </script>
             <script>
-                 $(function() {  
-                    
+                 jQuery(function($) {  
                     $(document).ready(function(e) {
-                    $.ajaxSetup({cache:false});
-
-                    <?php
-                        date_default_timezone_set('Asia/Manila');
-                        // Prints something like: Monday 8th of August 2005 03:12:46 PM
-                        //echo date('l\, jS \of F Y \| h:i:s A');
-                        $date = date('l\, jS \of F Y \| ');
-                    ?>
-
-                    var date = "<?php echo $date; ?>";
-
-                    setInterval(function() {
-                        $('#mcl_timer').html(date + new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1"));
-                    }, 1000);
+                        $("#sourcesNav a").addClass("active");
+                        setInterval(function() {
+                    var date = moment(new Date());
+                    $('#mcl_timer').html(date.format('dddd, Do of MMMM YYYY | h:mm:ss a'));
+                }, 1000);
                 });
                 
             })

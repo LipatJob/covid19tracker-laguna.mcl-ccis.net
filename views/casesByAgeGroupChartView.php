@@ -17,7 +17,7 @@ $data = getCachedCasesByAgeGroup($_GET["location"]);
 </div>
 
 
-<script src="plugins/chart.js/Chart.min.js"></script>
+<!--<script src="plugins/chart.js/Chart.min.js"></script>-->
 
 <!-- page script -->
 <script>

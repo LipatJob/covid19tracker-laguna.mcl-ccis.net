@@ -1,8 +1,8 @@
 <?php
-    include "../repository/queries.php";
-    $data = getRecoveredPerDate($_GET["location"]);
-    $dataDeceased = getDeceasedPerDate($_GET["location"]);
-    $summary = getSummary($_GET["location"]);
+    include "../repository/cachedqueries.php";
+    $data = getCachedRecoveredPerDate($_GET["location"]);
+    $dataDeceased = getCachedDeceasedPerDate($_GET["location"]);
+    $summary = getCachedSummary($_GET["location"]);
     $recoveryPercent = [];
     $deceasedPercent = [];
 
@@ -35,7 +35,7 @@
 
 
 
-<script src="plugins/chart.js/Chart.min.js"></script>
+<!--<script src="plugins/chart.js/Chart.min.js"></script>-->
 
 <script>
 $(function() {
@@ -134,7 +134,7 @@ $(function() {
             yAxes: [{
                 ticks: {
                     beginAtZero: true,
-                    suggestedMax: 50,
+                    suggestedMax: 30,
                     callback: function(value) {
                         if (value % 1 === 0) {
                             return value;

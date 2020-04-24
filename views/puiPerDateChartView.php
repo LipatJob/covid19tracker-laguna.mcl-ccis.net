@@ -1,6 +1,6 @@
 <?php
-include "../repository/queries.php";
-$data = getPUIPerDate($_GET["location"]);
+include "../repository/cachedqueries.php";
+$data = getCachedPUIPerDate($_GET["location"]);
 ?>
 
 
@@ -19,7 +19,7 @@ $data = getPUIPerDate($_GET["location"]);
 
 
 <!-- ChartJS -->
-<script src="plugins/chart.js/Chart.min.js"></script>
+<!--<script src="plugins/chart.js/Chart.min.js"></script>-->
 
 
 <script>

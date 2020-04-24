@@ -1,6 +1,6 @@
 <?php
-include "../repository/queries.php";
-$data = getSummaryPerCityMunicipalityChart($_GET["location"]);
+include "../repository/cachedqueries.php";
+$data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
 ?>
 
 
@@ -12,7 +12,7 @@ $data = getSummaryPerCityMunicipalityChart($_GET["location"]);
         </div>
     </div>
 
-    <script src="plugins/chart.js/Chart.min.js"></script>
+    <!--<script src="plugins/chart.js/Chart.min.js"></script>-->
 
     <script>
     $(function() {

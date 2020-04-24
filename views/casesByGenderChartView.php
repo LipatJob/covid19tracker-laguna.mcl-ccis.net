@@ -1,6 +1,6 @@
 <?php
-include "../repository/queries.php";
-$data = getCasesByGender($_GET["location"]);
+include "../repository/cachedqueries.php";
+$data = getCachedCasesByGender($_GET["location"]);
 ?>
 <div class="card card-danger2">
     <div class="card-header">
@@ -12,7 +12,7 @@ $data = getCasesByGender($_GET["location"]);
     <!-- /.card-body -->
 </div>
 
-<script src="plugins/chart.js/Chart.min.js"></script>
+<!--<script src="plugins/chart.js/Chart.min.js"></script>-->
 
 <!-- page script -->
 <script>

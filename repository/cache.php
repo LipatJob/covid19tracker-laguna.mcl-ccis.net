@@ -8,6 +8,21 @@
 */
 
 
+// CACHE SETTINGS
+function isCacheDisabled(){
+    return FALSE;
+}
+
+function isDebugMode(){
+    return FALSE;
+}
+
+function getCacheExpiryTime(){
+    return 30;
+}
+//END OF CACHE SETTINGS
+
+
 /**
 * Returns the data given the function key. Executes the function and
 * caches the data if needed or gets the cached data if cache exists and is not expired
@@ -17,28 +32,30 @@
 * @param string $functionKey a unique string to identify cached data in storage. The function key may only contain alphanumeric numbers or space.
 */
 function getCached($functionKey, $functionToCache, $parameters){
+    if(isCacheDisabled()) return $functionToCache($parameters);
+
     date_default_timezone_set('Asia/Singapore');
     validateFunctionKey($functionKey) or die("Invalid function key"); //Validation
 
     $data = [];
     if(isCached($functionKey)){ //If the function is cached and data is not expired return the cached version of the data,
-        echo $functionKey.": CACHED FILE FOUND <br>"; //DEBUG
+        /*DEBUG*/ if(isDebugMode()) echo $functionKey.": CACHED FILE FOUND <br>"; //DEBUG
         $data = retrieveCache($functionKey);
         if(isCacheExpired($data)){ //Cache again if cache is expired
-            echo $functionKey.": CACHED EXPIRED. STARTING CACHE <br>"; //DEBUG
+            /*DEBUG*/ if(isDebugMode()) echo $functionKey.": CACHED EXPIRED. STARTING CACHE <br>"; //DEBUG
             $data = $functionToCache($parameters);
             doCache($functionKey, $data);
-            echo $functionKey.": CACHING COMPLETE <br>"; //DEBUG
+            /*DEBUG*/ if(isDebugMode()) echo $functionKey.": CACHING COMPLETE <br>"; //DEBUG
         }else{
-            echo $functionKey. ": USING CACHED FILE <br>"; //DEBUG
+            /*DEBUG*/ if(isDebugMode()) echo $functionKey. ": USING CACHED FILE <br>"; //DEBUG
         }
     }else{ //else cache the function and return the data 
-        echo $functionKey. ": FUNCITON NOT CACHED. STARTING CACHE <br>";   //DEBUG
+        /*DEBUG*/ if(isDebugMode()) echo $functionKey. ": FUNCITON NOT CACHED. STARTING CACHE <br>";   //DEBUG
         $data = $functionToCache($parameters);
         doCache($functionKey, $data);
-        echo $functionKey.": CACHING COMPLETE <br>";   //DEBUG
+        /*DEBUG*/ if(isDebugMode()) echo $functionKey.": CACHING COMPLETE <br>";   //DEBUG
     }
-    echo "<br>"; //DEBUG
+    /*DEBUG*/ if(isDebugMode()) echo "<br>"; 
     return $data;
 }
 
@@ -86,7 +103,7 @@ function isCacheExpired($data){
     $currentDateTime->format("Y-m-d H:i:s");
     //Get DateTime of cached data
     $cacheDateTime = new DateTime($data["DateTimeCached"]["date"]) or die("There was an error with the date format of the cached data");
-    if(getMinuteDateDifference($cacheDateTime, $currentDateTime) <= 5){
+    if(getMinuteDateDifference($cacheDateTime, $currentDateTime) < getCacheExpiryTime()){
         return FALSE;
     }
     return TRUE;
@@ -119,14 +136,14 @@ function writeCacheFile($functionKey, $data){
  * @return int the difference between the dates
  */
 function getMinuteDateDifference($date1, $date2){
-    echo $date1->format("Y-m-d h:i").", ".$date2->format("Y-m-d h:i")." ";
+    /*DEBUG*/ if(isDebugMode())  echo $date1->format("Y-m-d h:i").", ".$date2->format("Y-m-d h:i")." ";
     $dateDiff = $date1->diff($date2, TRUE); //get difference
     $minuteDiff = 0;
     $minuteDiff += (43800 * $dateDiff->m);  //month
     $minuteDiff += (1440 * $dateDiff->d);   //day
     $minuteDiff += (60 * $dateDiff->h);     //hour
     $minuteDiff += ($dateDiff->i);          //minutes
-    echo "Minutes Since Cached: ".$minuteDiff."<br>"; //DEBUG
+    /*DEBUG*/ if(isDebugMode())  echo "Minutes Since Cached: ".$minuteDiff."<br>"; //DEBUG
     return $minuteDiff;
 }
 
@@ -142,15 +159,15 @@ function validateFunctionKey($functionKey){
 }
 
 function testCache(){
-    echo "STARTING CACHE TEST <br>";
+    /*DEBUG*/ if(isDebugMode()) echo "STARTING CACHE TEST <br>";
     $passed = 0;
     $failed = 0;
     include "queries.php";
     $newData = getCached("test2", 'getCasesByAgeGroup', "LAGUNA");
     print_r($newData);
-    echo "cached created";
+    /*DEBUG*/ if(isDebugMode()) echo "cached created";
 
-    echo "PASSED:". $passed. ". FAILED: ".$failed;
+    /*DEBUG*/ if(isDebugMode()) echo "PASSED:". $passed. ". FAILED: ".$failed;
 }
 
 

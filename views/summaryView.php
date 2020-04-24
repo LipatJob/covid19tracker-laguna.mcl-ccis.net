@@ -6,7 +6,7 @@ $pastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
 $outputdate = date('M. d', strtotime($pastdate));
 $number = 1;
 $number2 = 1;
-$number3 = 5;
+$number3 = 1;
 
 ?>
 

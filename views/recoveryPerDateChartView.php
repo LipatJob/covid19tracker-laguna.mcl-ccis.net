@@ -1,8 +1,8 @@
 <?php
-    include "../repository/cachedqueries.php";
-    $data = getCachedRecoveredPerDate($_GET["location"]);
-    $dataDeceased = getCachedDeceasedPerDate($_GET["location"]);
-    $summary = getCachedSummary($_GET["location"]);
+    include "../repository/queries.php";
+    $data = getRecoveredPerDate($_GET["location"]);
+    $dataDeceased = getDeceasedPerDate($_GET["location"]);
+    $summary = getSummary($_GET["location"]);
     $recoveryPercent = [];
     $deceasedPercent = [];
 
@@ -134,7 +134,7 @@ $(function() {
             yAxes: [{
                 ticks: {
                     beginAtZero: true,
-                    suggestedMax: 30,
+                    suggestedMax: 50,
                     callback: function(value) {
                         if (value % 1 === 0) {
                             return value;

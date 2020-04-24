@@ -1,6 +1,6 @@
 <?php
-include "../repository/cachedqueries.php";
-$data = getCachedDeceasedPerDate($_GET["location"]);
+include "../repository/queries.php";
+$data = getDeceasedPerDate($_GET["location"]);
 ?>
 
 

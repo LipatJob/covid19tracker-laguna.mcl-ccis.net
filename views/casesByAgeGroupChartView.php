@@ -1,6 +1,6 @@
 <?php
-include "../repository/cachedqueries.php";
-$data = getCachedCasesByAgeGroup($_GET["location"]);
+include "../repository/queries.php";
+$data = getCasesByAgeGroup($_GET["location"]);
 ?>
 
 

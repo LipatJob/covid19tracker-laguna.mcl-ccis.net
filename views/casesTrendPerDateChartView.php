@@ -1,7 +1,6 @@
 <?php
-include "../repository/cachedqueries.php";
-
-$data = getCachedCurrentTrend($_GET["location"]);
+include "../repository/queries.php";
+$data = getCurrentTrend($_GET["location"]);
 ?>
 
 

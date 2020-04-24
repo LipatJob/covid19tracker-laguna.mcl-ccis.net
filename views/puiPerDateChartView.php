@@ -1,6 +1,6 @@
 <?php
-include "../repository/cachedqueries.php";
-$data = getCachedPUIPerDate($_GET["location"]);
+include "../repository/queries.php";
+$data = getPUIPerDate($_GET["location"]);
 ?>
 
 

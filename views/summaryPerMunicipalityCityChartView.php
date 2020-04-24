@@ -1,6 +1,6 @@
 <?php
-include "../repository/cachedqueries.php";
-$data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
+include "../repository/queries.php";
+$data = getSummaryPerCityMunicipalityChart($_GET["location"]);
 ?>
 
 

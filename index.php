@@ -58,14 +58,14 @@ while ($time_update = mysqli_fetch_array($rx)) {
                         <h6 style="padding-left: 15px; font-weight: 400;">SUMMARY AS OF <?php echo $last_update ?></h6>
                     </h4>
                 </div>
-
+                
                 <div class="col-lg-3 col-md-12 col-sm-12">
                     <div class="info-box bg-info">
                         <span class="info-box-icon"><i class="fa fa-flag"></i></span>
-
+                        
                         <div class="info-box-content ">
                             <span class="info-box-text" style="padding: 3px;">Select City / Municipality</span>
-
+                            
                             <select id='city' class="form-control" style="padding: 0px; margin: 0px;">
                                 <option value='LAGUNA'>LAGUNA</option>
                                 <?php
@@ -91,7 +91,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
             </div>
         </div>
     </div>
-
+    
     <!-- Counts-->
     <div class="container-fluid" id="summary">
         <style>
@@ -100,10 +100,10 @@ while ($time_update = mysqli_fetch_array($rx)) {
         }
         </style>
         <div class="row">
-
+            
         </div>
     </div>
-
+    
     <!-- Graphs -->
     <div class="container-fluid">
         <div class="row">
@@ -116,7 +116,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
                 <div id='currentTrendChart' class="item-container"></div>
             </div>
         </div>
-
+        
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <!-- PUI PER DATE -->
@@ -127,7 +127,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
                 <div id='recoveryPerDateChart' class="item-container"></div>
             </div>
         </div>
-
+        
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <!-- CASES BY GENDER -->
@@ -138,7 +138,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
                 <div id='casesByAgeGroupChart' class="item-container"></div>
             </div>
         </div>
-
+        
         <div class="item-container">
             <div class="card card-danger2">
                 <div class="card-header">
@@ -146,6 +146,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
                     <div style="float:right;" class="btn-group btn-group-toggle" data-toggle="buttons">
                         <button type="button" id='toggleLocal' class="btn btn-sm btn-primary" value="graph">SWITCH TO
                             TABLE VIEW</button>
+                        </div>
                     </div>
                 </div>
                 <div id='summaryPerMunicipalityCityChart'>
@@ -206,9 +207,15 @@ while ($time_update = mysqli_fetch_array($rx)) {
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
-
                 </div>
+                
+                
+                
+                <!-- END OF MAIN CONTENT-->
+            </div>
+            <div class="modal-footer">
             </div>
 
 

@@ -577,7 +577,7 @@ function getCasesPerDate($location){
 
     if($location != "LAGUNA")
     {
-        $string.="AND City.CityName = '$location' GROUP BY reference_date";
+        $string.="AND city.CityName = '$location' GROUP BY reference_date";
     }
     else
     {

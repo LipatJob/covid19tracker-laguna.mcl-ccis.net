@@ -219,7 +219,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
     </div>
     </div>
     
-    <?php include("legacy/viewModal.php") ?>
+    
     <!-- INCLUDE FOOTER-->
     <?php include("template/footer.php") ?>
 
@@ -234,6 +234,8 @@ while ($time_update = mysqli_fetch_array($rx)) {
         src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"> </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
+    <?php include("legacy/viewModal.php") ?>
+    
     <script>
     //INITIALIZE NAVBAR
     $("#indexNav a").addClass("active");

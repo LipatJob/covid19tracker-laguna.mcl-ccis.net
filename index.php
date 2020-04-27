@@ -218,7 +218,8 @@ while ($time_update = mysqli_fetch_array($rx)) {
     </div>
     </div>
     </div>
-
+    
+    <?php include("legacy/viewModal.php") ?>
     <!-- INCLUDE FOOTER-->
     <?php include("template/footer.php") ?>
 

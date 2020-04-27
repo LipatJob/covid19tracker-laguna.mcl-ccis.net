@@ -564,11 +564,20 @@ function getCasesPerDate($location){
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     
-    $string = "SELECT reference_date, sum(current_positive_case) AS current,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_recovered) AS CURRENT_RECOVERED from barangay_history WHERE reference_date >= '2020-03-25' ";
-    
+    //$string = "SELECT reference_date, sum(current_positive_case) AS current,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_recovered) AS CURRENT_RECOVERED from barangay_history WHERE reference_date >= '2020-03-25' ";
+    $string = "SELECT refDates.ref_date as reference_date, sum(brgynew.current_positive_case) as current, sum(brgynew.total_positive_cases) as TOTAL_POSITIVE_CASES, sum(brgynew.current_recovered) as CURRENT_RECOVERED
+                FROM barangay_history_new brgynew
+                    INNER JOIN reference_dates refDates
+                    ON brgynew.refDateID = refDates.ID
+                    INNER JOIN Barangay brgy
+                    ON brgynew.barangayID = brgy.ID
+                    INNER JOIN City city
+                    on brgy.CityID = city.ID 
+                    WHERE refDates.ref_date >= '2020-03-25' ";
+
     if($location != "LAGUNA")
     {
-        $string.="AND city_municipality = '$location' GROUP BY reference_date";
+        $string.="AND City.CityName = '$location' GROUP BY reference_date";
     }
     else
     {
@@ -792,7 +801,7 @@ function getCasesByGender($location){
     $permale = 0;
     else
     $permale = number_format($male/$genSum*100, 2, '.', '');
-    if($fem==0)
+    if($fem == 0)
     $perfem = 0;
     else
     $perfem = number_format($fem/$genSum*100, 2, '.', '');

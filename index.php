@@ -259,7 +259,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
 
 
         //INITIALIZE VIDEO
-        //$('#videomodal').modal('show');
+        $('#videomodal').modal('show');
         $('.modal').on('hidden.bs.modal', function(e) {
             $iframe = $(this).find("iframe");
             $iframe.attr("src", $iframe.attr("src"));

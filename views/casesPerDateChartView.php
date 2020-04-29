@@ -37,19 +37,8 @@ $(function() {
     var areaChartData = {
         labels: <?php echo json_encode($data["Dates"]) ?> ,
         datasets: [{
-            label: 'CONFIRMED',
-            type: 'line',
-            backgroundColor: '#6BC9FF',
-            borderColor: '#1988C8',
-            pointRadius: true,
-            pointColor: '#3b8bba',
-            pointStrokeColor: 'rgba(60,141,188, .5)',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: 'rgba(60,141,188, .5)',
-            data: <?php echo json_encode($data["TotalPositiveCases"]) ?>
-        },{
             label: 'ACTIVE CASES',
-            type: 'bar',
+            type: 'line',
             backgroundColor: '#008080',
             borderColor: '#008080',
             pointRadius: true,
@@ -58,6 +47,17 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
             data: <?php echo json_encode($dataTrend["ActiveCases"]) ?>
+        },{
+            label: 'CONFIRMED',
+            type: 'line',
+            backgroundColor: '#1988C8',
+            borderColor: '#1988C8',
+            pointRadius: true,
+            pointColor: '#3b8bba',
+            pointStrokeColor: 'rgba(60,141,188, .5)',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(60,141,188, .5)',
+            data: <?php echo json_encode($data["TotalPositiveCases"]) ?>
         }]
     }
 
@@ -124,11 +124,12 @@ $(function() {
     var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
     var lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
     var lineChartData = jQuery.extend(true, {}, areaChartData)
-    lineChartData.datasets[0].fill = false;
+    lineChartData.datasets[0].fill = true;
+    lineChartData.datasets[1].fill = true;
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'bar',
+        type: 'line',
         data: lineChartData,
         options: lineChartOptions
     })

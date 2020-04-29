@@ -18,7 +18,7 @@ function getMinDate() {
 }
 
 function setFirstDate() {
-    $isMonthName = true;
+    $isMonthName = false;
 
     return $isMonthName ? date("F", strtotime(getMinDate()->format("Y-m-d"))) : getMinDate()->format("m-d");
 }
@@ -758,7 +758,8 @@ function getSummaryPerCityMunicipalityChart($location){
                     on brgynew.refDateID = refDates.ID 
                     WHERE city.CityName = '" . $location . "' and brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates)) 
                     AND NOT (brgynew.total_positive_cases = 0 AND brgynew.current_deceased = 0 AND brgynew.current_recovered = 0)
-                    GROUP BY barangay";
+                    GROUP BY barangay
+                    ORDER BY TOTAL_POSITIVE_CASES DESC";
         
         $result1 = mysqli_query($con,$string);
         while($extract = mysqli_fetch_array($result1)){
@@ -783,7 +784,8 @@ function getSummaryPerCityMunicipalityChart($location){
                     INNER JOIN reference_dates refDates
                     on brgynew.refDateID = refDates.ID 
                     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates)) 
-                    GROUP BY city";
+                    GROUP BY city
+                    ORDER BY TOTAL_POSITIVE_CASES DESC";
         
         $result1 = mysqli_query($con,$string);
         

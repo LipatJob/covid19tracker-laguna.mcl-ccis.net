@@ -76,6 +76,7 @@ $(function() {
             pointStrokeColor: '#c1c7d1',
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
+            lineTension: 0,
             data: <?php echo json_encode($dataDeceased['CumulativeDeceased']) ?>
         },{
             label: 'RECOVERED CASES',
@@ -87,6 +88,7 @@ $(function() {
             pointStrokeColor: '#c1c7d1',
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
+            lineTension: 0,
             data: <?php echo json_encode($data['CumulativeRecovered']) ?>
         }/*,{
             label: 'CONFIRMED',
@@ -105,6 +107,14 @@ $(function() {
 
     var areaChartOptions = {
         maintainAspectRatio: false,
+        tooltips: {
+            mode: 'index',
+            intersect: false
+        },
+        hover: {
+            mode: 'index',
+            intersect: false
+        },
         responsive: true,
         legend: {
             labels: {

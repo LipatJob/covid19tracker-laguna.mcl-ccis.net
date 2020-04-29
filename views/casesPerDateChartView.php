@@ -39,6 +39,7 @@ $(function() {
         datasets: [{
             label: 'ACTIVE CASES',
             type: 'line',
+            lineTension: 0,  
             backgroundColor: '#008080',
             borderColor: '#008080',
             pointRadius: true,
@@ -50,6 +51,7 @@ $(function() {
         },{
             label: 'CONFIRMED',
             type: 'line',
+            lineTension: 0,
             backgroundColor: '#1988C8',
             borderColor: '#1988C8',
             pointRadius: true,
@@ -64,6 +66,14 @@ $(function() {
     var areaChartOptions = {
         maintainAspectRatio: false,
         responsive: true,
+        tooltips: {
+            mode: 'index',
+            intersect: false
+        },
+        hover: {
+            mode: 'index',
+            intersect: false
+        },
         legend: {
             labels: {
                 filter: function(item, chart) {

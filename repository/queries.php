@@ -11,6 +11,18 @@ function getConnection(){
     return $con;
 }
 
+function getMinDate() {
+    //Temporary
+    //Better if coming from .ini file or DB
+    return new DateTime("2020-03-31");
+}
+
+function setFirstDate() {
+    $isMonthName = true;
+
+    return $isMonthName ? date("F", strtotime(getMinDate()->format("Y-m-d"))) : getMinDate()->format("m-d");
+}
+
 /**
 * This function returns the values return for the summary part of the website
 * @param $string $location: The desired location
@@ -493,7 +505,7 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID
-            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '2020-03-25' GROUP BY reference_date
+            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '" . getMinDate()->format("Y-m-d") . "' GROUP BY reference_date
             
         UNION ALL
         SELECT refDates.ref_date as reference_date, sum(casesN.current_probable_PUI) as PROBABLE, sum(casesN.current_suspect_PUI) as SUSPECT, sum(casesN.total_PUI) as TOTALPUI FROM barangay_history_new brgynew
@@ -505,7 +517,7 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID
-            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '2020-03-25' GROUP BY reference_date";
+            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '" . getMinDate()->format("Y-m-d") . "' GROUP BY reference_date";
 
         //$string.="AND city_municipality = '$location' GROUP BY reference_date";
         //$string.="WHERE city.CityName = '" . $location . "' GROUP BY refDates.ref_date";
@@ -522,7 +534,7 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID 
-            WHERE refDates.ref_date >= '2020-03-25'
+            WHERE refDates.ref_date >= '" . getMinDate()->format("Y-m-d") . "'
             GROUP BY refDates.ref_date
         UNION ALL
         SELECT refDates.ref_date as reference_date, sum(casesN.current_probable_PUI) as PROBABLE, sum(casesN.current_suspect_PUI) as SUSPECT, sum(casesN.total_PUI) as TOTALPUI FROM barangay_history_new brgynew
@@ -534,7 +546,7 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID 
-            WHERE refDates.ref_date >= '2020-03-25'
+            WHERE refDates.ref_date >= '" . getMinDate()->format("Y-m-d") . "'
             GROUP BY refDates.ref_date ORDER BY reference_date";
     }
 
@@ -547,6 +559,9 @@ function getPUIPerDate($location){
         $totalCases[$i] = $extract['TOTALPUI'];
         $i++;
     }
+
+    $dates[0] = setFirstDate();
+
     return [
         "Dates" => $dates,
         //"PUI" => $pui,
@@ -564,7 +579,7 @@ function getCasesPerDate($location){
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     
-    //$string = "SELECT reference_date, sum(current_positive_case) AS current,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_recovered) AS CURRENT_RECOVERED from barangay_history WHERE reference_date >= '2020-03-25' ";
+    //$string = "SELECT reference_date, sum(current_positive_case) AS current,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_recovered) AS CURRENT_RECOVERED from barangay_history WHERE reference_date >= '" . getMinDate()->format("Y-m-d") . "' ";
     $string = "SELECT refDates.ref_date as reference_date, sum(brgynew.current_positive_case) as current, sum(brgynew.total_positive_cases) as TOTAL_POSITIVE_CASES, sum(brgynew.current_recovered) as CURRENT_RECOVERED
                 FROM barangay_history_new brgynew
                     INNER JOIN reference_dates refDates
@@ -573,7 +588,7 @@ function getCasesPerDate($location){
                     ON brgynew.barangayID = brgy.ID
                     INNER JOIN City city
                     on brgy.CityID = city.ID 
-                    WHERE refDates.ref_date >= '2020-03-25' ";
+                    WHERE refDates.ref_date >= '" . getMinDate()->format("Y-m-d") . "' ";
 
     if($location != "LAGUNA")
     {
@@ -592,6 +607,8 @@ function getCasesPerDate($location){
         $recovered[$i] = intval($extract['CURRENT_RECOVERED']);
         $i++;
     }
+
+    $dates[0] = setFirstDate();
     
     return [
         "Dates" => $dates,
@@ -926,7 +943,7 @@ function getRecoveredPerDate($location){
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     
-    $string = "SELECT reference_date, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history WHERE reference_date >= '2020-03-24' ";
+    $string = "SELECT reference_date, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history WHERE reference_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' ";
     
     if($location != "LAGUNA")
     {
@@ -959,6 +976,8 @@ function getRecoveredPerDate($location){
 
     array_shift($dates);
 
+    $dates[0] = setFirstDate();
+
     return [
         "Dates" => $dates,
         "Recovered" => $specificRecovered,
@@ -974,7 +993,7 @@ function getDeceasedPerDate($location){
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     
-    $string = "SELECT reference_date, sum(current_deceased) AS TOTAL_DECEASED from barangay_history WHERE reference_date >= '2020-03-24' ";
+    $string = "SELECT reference_date, sum(current_deceased) AS TOTAL_DECEASED from barangay_history WHERE reference_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' ";
 
     if($location != "LAGUNA")
     {
@@ -1006,6 +1025,8 @@ function getDeceasedPerDate($location){
     }
 
     array_shift($dates);
+
+    $dates[0] = setFirstDate();
     
     return [
         "Dates" => $dates,
@@ -1174,7 +1195,7 @@ function getCurrentTrend ($location){
         ON brgynew.barangayID = brgy.ID
         INNER JOIN City city
         on brgy.CityID = city.ID 
-        WHERE refDates.ref_date >= '2020-03-24' and city.cityName = '" . $location . "'
+        WHERE refDates.ref_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' and city.cityName = '" . $location . "'
         GROUP BY refDates.ref_date;";
     }
     else
@@ -1191,7 +1212,7 @@ function getCurrentTrend ($location){
         ON brgynew.barangayID = brgy.ID
         INNER JOIN City city
         on brgy.CityID = city.ID 
-        WHERE refDates.ref_date >= '2020-03-24' 
+        WHERE refDates.ref_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' 
         GROUP BY refDates.ref_date";
     }
 
@@ -1216,13 +1237,13 @@ function getCurrentTrend ($location){
         $totalRecoveryDeceased[$j] = $recoveredPerDay[$j] + $deceasedPerDay[$j];
     }
 
-    if ($dates[0] < '03-25') {
-        array_shift($dates);
-        array_shift($activecases);
-        array_shift($newcases);
-        array_shift($recovered);
-    }
-    
+    array_shift($dates);
+    array_shift($activecases);
+    array_shift($newcases);
+    array_shift($recovered);
+
+    $dates[0] = setFirstDate();
+
     return [
         "dates" => $dates,
         "ActiveCases" => $activecases,

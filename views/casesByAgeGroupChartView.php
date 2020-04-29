@@ -62,14 +62,14 @@ $(function() {
                 data: <?php echo json_encode($data["DeceasedPercentage"]) ?>
             },
             {
-                label: 'CONFIRMED',
-                backgroundColor: 'rgba(60,141,188,0.5)',
-                borderColor: 'rgba(60,141,188,0.5)',
+                label: 'ACTIVE CASES',
+                backgroundColor: 'rgba(0,128,128, 0.8)',
+                borderColor: 'rgba(0,128,128, 0.8)',
                 pointRadius: false,
-                pointColor: 'rgba(60,141,188,0.5)',
-                pointStrokeColor: 'rgba(60,141,188,0.5)',
+                pointColor: 'rgba(0,128,128, 0.8)',
+                pointStrokeColor: 'rgba(0,128,128, 0.8)',
                 pointHighlightFill: '#fff',
-                pointHighlightStroke: 'rgba(60,141,188,0.5)',
+                pointHighlightStroke: 'rgba(0,128,128, 0.8)',
                 data: <?php echo json_encode($data["CurrentPercentage"]) ?>
             },
 

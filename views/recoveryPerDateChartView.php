@@ -42,7 +42,7 @@ $(function() {
 
     var areaChartData = {
         labels: <?php echo json_encode($data["Dates"]) ?> ,
-        datasets: [{
+        datasets: [/*{
             label: 'RECOVERY RATE',
             type: 'line',
             backgroundColor: 'rgba(42, 187, 155, 1)',
@@ -64,7 +64,7 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
             data: <?php echo json_encode($deceasedPercent) ?>
-        },{
+        },*/{
             label: 'RECOVERED CASES',
             type: 'bar',
             backgroundColor: 'rgba(42, 187, 155, 1)',
@@ -134,7 +134,7 @@ $(function() {
             yAxes: [{
                 ticks: {
                     beginAtZero: true,
-                    suggestedMax: 30,
+                    //suggestedMax: 30,
                     callback: function(value) {
                         if (value % 1 === 0) {
                             return value;

@@ -747,7 +747,19 @@ function getSummaryPerCityMunicipalityChart($location){
     {
         $header = "TOTAL CASES FOR $location";
         
-        $string = "SELECT barangay,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where city_municipality='$location' AND reference_date IN (SELECT MAX(reference_date) from barangay_history where city_municipality='$location') AND NOT (total_positive_cases = 0 AND current_deceased = 0 AND current_recovered = 0) GROUP BY barangay";
+        //$string = "SELECT barangay,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where city_municipality='$location' AND reference_date IN (SELECT MAX(reference_date) from barangay_history where city_municipality='$location') AND NOT (total_positive_cases = 0 AND current_deceased = 0 AND current_recovered = 0) GROUP BY barangay";
+        $string = "SELECT brgy.BarangayName AS barangay, SUM(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, SUM(brgynew.current_deceased) AS TOTAL_DECEASED, SUM(brgynew.current_recovered) AS TOTAL_RECOVERED
+                FROM barangay_history_new as brgynew
+                    INNER JOIN Barangay as brgy
+                    on brgynew.barangayID = brgy.ID
+                    INNER JOIN City as city
+                    on brgy.CityID = city.ID
+                    INNER JOIN reference_dates refDates
+                    on brgynew.refDateID = refDates.ID 
+                    WHERE city.CityName = '" . $location . "' and brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates)) 
+                    AND NOT (brgynew.total_positive_cases = 0 AND brgynew.current_deceased = 0 AND brgynew.current_recovered = 0)
+                    GROUP BY barangay";
+        
         $result1 = mysqli_query($con,$string);
         while($extract = mysqli_fetch_array($result1)){
             
@@ -761,7 +773,18 @@ function getSummaryPerCityMunicipalityChart($location){
     else
     {
         $header = "TOTAL CASES PER CITY/MUNICIPALITY";
-        $string = "SELECT city_municipality AS city,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where reference_date IN (SELECT MAX(reference_date) from barangay_history) GROUP BY city_municipality";
+        //$string = "SELECT city_municipality AS city,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where reference_date IN (SELECT MAX(reference_date) from barangay_history) GROUP BY city_municipality";
+        $string  = "SELECT city.CityName AS city, SUM(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, SUM(brgynew.current_deceased) AS TOTAL_DECEASED, SUM(brgynew.current_recovered) AS TOTAL_RECOVERED
+                FROM barangay_history_new as brgynew
+                    INNER JOIN Barangay as brgy
+                    on brgynew.barangayID = brgy.ID
+                    INNER JOIN City as city
+                    on brgy.CityID = city.ID
+                    INNER JOIN reference_dates refDates
+                    on brgynew.refDateID = refDates.ID 
+                    WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates)) 
+                    GROUP BY city";
+        
         $result1 = mysqli_query($con,$string);
         
         while($extract = mysqli_fetch_array($result1)){
@@ -828,8 +851,6 @@ function getCasesByGender($location){
 
 function getCasesByAgeGroup($location){
     $con = getConnection();
-    
-    
     
     $strage2 = "SELECT COUNT(age) AS age, case_status FROM individual_cases WHERE AGE >= 80 ";
     $strage3 = "SELECT COUNT(city_municipality) AS age, case_status FROM individual_cases WHERE AGE = -1 ";
@@ -943,15 +964,25 @@ function getRecoveredPerDate($location){
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     
-    $string = "SELECT reference_date, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history WHERE reference_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' ";
-    
+    //$string = "SELECT reference_date, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history WHERE reference_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' ";
+    $string = "SELECT refDates.ref_date AS reference_date, SUM(brgynew.current_recovered) AS TOTAL_RECOVERED
+            FROM barangay_history_new as brgynew
+                INNER JOIN Barangay as brgy
+                on brgynew.barangayID = brgy.ID
+                INNER JOIN City as city
+                on brgy.CityID = city.ID
+                INNER JOIN reference_dates refDates
+                on brgynew.refDateID = refDates.ID 
+                WHERE refDates.ref_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "'";
+
+
     if($location != "LAGUNA")
     {
-        $string.="AND city_municipality = '$location' GROUP BY reference_date";
+        $string .= " AND city.CityName = '$location' GROUP BY reference_date";
     }
     else
     {
-        $string.=" GROUP BY reference_date";
+        $string .= " GROUP BY reference_date";
     }
     
     $result2 = mysqli_query($con,$string);
@@ -993,15 +1024,25 @@ function getDeceasedPerDate($location){
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     
-    $string = "SELECT reference_date, sum(current_deceased) AS TOTAL_DECEASED from barangay_history WHERE reference_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' ";
+    //$string = "SELECT reference_date, sum(current_deceased) AS TOTAL_DECEASED from barangay_history WHERE reference_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' ";
+    $string = "SELECT refDates.ref_date AS reference_date, SUM(brgynew.current_deceased) AS TOTAL_DECEASED
+        FROM barangay_history_new as brgynew
+            INNER JOIN Barangay as brgy
+            on brgynew.barangayID = brgy.ID
+            INNER JOIN City as city
+            on brgy.CityID = city.ID
+            INNER JOIN reference_dates refDates
+            on brgynew.refDateID = refDates.ID 
+            WHERE refDates.ref_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "'";
+
 
     if($location != "LAGUNA")
     {
-        $string.="AND city_municipality = '$location' GROUP BY reference_date";
+    $string .= " AND city.CityName = '$location' GROUP BY reference_date";
     }
     else
     {
-        $string.=" GROUP BY reference_date";
+    $string .= " GROUP BY reference_date";
     }
     
     $result2 = mysqli_query($con,$string);
@@ -1090,7 +1131,19 @@ function getCasesPerCityMunicipality($location){
     {
         $header = "TOTAL CASES FOR $location";
         
-        $string = "SELECT barangay,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where city_municipality='$location' AND reference_date IN (SELECT MAX(reference_date) from barangay_history where city_municipality='$location') GROUP BY barangay";
+        //$string = "SELECT barangay,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where city_municipality='$location' AND reference_date IN (SELECT MAX(reference_date) from barangay_history where city_municipality='$location') GROUP BY barangay";
+        $string = "SELECT brgy.BarangayName AS barangay, sum(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(brgynew.current_deceased) AS TOTAL_DECEASED, sum(brgynew.current_recovered) AS TOTAL_RECOVERED
+            FROM barangay_history_new as brgynew
+                INNER JOIN Barangay as brgy
+                on brgynew.barangayID = brgy.ID
+                INNER JOIN City as city
+                on brgy.CityID = city.ID
+                INNER JOIN reference_dates refDates
+                on brgynew.refDateID = refDates.ID 
+                WHERE refDates.ID = (SELECT ID FROM reference_dates WHERE reference_dates.ref_date = (SELECT max(reference_dates.ref_date) FROM reference_dates)) 
+                AND city.CityName = '$location'
+                GROUP BY barangay";
+        
         $result1 = mysqli_query($con,$string);
         while($extract = mysqli_fetch_array($result1)){
             
@@ -1104,7 +1157,18 @@ function getCasesPerCityMunicipality($location){
     else
     {
         $header = "TOTAL CASES PER CITY/MUNICIPALITY";
-        $string = "SELECT city_municipality AS city,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where reference_date IN (SELECT MAX(reference_date) from barangay_history) GROUP BY city_municipality";
+        //$string = "SELECT city_municipality AS city,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where reference_date IN (SELECT MAX(reference_date) from barangay_history) GROUP BY city_municipality";
+        $string = "SELECT city.CityName AS city, sum(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(brgynew.current_deceased) AS TOTAL_DECEASED, sum(brgynew.current_recovered) AS TOTAL_RECOVERED
+            FROM barangay_history_new as brgynew
+                INNER JOIN Barangay as brgy
+                on brgynew.barangayID = brgy.ID
+                INNER JOIN City as city
+                on brgy.CityID = city.ID
+                INNER JOIN reference_dates refDates
+                on brgynew.refDateID = refDates.ID 
+                WHERE refDates.ID = (SELECT ID FROM reference_dates WHERE reference_dates.ref_date = (SELECT max(reference_dates.ref_date) FROM reference_dates))
+                GROUP BY city";
+        
         $result1 = mysqli_query($con,$string);
         
         while($extract = mysqli_fetch_array($result1)){

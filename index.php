@@ -148,7 +148,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
         <div class="item-container">
             <div class="card card-danger2">
                 <div class="card-header">
-                    <h3 id='localHead' class="card-title" style="color: white; margin-top : 9px;">TOTAL CASES PER MUNICIPALITY/CITY</h3>
+                    <div id='localHead' class="card-title" style="color: white;">TOTAL CASES PER MUNICIPALITY/CITY</div>
                     <div style="float:right;" class="btn-group btn-group-toggle" data-toggle="buttons">
                         <button type="button" id='toggleLocal' class="btn btn-sm btn-primary" value="graph">SWITCH TO
                             TABLE VIEW</button>

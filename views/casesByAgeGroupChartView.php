@@ -62,7 +62,7 @@ $(function() {
                 data: <?php echo json_encode($data["DeceasedPercentage"]) ?>
             },
             {
-                label: 'CONFIRMED',
+                label: 'ACTIVE CASES',
                 backgroundColor: 'rgba(60,141,188,0.5)',
                 borderColor: 'rgba(60,141,188,0.5)',
                 pointRadius: false,

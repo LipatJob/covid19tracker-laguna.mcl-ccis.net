@@ -93,7 +93,20 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci
                         .getDatasetMeta(index).hidden;
 
+
+                    ci.data.datasets.forEach(function(e, i) {
+                        var meta = ci.getDatasetMeta(i);
+
+                        if (i !== index) {
+                                meta.hidden = true;
+                        } else if (i === index) {
+                            meta.hidden = false;
+                        }
+                    });
+
+
                     //ALGORITHM FOR  SORTRING
+
                     var zippedVal = [];
                     ci.data.datasets.forEach(function(e, i) {
                        zippedVal.push(e.data); 
@@ -131,22 +144,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     });
                     ci.data.labels = newData.pop();
 
-                    //END OF ALGORITHM FOR  SORTRING
-                    
-
-                    ci.data.datasets.forEach(function(e, i) {
-                        var meta = ci.getDatasetMeta(i);
-
-                        if (i !== index) {
-                            if (!alreadyHidden) {
-                                meta.hidden = meta.hidden === false ? !meta.hidden : false;
-                            } else if (meta.hidden === false) {
-                                meta.hidden = true;
-                            }
-                        } else if (i === index) {
-                            meta.hidden = false;
-                        }
-                    });
+                    //END OF ALGORITHM FOR SORTING
 
                     ci.update();
                 }

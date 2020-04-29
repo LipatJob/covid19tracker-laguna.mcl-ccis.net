@@ -129,7 +129,6 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     ci.data.datasets.forEach(function(e, i) {
                         e.data = newData[i];
                     });
-                    alert(JSON.stringify(newData));
                     ci.data.labels = newData.pop();
 
                     //END OF ALGORITHM FOR  SORTRING

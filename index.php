@@ -129,13 +129,19 @@ while ($time_update = mysqli_fetch_array($rx)) {
         </div>
         
         <div class="row">
-            <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="col-lg-3 col-md-12 col-sm-12">
                 <!-- CASES BY GENDER -->
                 <div id='casesByGenderChart' class="item-container"></div>
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="col-lg-3 col-md-12 col-sm-12">
                 <!-- CASES BY AGE GROUP -->
                 <div id='casesByAgeGroupChart' class="item-container"></div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12">
+
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12">
+                
             </div>
         </div>
         
@@ -257,7 +263,8 @@ while ($time_update = mysqli_fetch_array($rx)) {
         //$("#tableContainer").load("./views/summaryPerMunicipalityCityTableView.php");
         $("#overviewTable").DataTable({
             paging: false,
-            searching: false
+            searching: false,
+            order: [[1, "desc"]]
         });
 
         //INITIALIZE CLOCK

@@ -31,7 +31,7 @@ $(function() {
         labels: <?php echo json_encode($data["Dates"]) ?> ,
         datasets: [{
             label: 'PROBABLE',
-            type: 'bar',
+            type: 'line',
             backgroundColor: '#FF7F7F',
             borderColor: '#FF7F7F',
             pointRadius: true,
@@ -43,7 +43,7 @@ $(function() {
         },
         {
             label: 'SUSPECT',
-            type: 'bar',
+            type: 'line',
             backgroundColor: '#FF712D',
             borderColor: '#FF712D',
             pointRadius: true,
@@ -52,7 +52,7 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
             data: <?php echo json_encode($data["Suspect"]) ?>
-        },{
+        }/*,{
             label: 'TOTAL PUI',
             type: 'line',
             backgroundColor: '#CC3722',
@@ -63,7 +63,7 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
             data: <?php echo json_encode($data["Total"]) ?>
-        }]
+        }*/]
     }
 
 
@@ -127,11 +127,11 @@ $(function() {
     var lineChartData = jQuery.extend(true, {}, areaChartData)
     lineChartData.datasets[0].fill = false;
     lineChartData.datasets[1].fill = false;
-    lineChartData.datasets[2].fill = false;
+    //lineChartData.datasets[2].fill = false;
     lineChartOptions.datasetFill = false
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'bar',
+        type: 'line',
         data: lineChartData,
         options: lineChartOptions
     })

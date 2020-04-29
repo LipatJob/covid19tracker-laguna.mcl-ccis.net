@@ -36,9 +36,10 @@ $(function() {
 
 
     var areaChartData = {
-        labels: ['0-9 yrs old', '10-19 yrs old', '20-29 yrs old', '30-39 yrs old', '40-49 yrs old',
+        /*labels: ['0-9 yrs old', '10-19 yrs old', '20-29 yrs old', '30-39 yrs old', '40-49 yrs old',
             '50-59 yrs old', '60-69 yrs old', '70-79 yrs old', '80+ yrs old', 'NOT SPECIFIED'
-        ],
+        ]*/
+        labels: ['0-19 yrs old', '20-39 yrs old', '40-59 yrs old', '60-79 yrs old', '80+ yrs old' ],
         datasets: [{
                 label: 'RECOVERED',
                 backgroundColor: 'rgba(42, 187, 155, 1)',

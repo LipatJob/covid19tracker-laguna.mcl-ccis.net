@@ -129,20 +129,26 @@ while ($time_update = mysqli_fetch_array($rx)) {
         </div>
         
         <div class="row">
-            <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="col-lg-3 col-md-12 col-sm-12">
                 <!-- CASES BY GENDER -->
                 <div id='casesByGenderChart' class="item-container"></div>
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="col-lg-3 col-md-12 col-sm-12">
                 <!-- CASES BY AGE GROUP -->
                 <div id='casesByAgeGroupChart' class="item-container"></div>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12">
+
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12">
+                
             </div>
         </div>
         
         <div class="item-container">
             <div class="card card-danger2">
                 <div class="card-header">
-                    <h3 id='localHead' class="card-title" style="color: white;">TOTAL CASES PER MUNICIPALITY/CITY</h3>
+                    <div id='localHead' class="card-title" style="color: white;">TOTAL CASES PER MUNICIPALITY/CITY</div>
                     <div style="float:right;" class="btn-group btn-group-toggle" data-toggle="buttons">
                         <button type="button" id='toggleLocal' class="btn btn-sm btn-primary" value="graph">SWITCH TO
                             TABLE VIEW</button>
@@ -257,7 +263,8 @@ while ($time_update = mysqli_fetch_array($rx)) {
         //$("#tableContainer").load("./views/summaryPerMunicipalityCityTableView.php");
         $("#overviewTable").DataTable({
             paging: false,
-            searching: false
+            searching: false,
+            order: [[1, "desc"]]
         });
 
         //INITIALIZE CLOCK

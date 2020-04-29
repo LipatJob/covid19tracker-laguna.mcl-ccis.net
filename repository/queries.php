@@ -505,7 +505,7 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID
-            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '" . getMinDate()->format("Y-m-d") . "' GROUP BY reference_date
+            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '2020-4-10' GROUP BY reference_date
             
         UNION ALL
         SELECT refDates.ref_date as reference_date, sum(casesN.current_probable_PUI) as PROBABLE, sum(casesN.current_suspect_PUI) as SUSPECT, sum(casesN.total_PUI) as TOTALPUI FROM barangay_history_new brgynew
@@ -517,7 +517,7 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID
-            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '" . getMinDate()->format("Y-m-d") . "' GROUP BY reference_date";
+            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '2020-4-10' GROUP BY reference_date";
 
         //$string.="AND city_municipality = '$location' GROUP BY reference_date";
         //$string.="WHERE city.CityName = '" . $location . "' GROUP BY refDates.ref_date";
@@ -534,7 +534,7 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID 
-            WHERE refDates.ref_date >= '" . getMinDate()->format("Y-m-d") . "'
+            WHERE refDates.ref_date >= '2020-4-10'
             GROUP BY refDates.ref_date
         UNION ALL
         SELECT refDates.ref_date as reference_date, sum(casesN.current_probable_PUI) as PROBABLE, sum(casesN.current_suspect_PUI) as SUSPECT, sum(casesN.total_PUI) as TOTALPUI FROM barangay_history_new brgynew
@@ -546,7 +546,7 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID 
-            WHERE refDates.ref_date >= '" . getMinDate()->format("Y-m-d") . "'
+            WHERE refDates.ref_date >= '2020-4-10'
             GROUP BY refDates.ref_date ORDER BY reference_date";
     }
 
@@ -560,7 +560,7 @@ function getPUIPerDate($location){
         $i++;
     }
 
-    $dates[0] = setFirstDate();
+    //$dates[0] = setFirstDate();
 
     return [
         "Dates" => $dates,
@@ -882,9 +882,9 @@ function getCasesByAgeGroup($location){
     $start = 0;
     $end = 9;
     
-    for($i=0;$i<9;$i++){
+    for($i=0;$i<5;$i++){
         
-        if($i!=8)
+        if($i!=4)
         {
             $strage1 = "SELECT COUNT(age) AS age, case_status FROM individual_cases WHERE AGE BETWEEN '$start' AND '$end' ";
             if($location!="LAGUNA")
@@ -893,8 +893,8 @@ function getCasesByAgeGroup($location){
             $strage1 .= "GROUP BY case_status";
             
             $result = mysqli_query($con,$strage1);
-            $start = $start + 10;
-            $end = $end + 10;
+            $start = $start + 20;
+            $end = $end + 20;
         }
         else
         {
@@ -919,17 +919,17 @@ function getCasesByAgeGroup($location){
     while($extract = mysqli_fetch_array($result)){
         
         if($extract['case_status']=='CONFIRMED')
-        $current[9] = $extract['age'];     
+        $current[5] = $extract['age'];     
         if($extract['case_status']=='DECEASED')
-        $deceased[9] = $extract['age'];
+        $deceased[5] = $extract['age'];
         if($extract['case_status']=='RECOVERED')    
-        $recovered[9] = $extract['age'];
+        $recovered[5] = $extract['age'];
         
-        $age[9] = $deceased[$i] + $recovered[$i] + $current[$i];
+        $age[5] = $deceased[$i] + $recovered[$i] + $current[$i];
     }
     
     
-    for($x = 0; $x<10; $x++)
+    for($x = 0; $x<5; $x++)
     {
         if($current[$x] == 0)
         $perCur[$x] = 0;

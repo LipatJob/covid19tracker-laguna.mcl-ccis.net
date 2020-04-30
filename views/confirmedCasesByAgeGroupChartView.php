@@ -35,7 +35,7 @@ $(function() {
             '80 and Above'
         ],
         datasets: [{
-            data: <?php echo json_encode($data["CurrentPercentage"]) ?> ,
+            data: <?php echo json_encode($data["Total"]) ?> ,
             backgroundColor: ['#c2edf', '#a4e2fc','#75d6ff','#5ecfff','#30c1ff'.'#14b9ff','#00a8f0','#0293d1','#0072a3'],
         }]
     }

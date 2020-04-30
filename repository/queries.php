@@ -895,10 +895,10 @@ function getCasesByAgeGroup($location){
             $strage1 .= "AND barangay = '$location' GROUP BY case_status";
             else
             $strage1 .= "GROUP BY case_status";
-            
             $result = mysqli_query($con,$strage1);
             $start = $start + 20;
             $end = $end + 20;
+            
         }
         else
         {
@@ -916,6 +916,7 @@ function getCasesByAgeGroup($location){
             
             $age[$i] = $deceased[$i] + $recovered[$i] + $current[$i];
             $total = $total + $age[$i];
+            
         }
         
     }
@@ -929,10 +930,11 @@ function getCasesByAgeGroup($location){
         if($extract['case_status']=='RECOVERED')    
         $recovered[5] = $extract['age'];
         
-        $age[5] = $deceased[$i] + $recovered[$i] + $current[$i];
+        $age[5] = $deceased[5] + $recovered[5] + $current[5];
+        $total = $total + $age[5];
     }
     
-    for($x = 0; $x<5; $x++)
+    for($x = 0; $x<6; $x++)
     {
 	 if($age[$x] == 0)
 	{
@@ -940,7 +942,7 @@ function getCasesByAgeGroup($location){
 	}
         else
         {
-            $perConPie[$x] = number_format($age[$x]/array_sum($age)*100, 2, '.', '');
+            $perConPie[$x] = number_format($age[$x]/(array_sum($age))*100, 2, '.', '');
         }
         if($current[$x] == 0)
 	{
@@ -958,7 +960,7 @@ function getCasesByAgeGroup($location){
         else
 	{
         	$perRec[$x] = number_format($recovered[$x]/$age[$x]*100, 2, '.', '');
-		$perRecPie[$x] = number_format($recovered[$x]/array_sum($age)*100, 2, '.', '');
+		$perRecPie[$x] = number_format($recovered[$x]/(array_sum($recovered))*100, 2, '.', '');
 	}
         
         if($deceased[$x] == 0)
@@ -968,7 +970,7 @@ function getCasesByAgeGroup($location){
         else
 	{
         	$perDec[$x] = number_format($deceased[$x]/$age[$x]*100, 2, '.', '');
-		$perDecPie[$x] = number_format($deceased[$x]/array_sum($age)*100, 2, '.', '');
+		$perDecPie[$x] = number_format($deceased[$x]/(array_sum($deceased))*100, 2, '.', '');
 	}
 	    
 	

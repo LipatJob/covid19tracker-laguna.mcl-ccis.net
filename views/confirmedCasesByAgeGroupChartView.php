@@ -32,7 +32,7 @@ $(function() {
             'Not Specified'
         ],
         datasets: [{
-            data: <?php echo json_encode($data["Total"]) ?> ,
+            data: <?php echo json_encode($data["PieConfirmed"]) ?> ,
             backgroundColor: ['#a8dfff', '#5dd2fc','#2ec8ff','#0dbfff','#30c1ff','#c3c8c9'],
         }]
     }

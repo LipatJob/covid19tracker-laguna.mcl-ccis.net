@@ -6,7 +6,7 @@ $data = getCachedCasesByAgeGroup($_GET["location"]);
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">CASES BY AGE GROUP</h3>
+        <h3 class="card-title" style="color: white;">CONFIRMED BY AGE GROUP</h3>
     </div>
     <div class="card-body">
         <div class="chart">

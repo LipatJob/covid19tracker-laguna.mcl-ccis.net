@@ -238,6 +238,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
 
     <!-- SCRIPTS -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"> </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -246,8 +247,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"> </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-
-    <?php include("legacy/viewModal.php") ?>
+    <?php include("views/dailyMessageView.php") ?>
     
     <script>
     //INITIALIZE NAVBAR
@@ -276,8 +276,20 @@ while ($time_update = mysqli_fetch_array($rx)) {
 
 
         //INITIALIZE VIDEO
-        $('#videomodal').modal('show');
+        if ($.cookie("modalClosed") == null){
+            $('#videomodal').modal('show');
+        }
         $('.modal').on('hidden.bs.modal', function(e) {
+            // SET EXPIRY DATE OF COOKIE
+            var now = new Date();
+            var time = now.getTime();
+            time += 20 * 60000;
+            now.setTime(time);
+            document.cookie = 
+            'modalClosed=true'+
+            '; expires=' + now.toUTCString() + 
+            '; path=/';
+
             $iframe = $(this).find("iframe");
             $iframe.attr("src", $iframe.attr("src"));
         });

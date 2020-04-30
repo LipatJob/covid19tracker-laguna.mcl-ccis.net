@@ -879,8 +879,12 @@ function getCasesByAgeGroup($location){
     $perDec = [0,0,0,0,0,0,0,0,0,0];
     $perRec = [0,0,0,0,0,0,0,0,0,0] ;
     
+    $perConPie = [0,0,0,0,0,0,0,0,0,0];
+    $perDecPie = [0,0,0,0,0,0,0,0,0,0];
+    $perRecPie = [0,0,0,0,0,0,0,0,0,0] ;
+    
     $start = 0;
-    $end = 9;
+    $end = 19;
     
     for($i=0;$i<5;$i++){
         
@@ -891,10 +895,10 @@ function getCasesByAgeGroup($location){
             $strage1 .= "AND barangay = '$location' GROUP BY case_status";
             else
             $strage1 .= "GROUP BY case_status";
-            
             $result = mysqli_query($con,$strage1);
             $start = $start + 20;
             $end = $end + 20;
+            
         }
         else
         {
@@ -912,6 +916,7 @@ function getCasesByAgeGroup($location){
             
             $age[$i] = $deceased[$i] + $recovered[$i] + $current[$i];
             $total = $total + $age[$i];
+            
         }
         
     }
@@ -925,28 +930,50 @@ function getCasesByAgeGroup($location){
         if($extract['case_status']=='RECOVERED')    
         $recovered[5] = $extract['age'];
         
-        $age[5] = $deceased[$i] + $recovered[$i] + $current[$i];
+        $age[5] = $deceased[5] + $recovered[5] + $current[5];
+        $total = $total + $age[5];
     }
     
-    
-    for($x = 0; $x<5; $x++)
+    for($x = 0; $x<6; $x++)
     {
+	 if($age[$x] == 0)
+	{
+        	$perConPie[$x] = 0;
+	}
+        else
+        {
+            $perConPie[$x] = number_format($age[$x]/(array_sum($age))*100, 2, '.', '');
+        }
         if($current[$x] == 0)
-        $perCur[$x] = 0;
+	{
+        	$perCur[$x] = 0;
+	}
         else
         {
             $perCur[$x] = number_format($current[$x]/$age[$x]*100, 2, '.', '');
         }
         
         if($recovered[$x] == 0)
-        $perRec[$x] = 0;
+	{
+        	$perRec[$x] = 0;
+	}
         else
-        $perRec[$x] = number_format($recovered[$x]/$age[$x]*100, 2, '.', '');
+	{
+        	$perRec[$x] = number_format($recovered[$x]/$age[$x]*100, 2, '.', '');
+		$perRecPie[$x] = number_format($recovered[$x]/(array_sum($recovered))*100, 2, '.', '');
+	}
         
         if($deceased[$x] == 0)
-        $perDec[$x] = 0;
+	{
+        	$perDec[$x] = 0;
+	}
         else
-        $perDec[$x] = number_format($deceased[$x]/$age[$x]*100, 2, '.', '');
+	{
+        	$perDec[$x] = number_format($deceased[$x]/$age[$x]*100, 2, '.', '');
+		$perDecPie[$x] = number_format($deceased[$x]/(array_sum($deceased))*100, 2, '.', '');
+	}
+	    
+	
         
     }
     
@@ -954,6 +981,9 @@ function getCasesByAgeGroup($location){
         "RecoveredPercentage" => $perRec,
         "DeceasedPercentage" => $perDec,
         "CurrentPercentage" => $perCur,
+	"PieConfirmed" => $perConPie,
+	"PieRecovered" => $perRecPie,
+	"PieDeceased" => $perDecPie,
         "Total" => $age,
     ];
 }

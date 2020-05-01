@@ -790,11 +790,13 @@ function getSummaryPerCityMunicipalityChart($location){
         $result1 = mysqli_query($con,$string);
         
         while($extract = mysqli_fetch_array($result1)){
-            $locals[$i] = $extract['city'];
-            $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
-            $deceased[$i] = $extract['TOTAL_DECEASED'];
-            $recovered[$i] = $extract['TOTAL_RECOVERED'];
-            $i++;
+            if ($extract['TOTAL_POSITIVE_CASES'] > 0){
+                $locals[$i] = $extract['city'];
+                $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
+                $deceased[$i] = $extract['TOTAL_DECEASED'];
+                $recovered[$i] = $extract['TOTAL_RECOVERED'];
+                $i++;
+            }
         }    
         
         $max1 = max($cases);

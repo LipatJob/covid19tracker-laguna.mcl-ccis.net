@@ -284,24 +284,25 @@ while ($time_update = mysqli_fetch_array($rx)) {
             }, 1000);
 
 
-            //INITIALIZE VIDEO
-            if ($.cookie("modalClosed") == null) {
-                $('#videomodal').modal('show');
-            }
-            $('.modal').on('hidden.bs.modal', function(e) {
-                // SET EXPIRY DATE OF COOKIE
-                var now = new Date();
-                var time = now.getTime();
-                time += 20 * 60000;
-                now.setTime(time);
-                document.cookie =
-                    'modalClosed=true' +
-                    '; expires=' + now.toUTCString() +
-                    '; path=/';
+        //INITIALIZE VIDEO
+        $('#videomodal').modal('show');
+        // if ($.cookie("modalClosed") == null){
+        //     $('#videomodal').modal('show');
+        // }
+        $('.modal').on('hidden.bs.modal', function(e) {
+            // SET EXPIRY DATE OF COOKIE
+            var now = new Date();
+            var time = now.getTime();
+            time += 20 * 60000;
+            now.setTime(time);
+            document.cookie = 
+            'modalClosed=true'+
+            '; expires=' + now.toUTCString() + 
+            '; path=/';
 
-                $iframe = $(this).find("iframe");
-                $iframe.attr("src", $iframe.attr("src"));
-            });
+            $iframe = $(this).find("iframe");
+            $iframe.attr("src", $iframe.attr("src"));
+        });
 
             //INITIALIZE CONDITIONS            
             var flag = false;

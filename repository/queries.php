@@ -936,7 +936,7 @@ function getCasesByAgeGroup($location){
         
         $age[5] = $deceased[5] + $recovered[5] + $current[5];
         $total = $total + $age[5];
-        $totaldDec = $deceased[5] + $totalDec;
+        $totalDec = $deceased[5] + $totalDec;
         $totalRec = $recovered[5] + $totalRec;
     }
     

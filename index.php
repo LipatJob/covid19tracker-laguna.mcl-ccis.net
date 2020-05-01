@@ -153,8 +153,8 @@ while ($time_update = mysqli_fetch_array($rx)) {
         <div class="item-container">
             <div class="card card-danger2">
                 <div class="card-header">
-                    <div id='localHead' class="card-title" style="color: white; width:30%;">TOTAL CASES PER MUNICIPALITY/CITY</div>
-                    <div style="float:right;" class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <div id='localHead' class="card-title mt-1" style="color: white; width:30%;">TOTAL CASES PER MUNICIPALITY/CITY</div>
+                    <div style="float:right;" class="btn-group btn-group-toggle mt-2-sm" data-toggle="buttons">
                         <button type="button" id='toggleLocal' class="btn btn-sm btn-primary" value="graph">SWITCH TO
                             TABLE VIEW</button>
                     </div>
@@ -250,10 +250,10 @@ while ($time_update = mysqli_fetch_array($rx)) {
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"> </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <?php include("views/dailyMessageView.php") ?>
-    
+
     <script>
-    //INITIALIZE NAVBAR
-    $("#indexNav a").addClass("active");
+        //INITIALIZE NAVBAR
+        $("#indexNav a").addClass("active");
     </script>
 
     <script>
@@ -284,24 +284,24 @@ while ($time_update = mysqli_fetch_array($rx)) {
             }, 1000);
 
 
-        //INITIALIZE VIDEO
-        if ($.cookie("modalClosed") == null){
-            $('#videomodal').modal('show');
-        }
-        $('.modal').on('hidden.bs.modal', function(e) {
-            // SET EXPIRY DATE OF COOKIE
-            var now = new Date();
-            var time = now.getTime();
-            time += 20 * 60000;
-            now.setTime(time);
-            document.cookie = 
-            'modalClosed=true'+
-            '; expires=' + now.toUTCString() + 
-            '; path=/';
+            //INITIALIZE VIDEO
+            if ($.cookie("modalClosed") == null) {
+                $('#videomodal').modal('show');
+            }
+            $('.modal').on('hidden.bs.modal', function(e) {
+                // SET EXPIRY DATE OF COOKIE
+                var now = new Date();
+                var time = now.getTime();
+                time += 20 * 60000;
+                now.setTime(time);
+                document.cookie =
+                    'modalClosed=true' +
+                    '; expires=' + now.toUTCString() +
+                    '; path=/';
 
-            $iframe = $(this).find("iframe");
-            $iframe.attr("src", $iframe.attr("src"));
-        });
+                $iframe = $(this).find("iframe");
+                $iframe.attr("src", $iframe.attr("src"));
+            });
 
             //INITIALIZE CONDITIONS            
             var flag = false;

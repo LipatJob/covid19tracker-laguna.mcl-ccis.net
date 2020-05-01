@@ -16,7 +16,7 @@ function getMinDate()
 {
     //Temporary
     //Better if coming from .ini file or DB
-    return new DateTime("2020-03-31");
+    return new DateTime("2020-03-20");
 }
 
 function setFirstDate()

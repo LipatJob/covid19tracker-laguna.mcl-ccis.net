@@ -875,6 +875,8 @@ function getCasesByAgeGroup($location){
     $recovered = [0,0,0,0,0,0,0,0,0,0];
     $deceased = [0,0,0,0,0,0,0,0,0,0];
     $total = 0;
+    $totalDec = 0;
+    $totalRec = 0;
     $perCur = [0,0,0,0,0,0,0,0,0,0];
     $perDec = [0,0,0,0,0,0,0,0,0,0];
     $perRec = [0,0,0,0,0,0,0,0,0,0] ;
@@ -916,6 +918,8 @@ function getCasesByAgeGroup($location){
             
             $age[$i] = $deceased[$i] + $recovered[$i] + $current[$i];
             $total = $total + $age[$i];
+            $totaldec = $deceased[$i] + $totalDec;
+            $totaldec = $recovered[$i] + $totalRec;
             
         }
         
@@ -932,6 +936,8 @@ function getCasesByAgeGroup($location){
         
         $age[5] = $deceased[5] + $recovered[5] + $current[5];
         $total = $total + $age[5];
+        $totaldec = $deceased[5] + $totalDec;
+        $totaldec = $recovered[5] + $totalRec;
     }
     
     for($x = 0; $x<6; $x++)
@@ -942,7 +948,7 @@ function getCasesByAgeGroup($location){
 	}
         else
         {
-            $perConPie[$x] = number_format($age[$x]/(array_sum($age))*100, 2, '.', '');
+            $perConPie[$x] = number_format($age[$x]/$total*100, 2, '.', '');
         }
         if($current[$x] == 0)
 	{
@@ -960,7 +966,7 @@ function getCasesByAgeGroup($location){
         else
 	{
         	$perRec[$x] = number_format($recovered[$x]/$age[$x]*100, 2, '.', '');
-		$perRecPie[$x] = number_format($recovered[$x]/(array_sum($recovered))*100, 2, '.', '');
+		$perRecPie[$x] = number_format($recovered[$x]/$totalRec*100, 2, '.', '');
 	}
         
         if($deceased[$x] == 0)
@@ -970,7 +976,7 @@ function getCasesByAgeGroup($location){
         else
 	{
         	$perDec[$x] = number_format($deceased[$x]/$age[$x]*100, 2, '.', '');
-		$perDecPie[$x] = number_format($deceased[$x]/(array_sum($deceased))*100, 2, '.', '');
+		$perDecPie[$x] = number_format($deceased[$x]/$totalDec*100, 2, '.', '');
 	}
 	    
 	

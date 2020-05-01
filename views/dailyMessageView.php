@@ -37,7 +37,7 @@
             <div class="modal-header mb-0 pb-0" style="border-bottom:none;">
                 <div class="parent-container-horizontal">
                     <p class="mx-auto" style="font-weight:bold; font-size:1.3em">
-                        A Message of Hope
+                        A Message of Hope for COVID Patients and Front Liners
                     </p>
                 </div>
             </div>

@@ -285,9 +285,10 @@ while ($time_update = mysqli_fetch_array($rx)) {
 
 
         //INITIALIZE VIDEO
-        if ($.cookie("modalClosed") == null){
-            $('#videomodal').modal('show');
-        }
+        $('#videomodal').modal('show');
+        // if ($.cookie("modalClosed") == null){
+        //     $('#videomodal').modal('show');
+        // }
         $('.modal').on('hidden.bs.modal', function(e) {
             // SET EXPIRY DATE OF COOKIE
             var now = new Date();

@@ -34,19 +34,14 @@
     aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered" role="video">
         <div class="modal-content" style="background-color: #00000; color: black;">
-            <div class="modal-header" style="border-bottom:none;">
+            <div class="modal-header mb-0 pb-0" style="border-bottom:none;">
                 <div class="parent-container-horizontal">
                     <p class="mx-auto" style="font-weight:bold; font-size:1.3em">
                         A Message of Hope
                     </p>
-                    <p id="exampleModalLongTitle" style="font-size: 1.2em; font-weight: 400; 
-                    margin-left: 10px; text-align:center;">
-                        We send love and prayers to Covid-19 patients, their families, and the courageous frontliners
-                        through drawings and messages of hope. ❤
-                    </p>
                 </div>
             </div>
-            <div class="modal-body">
+            <div class="modal-body pt-1">
                 <div class="wrapper">
                     <img src="<?php echo $imageLocation?>" alt="" srcset="" width="100%" height="auto"
                         style="border:none;overflow:hidden; margin: 15px; margin-top:0px" scrolling="no" frameborder="0"

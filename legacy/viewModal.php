@@ -14,7 +14,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="wrapper">
-                        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fmclcsce%2Fvideos%2F2517862128542744%2F&show_text=0&width=560" width="100%" height="250" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true" style="margin: 15px;"></iframe></div>
+                        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fmclcsce%2Fvideos%2F2517862128542744%2F&show_text=0&width=560" 
+                        width="100%" height="250" style="border:none;overflow:hidden" scrolling="no" 
+                        frameborder="0" allowTransparency="true" allowFullScreen="true" style="margin: 15px;"></iframe></div>
                     </div>
                 </div>
             </div>

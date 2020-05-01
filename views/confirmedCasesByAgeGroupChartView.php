@@ -6,7 +6,7 @@ $data = getCachedCasesByAgeGroup($_GET["location"]);
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">CASES BY AGE GROUP</h3>
+        <h3 class="card-title" style="color: white;">CONFIRMED BY AGE GROUP</h3>
     </div>
     <div class="card-body">
         <div class="chart">
@@ -24,19 +24,16 @@ $data = getCachedCasesByAgeGroup($_GET["location"]);
 $(function() {
     var donutData = {
         labels: [
-            '0-9 yrs old',
-            '10-19 yrs old',
-            '20-29 yrs old',
-            '30-39 yrs old',
-            '40-49 yrs old',
-            '50-59 yrs old',
-            '60-69 yrs old',
-            '70-79 yrs old',
-            '80 and Above'
+            '0-19 yrs old',
+            '20-39 yrs old',
+            '40-59 yrs old',
+            '60-79 yrs old',
+            '80 yrs old and Above',
+            'Not Specified'
         ],
         datasets: [{
-            data: <?php echo json_encode($data["Total"]) ?> ,
-            backgroundColor: ['#c2edf', '#a4e2fc','#75d6ff','#5ecfff','#30c1ff','#14b9ff','#00a8f0','#0293d1','#0072a3'],
+            data: <?php echo json_encode($data["PieConfirmed"]) ?> ,
+            backgroundColor: ['#a8dfff', '#5dd2fc','#2ec8ff','#0dbfff','#30c1ff','#c3c8c9'],
         }]
     }
 

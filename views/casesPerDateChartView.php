@@ -7,8 +7,8 @@ $dataTrend = getCachedCurrentTrend($_GET["location"]);
 
 <div class="card card-danger2">
     <div class="card-header">
-        <div class="pt-3">
-            <h3 class="card-title" style="color: white;">CUMULATIVE CONFIRMED AND ACTIVE CASES</h3>
+        <div class="pt-1">
+            <h3 class="card-title mt-1" style="color: white;">CUMULATIVE CONFIRMED AND ACTIVE CASES</h3>
             <div style="float:right;" class="btn-group btn-group-toggle" data-toggle="buttons">
                 <button type="button" id='toggleCasesChart' class="btn btn-sm btn-primary" value="graph">LINEAR</button>
             </div>

@@ -7,8 +7,8 @@ $data = getCachedCurrentTrend($_GET["location"]);
 
 <div class="card card-danger2">
     <div class="card-header">
-        <div class="pt-3">
-        <h3 class="card-title" style="color: white;">NEW CONFIRMED CASES</h3>
+        <div class="">
+        <h3 class="card-title mt-2 mb-2" style="color: white;">NEW CONFIRMED CASES</h3>
         </div>
         
     </div>

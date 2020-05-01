@@ -6,11 +6,11 @@ $data = getCachedCasesByAgeGroup($_GET["location"]);
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">DECEASED BY AGE GROUP</h3>
+        <h3 class="card-title" style="color: white;">RECOVERED BY AGE GROUP</h3>
     </div>
     <div class="card-body">
         <div class="chart">
-            <canvas id="decPie"
+            <canvas id="recoveredPie"
                 style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
         </div>
     </div>
@@ -32,12 +32,12 @@ $(function() {
             'Not Specified'
         ],
         datasets: [{
-            data: <?php echo json_encode($data["PieDeceased"]) ?> ,
-            backgroundColor: ['#a8dfff', '#5dd2fc','#2ec8ff','#0dbfff','#30c1ff','#c3c8c9'],
+            data: <?php echo json_encode($data["PieRecovered"]) ?> ,
+            backgroundColor: ['#9effa0', '#61ed64','#37db3a','#1bcf1e','#09b50c','#c3c8c9'],
         }]
     }
 
-    var pieChartCanvas = $('#decPie').get(0).getContext('2d')
+    var pieChartCanvas = $('#recoveredPie').get(0).getContext('2d')
     var pieData = donutData;
     var pieOptions = {
         maintainAspectRatio: false,

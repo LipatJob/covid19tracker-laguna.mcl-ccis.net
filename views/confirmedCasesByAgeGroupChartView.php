@@ -6,7 +6,7 @@ $data = getCachedCasesByAgeGroup($_GET["location"]);
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">CONFIRMED BY AGE GROUP</h3>
+        <h3 class="card-title" style="color: white;">CONFIRMED CASES BY AGE GROUP</h3>
     </div>
     <div class="card-body">
         <div class="chart">
@@ -28,11 +28,10 @@ $(function() {
             '20-39 yrs old',
             '40-59 yrs old',
             '60-79 yrs old',
-            '80 yrs old and Above',
-            'Not Specified'
+            '80 yrs old and Above'
         ],
         datasets: [{
-            data: <?php echo json_encode($data["PieConfirmed"]) ?> ,
+            data: <?php echo json_encode($data["ConfirmedCount"]) ?> ,
             backgroundColor: ['#a8dfff', '#5dd2fc','#2ec8ff','#0dbfff','#30c1ff','#c3c8c9'],
         }]
     }
@@ -42,6 +41,9 @@ $(function() {
     var pieOptions = {
         maintainAspectRatio: false,
         responsive: true,
+        legend: {
+            position: 'left'
+        }
     }
     //Create pie or douhnut chart
     // You can switch between pie and douhnut using the method below.

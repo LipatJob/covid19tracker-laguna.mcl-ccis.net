@@ -762,11 +762,13 @@ function getSummaryPerCityMunicipalityChart($location)
         $result1 = mysqli_query($con, $string);
 
         while ($extract = mysqli_fetch_array($result1)) {
-            $locals[$i] = $extract['city'];
-            $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
-            $deceased[$i] = $extract['TOTAL_DECEASED'];
-            $recovered[$i] = $extract['TOTAL_RECOVERED'];
-            $i++;
+            if ($extract['TOTAL_POSITIVE_CASES'] > 0){
+                $locals[$i] = $extract['city'];
+                $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
+                $deceased[$i] = $extract['TOTAL_DECEASED'];
+                $recovered[$i] = $extract['TOTAL_RECOVERED'];
+                $i++;
+            }
         }
 
         $max1 = max($cases);
@@ -890,7 +892,8 @@ function getCasesByAgeGroup($location)
         $totalDec = $deceased[$i] + $totalDec;
         $totalRec = $recovered[$i] + $totalRec;
     }
-    
+
+    /*
     $result = mysqli_query($con, $strage3);
     while ($extract = mysqli_fetch_array($result)) {
 
@@ -906,8 +909,8 @@ function getCasesByAgeGroup($location)
         $totalDec = $deceased[5] + $totalDec;
         $totalRec = $recovered[5] + $totalRec;
     }
-
-    for ($x = 0; $x < 6; $x++) {
+    */
+    for ($x = 0; $x < 5; $x++) {
         if ($age[$x] == 0) {
             $perConPie[$x] = 0;
         } else {
@@ -941,6 +944,9 @@ function getCasesByAgeGroup($location)
         "PieConfirmed" => $perConPie,
         "PieRecovered" => $perRecPie,
         "PieDeceased" => $perDecPie,
+        "ConfirmedCount" => $current,
+        "RecoveredCount" => $recovered,
+        "DeceasedCount" => $deceased,
         "Total" => $age,
     ];
 }
@@ -993,6 +999,7 @@ function getRecoveredPerDate($location)
     }
 
     array_shift($dates);
+    array_shift($recovered);
 
     $dates[0] = setFirstDate();
 
@@ -1051,6 +1058,7 @@ function getDeceasedPerDate($location)
     }
 
     array_shift($dates);
+    array_shift($deceased);
 
     $dates[0] = setFirstDate();
 

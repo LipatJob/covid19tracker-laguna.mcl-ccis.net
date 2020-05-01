@@ -5,7 +5,6 @@
                 "imgs/imagesoftheday/MessagesofHope.004.jpeg",
                 "imgs/imagesoftheday/MessagesofHope.005.jpeg",
                 "imgs/imagesoftheday/MessagesofHope.006.jpeg",
-                "imgs/imagesoftheday/MessagesofHope.006.jpeg",
                 "imgs/imagesoftheday/MessagesofHope.007.jpeg",
                 "imgs/imagesoftheday/MessagesofHope.008.jpeg",
                 "imgs/imagesoftheday/MessagesofHope.009.jpeg",
@@ -15,7 +14,7 @@
                 ];
 
     $currentDate = intval(date("i"));
-    $imageIndex = $currentDate % 5;
+    $imageIndex = $currentDate % 12;
     $imageLocation = $images[$imageIndex];
 ?>
 
@@ -37,7 +36,7 @@
             <div class="modal-header mb-0 pb-0" style="border-bottom:none;">
                 <div class="parent-container-horizontal">
                     <p class="mx-auto" style="font-weight:bold; font-size:1.3em">
-                        A Message of Hope for COVID Patients and Front Liners
+                        A Message of Hope for COVID-19 Patients and Front Liners
                     </p>
                 </div>
             </div>

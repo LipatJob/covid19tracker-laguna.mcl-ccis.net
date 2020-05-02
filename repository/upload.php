@@ -24,6 +24,8 @@ if(isset($_POST["submitButton"])){
         callUpdateBarangayHistoryNew();
     }else if($val == "clearCache"){
         clearCache();
+    }else if($val == "setUploadingInterface"){
+        setUploadingInterface();
     }
 }
 //Link to allow user to return to uploadView.php
@@ -249,7 +251,30 @@ function getSqlStr($string){
     return "'".$string."'";
 }
 
+function setUploadingInterface() {
+    $con = getConnection();
 
+    $result = mysqli_query($con, "SELECT Status FROM settings WHERE SettingName = 'IsUploading';");
+
+    $flag = false;
+
+    while ($extract = mysqli_fetch_array($result)) {
+        if ($extract['Status'] == '0') {
+            $flag = false;
+        }
+        else {
+            $flag = true;
+        }
+    }
+
+    if (!$flag) {
+        mysqli_query($con, "UPDATE settings SET Status = 1 WHERE SettingName = 'IsUploading';");
+        echo "Dashboard is now on Uploading Interface";
+    } else {
+        mysqli_query($con, "UPDATE settings SET Status = 0 WHERE SettingName = 'IsUploading';");
+        echo "Dashboard is now on Main Interface";
+    }
+}
 
 
 ?>

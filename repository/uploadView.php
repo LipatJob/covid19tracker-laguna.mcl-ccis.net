@@ -16,6 +16,7 @@ require_auth();
       <input type="submit" name="submitButton" value = "updateBarangayHistory">
       <input type="submit" name="submitButton" value = "updateBarangayHistoryNew">
       <input type="submit" name="submitButton" value = "clearCache">
+      <input type="submit" name="submitButton" value = "setUploadingInterface">
     </form>
     <br>
     <p>

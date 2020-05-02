@@ -67,18 +67,6 @@ $(function() {
             data: <?php echo json_encode($deceasedPercent) ?>
         },*/
         {
-            label: 'DECEASED CASES',
-            type: 'line',
-            backgroundColor: '#7d7d7d',
-            borderColor: '#7d7d7d',
-            pointRadius: true,
-            pointColor: 'rgba(42, 187, 155, 1)',
-            pointStrokeColor: '#c1c7d1',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: 'rgba(42, 187, 155, 1)',
-            lineTension: 0,
-            data: <?php echo json_encode($dataDeceased['CumulativeDeceased']) ?>
-        },{
             label: 'RECOVERED CASES',
             type: 'line',
             backgroundColor: 'rgba(42, 187, 155, 1)',
@@ -90,6 +78,18 @@ $(function() {
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
             lineTension: 0,
             data: <?php echo json_encode($data['CumulativeRecovered']) ?>
+        },{
+            label: 'DECEASED CASES',
+            type: 'bar',
+            backgroundColor: '#7d7d7d',
+            borderColor: '#7d7d7d',
+            pointRadius: true,
+            pointColor: 'rgba(42, 187, 155, 1)',
+            pointStrokeColor: '#c1c7d1',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(42, 187, 155, 1)',
+            lineTension: 0,
+            data: <?php echo json_encode($dataDeceased['CumulativeDeceased']) ?>
         }/*,{
             label: 'CONFIRMED',
             type: 'line',
@@ -182,7 +182,7 @@ $(function() {
     lineChartOptions.datasetFill = false;
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'line',
+        type: 'bar',
         data: lineChartData,
         options: lineChartOptions
     })

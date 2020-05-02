@@ -124,11 +124,11 @@ while ($time_update = mysqli_fetch_array($rx)) {
         <div class="item-container">
             <div class="card card-danger2">
                 <div class="card-header">
-                    <div id='localHead' class="card-title mt-1" style="color: white; width:30%;">TOTAL CASES PER MUNICIPALITY/CITY</div>
-                    <div style="float:right;" class="btn-group btn-group-toggle mt-2-sm" data-toggle="buttons">
+                    <div style="" class="btn-group btn-group-toggle mt-2-sm float-lg-right float-sm-left" data-toggle="buttons">
                         <button type="button" id='toggleLocal' class="btn btn-sm btn-primary" value="graph">SWITCH TO
                             TABLE VIEW</button>
                     </div>
+                    <h3 id='localHead' class="card-title mt-1 ml-1 float-lg-left float-sm-right" style="color: white;">SUMMARY OF CASES PER LOCALITY</h3>
                 </div>
             </div>
             <div id='summaryPerMunicipalityCityChart'>
@@ -255,25 +255,25 @@ while ($time_update = mysqli_fetch_array($rx)) {
             }, 1000);
 
 
-        //INITIALIZE VIDEO
-        $('#videomodal').modal('show');
-        // if ($.cookie("modalClosed") == null){
-        //     $('#videomodal').modal('show');
-        // }
-        $('.modal').on('hidden.bs.modal', function(e) {
-            // SET EXPIRY DATE OF COOKIE
-            var now = new Date();
-            var time = now.getTime();
-            time += 20 * 60000;
-            now.setTime(time);
-            document.cookie = 
-            'modalClosed=true'+
-            '; expires=' + now.toUTCString() + 
-            '; path=/';
+            //INITIALIZE VIDEO
+            $('#videomodal').modal('show');
+            // if ($.cookie("modalClosed") == null){
+            //     $('#videomodal').modal('show');
+            // }
+            $('.modal').on('hidden.bs.modal', function(e) {
+                // SET EXPIRY DATE OF COOKIE
+                var now = new Date();
+                var time = now.getTime();
+                time += 20 * 60000;
+                now.setTime(time);
+                document.cookie =
+                    'modalClosed=true' +
+                    '; expires=' + now.toUTCString() +
+                    '; path=/';
 
-            $iframe = $(this).find("iframe");
-            $iframe.attr("src", $iframe.attr("src"));
-        });
+                $iframe = $(this).find("iframe");
+                $iframe.attr("src", $iframe.attr("src"));
+            });
 
             //INITIALIZE CONDITIONS            
             var flag = false;
@@ -399,7 +399,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
 
             function updateTitleHeader(location) {
                 if (location != 'LAGUNA') $("#localHead").html("SUMMARY OF CASES: " + location);
-                else $("#localHead").html("SUMMARY OF CASES");
+                else $("#localHead").html("SUMMARY OF CASES PER LOCALITY");
                 var titleHeader = location;
                 if (titleHeader === 'LAGUNA') {
                     titleHeader = "Region IV-A: Province of Laguna";

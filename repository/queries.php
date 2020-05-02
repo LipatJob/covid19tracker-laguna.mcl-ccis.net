@@ -1297,3 +1297,22 @@ function getCurrentTrend($location)
         "SumRecoveredDeceased" => $totalRecoveryDeceased
     ];
 }
+
+function isUploading() {
+    $con = getConnection();
+
+    $result = mysqli_query($con, "SELECT Status FROM settings WHERE SettingName = 'IsUploading';");
+
+    $flag = false;
+
+    while ($extract = mysqli_fetch_array($result)) {
+        if ($extract['Status'] == 0) {
+            $flag = false;
+        }
+        else {
+            $flag = true;
+        }
+    }
+
+    return $flag;
+}

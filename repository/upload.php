@@ -272,7 +272,7 @@ function setUploadingInterface() {
         echo "Dashboard is now on Uploading Interface";
     } else {
         mysqli_query($con, "UPDATE settings SET Status = 0 WHERE SettingName = 'IsUploading';");
-        echo "Dashboard is now on Main Interface";
+        echo "Dashboard is now on Main Interface <br/>";
         clearCache();
     }
 }

@@ -32,7 +32,7 @@ $(function() {
         ],
         datasets: [{
             data: <?php echo json_encode($data["ConfirmedCount"]) ?> ,
-            backgroundColor: ['#a8dfff', '#5dd2fc','#2ec8ff','#0dbfff','#30c1ff','#c3c8c9'],
+            backgroundColor: ['#8de6ff','#1ccdff','#1988C8','#005871',"#09344d"],
         }]
     }
 

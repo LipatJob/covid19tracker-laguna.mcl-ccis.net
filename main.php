@@ -237,64 +237,6 @@ while ($time_update = mysqli_fetch_array($rx)) {
             //INITIALIZE NAVBAR
             $("#indexNav a").addClass("active");
 
-            //INITIALIZE DATATABLES
-            //$("#tableContainer").load("./views/summaryPerMunicipalityCityTableView.php");
-            $("#overviewTable").DataTable({
-                paging: false,
-                searching: false,
-                order: [
-                    [1, "desc"]
-                ]
-            });
-
-            //INITIALIZE CLOCK
-
-            setInterval(function() {
-                var date = moment(new Date());
-                $('#mcl_timer').html(date.format('dddd, Do of MMMM YYYY | h:mm:ss a'));
-            }, 1000);
-
-
-            //INITIALIZE VIDEO
-            $('#videomodal').modal('show');
-            // if ($.cookie("modalClosed") == null){
-            //     $('#videomodal').modal('show');
-            // }
-            $('.modal').on('hidden.bs.modal', function(e) {
-                // SET EXPIRY DATE OF COOKIE
-                var now = new Date();
-                var time = now.getTime();
-                time += 20 * 60000;
-                now.setTime(time);
-                document.cookie =
-                    'modalClosed=true' +
-                    '; expires=' + now.toUTCString() +
-                    '; path=/';
-
-                $iframe = $(this).find("iframe");
-                $iframe.attr("src", $iframe.attr("src"));
-            });
-
-            //INITIALIZE CONDITIONS            
-            var flag = false;
-            $("#summaryPerMunicipalityCityChart").show();
-            $("#table").hide();
-
-            //EVENT HANDLERS
-            $("#toggleLocal").click(function() {
-                if (flag == false) {
-                    $("#summaryPerMunicipalityCityChart").hide();
-                    $("#table").show();
-                    $("#toggleLocal").html("SWITCH TO GRAPH VIEW");
-                    flag = true;
-                } else {
-                    $("#summaryPerMunicipalityCityChart").show();
-                    $("#table").hide();
-                    $("#toggleLocal").html("SWITCH TO TABLE VIEW");
-                    flag = false;
-                }
-            });
-
             $("#city").on('change', function() {
                 var location = document.getElementById('city').value;
                 updatePage(location)
@@ -316,7 +258,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
             /**
              * Register a chart for update. All charts must be regsitered below the function.
              * @param {String} target jQuery selector of the container of the chart 
-             * @param {String} viewlocation location of the view of the chart
+             * @param {String} viewlocation file location of the view of the chart
              * @return {Function} function of the ajax update
              */
             function registerChartUpdate(target, viewlocation) {
@@ -413,6 +355,64 @@ while ($time_update = mysqli_fetch_array($rx)) {
             }
 
 
+
+                        //INITIALIZE DATATABLES
+            //$("#tableContainer").load("./views/summaryPerMunicipalityCityTableView.php");
+            $("#overviewTable").DataTable({
+                paging: false,
+                searching: false,
+                order: [
+                    [1, "desc"]
+                ]
+            });
+
+            //INITIALIZE CLOCK
+
+            setInterval(function() {
+                var date = moment(new Date());
+                $('#mcl_timer').html(date.format('dddd, Do of MMMM YYYY | h:mm:ss a'));
+            }, 1000);
+
+
+            //INITIALIZE VIDEO
+            $('#videomodal').modal('show');
+            // if ($.cookie("modalClosed") == null){
+            //     $('#videomodal').modal('show');
+            // }
+            $('.modal').on('hidden.bs.modal', function(e) {
+                // SET EXPIRY DATE OF COOKIE
+                var now = new Date();
+                var time = now.getTime();
+                time += 20 * 60000;
+                now.setTime(time);
+                document.cookie =
+                    'modalClosed=true' +
+                    '; expires=' + now.toUTCString() +
+                    '; path=/';
+
+                $iframe = $(this).find("iframe");
+                $iframe.attr("src", $iframe.attr("src"));
+            });
+
+            //INITIALIZE CONDITIONS            
+            var flag = false;
+            $("#summaryPerMunicipalityCityChart").show();
+            $("#table").hide();
+
+            //EVENT HANDLERS
+            $("#toggleLocal").click(function() {
+                if (flag == false) {
+                    $("#summaryPerMunicipalityCityChart").hide();
+                    $("#table").show();
+                    $("#toggleLocal").html("SWITCH TO GRAPH VIEW");
+                    flag = true;
+                } else {
+                    $("#summaryPerMunicipalityCityChart").show();
+                    $("#table").hide();
+                    $("#toggleLocal").html("SWITCH TO TABLE VIEW");
+                    flag = false;
+                }
+            });
         });
     </script>
 

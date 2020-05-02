@@ -32,7 +32,7 @@ $(function() {
         ],
         datasets: [{
             data: <?php echo json_encode($data["DeceasedCount"]) ?> ,
-            backgroundColor: ['#ededed', '#b3adad','#bab6b6','#a39d9d','#8f8989','#c3c8c9'],
+            backgroundColor: ['#f4f4f4', '#d5d5d5','#979797','#4a4a4a','#1c1c1c'],
         }]
     }
 

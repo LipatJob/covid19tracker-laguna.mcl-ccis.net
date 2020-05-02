@@ -18,7 +18,7 @@ function isDebugMode(){
 }
 
 function getCacheExpiryTime(){
-    return 30;
+    return 360;
 }
 //END OF CACHE SETTINGS
 
@@ -50,7 +50,7 @@ function getCached($functionKey, $functionToCache, $parameters){
             /*DEBUG*/ if(isDebugMode()) echo $functionKey. ": USING CACHED FILE <br>"; //DEBUG
         }
     }else{ //else cache the function and return the data 
-        /*DEBUG*/ if(isDebugMode()) echo $functionKey. ": FUNCITON NOT CACHED. STARTING CACHE <br>";   //DEBUG
+        /*DEBUG*/ if(isDebugMode()) echo $functionKey. ": FUNCTION NOT CACHED. STARTING CACHE <br>";   //DEBUG
         $data = $functionToCache($parameters);
         doCache($functionKey, $data);
         /*DEBUG*/ if(isDebugMode()) echo $functionKey.": CACHING COMPLETE <br>";   //DEBUG

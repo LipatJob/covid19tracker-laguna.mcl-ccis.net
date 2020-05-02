@@ -9,7 +9,7 @@ switch($_GET["functionname"]){
 }
 
 function getData($brgyname){
-    $data = getSummaryPerCityMunicipalityTable($brgyname);
+    $data = getCachedSummaryPerCityMunicipalityTable($brgyname);
     echo json_encode($data);
 }
 

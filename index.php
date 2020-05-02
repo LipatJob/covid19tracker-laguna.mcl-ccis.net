@@ -1,36 +1,7 @@
 <?php
 include 'phpcore/connection.php';
 
-
-$query1 = "SELECT * FROM barangay_history order by reference_date";
-$result1 = mysqli_query($con, $query1);
-$result2 = mysqli_query($con, $query1);
-while ($rows2 = mysqli_fetch_array($result2)) {
-    $rowsData2 = $rows2['reference_date'];
-    break;
-}
-while ($rows1 = mysqli_fetch_array($result1)) {
-    $rowsData1 = $rows1['reference_date'];
-}
-$ref1 = $rowsData2;
-$ref2 = $rowsData1;
-
-$msql = "SELECT * FROM ALL_TOTAL";
-//$msql2 = "SELECT SUM(`new_positive_case`) as sum1, SUM(`current_positive_case`) as sum2, SUM(`current_deceased`) as sum3, SUM(`current_recovered`) as sum4, SUM(`total_positive_cases`) as sum5, SUM(`current_pum`) as sum6, SUM(`current_pui`) as sum7 FROM `barangay_history`";
-$msql2 = "SELECT SUM(`new_positive_case`) as sum1, SUM(`current_positive_case`) as sum2, SUM(`current_deceased`) as sum3, SUM(`current_recovered`) as sum4, SUM(`total_positive_cases`) as sum5, SUM(`current_pum`) as sum6, SUM(`current_pui`) as sum7 FROM `barangay_history` where reference_date = (SELECT Max(reference_date) from barangay_history)";
-
-$result1 = mysqli_query($con, $msql2);
-while ($extract = mysqli_fetch_array($result1)) {
-    $sum1 = $extract['sum1'];
-    $sum2 = $extract['sum2'];
-    $sum3 = $extract['sum3'];
-    $sum4 = $extract['sum4'];
-    $sum5 = $extract['sum5'];
-    $sum6 = $extract['sum6'];
-    $sum7 = $extract['sum7'];
-}
-
-$rx = mysqli_query($con, "SELECT MAX(reference_date) as TIME_UPDATE from barangay_history");
+$rx = mysqli_query($con, "SELECT MAX(ref_date) AS TIME_UPDATE FROM reference_dates;");
 while ($time_update = mysqli_fetch_array($rx)) {
     $last_update = date('F j, Y', strtotime($time_update['TIME_UPDATE']));
 }

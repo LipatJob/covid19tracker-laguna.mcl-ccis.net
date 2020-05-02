@@ -8,7 +8,7 @@
  */
 function getConnection()
 {
-    include '../phpcore/connection.php';
+    include dirname(__DIR__) .'/phpcore/connection.php';
     return $con;
 }
 
@@ -1306,7 +1306,7 @@ function isUploading() {
     $flag = false;
 
     while ($extract = mysqli_fetch_array($result)) {
-        if ($extract['Status'] == 0) {
+        if ($extract['Status'] == '0') {
             $flag = false;
         }
         else {

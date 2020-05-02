@@ -35,7 +35,7 @@ $(function() {
             'FEMALE:',
         ],
         datasets: [{
-            data: <?php echo json_encode($data["GenderData"]) ?> ,
+            data: [<?php echo json_encode($data["MalePercentage"]) ?>,<?php echo json_encode($data["FemalePercentage"]) ?>] ,
             backgroundColor: ['#3c4ef0', '#ed54f0'],
         }]
     }

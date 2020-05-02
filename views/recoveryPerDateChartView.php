@@ -3,6 +3,7 @@
     $data = getCachedRecoveredPerDate($_GET["location"]);
     $dataDeceased = getCachedDeceasedPerDate($_GET["location"]);
     $summary = getCachedSummary($_GET["location"]);
+    $dataCases = getCachedCasesPerDate($_GET["location"]);
     $recoveryPercent = [];
     $deceasedPercent = [];
 
@@ -23,7 +24,7 @@
 
 <div class="card card-danger2">
     <div class="card-header">
-        <h3 class="card-title" style="color: white;">RECOVERED AND DECEASED</h3>
+        <h3 class="card-title" style="color: white;">CUMULATIVE RECOVERED AND DECEASED CASES</h3>
     </div>
     <div class="card-body">
         <div class="chart">
@@ -42,7 +43,7 @@ $(function() {
 
     var areaChartData = {
         labels: <?php echo json_encode($data["Dates"]) ?> ,
-        datasets: [{
+        datasets: [/*{
             label: 'RECOVERY RATE',
             type: 'line',
             backgroundColor: 'rgba(42, 187, 155, 1)',
@@ -64,9 +65,10 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
             data: <?php echo json_encode($deceasedPercent) ?>
-        },{
+        },*/
+        {
             label: 'RECOVERED CASES',
-            type: 'bar',
+            type: 'line',
             backgroundColor: 'rgba(42, 187, 155, 1)',
             borderColor: 'rgba(42, 187, 155, 1)',
             pointRadius: true,
@@ -74,9 +76,9 @@ $(function() {
             pointStrokeColor: '#c1c7d1',
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
-            data: <?php echo json_encode($data['Recovered']) ?>
-        }
-        ,{
+            lineTension: 0,
+            data: <?php echo json_encode($data['CumulativeRecovered']) ?>
+        },{
             label: 'DECEASED CASES',
             type: 'bar',
             backgroundColor: '#7d7d7d',
@@ -86,12 +88,33 @@ $(function() {
             pointStrokeColor: '#c1c7d1',
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(42, 187, 155, 1)',
-            data: <?php echo json_encode($dataDeceased['Deceased']) ?>
-        }]
+            lineTension: 0,
+            data: <?php echo json_encode($dataDeceased['CumulativeDeceased']) ?>
+        }/*,{
+            label: 'CONFIRMED',
+            type: 'line',
+            backgroundColor: '#1988C8',
+            borderColor: '#1988C8',
+            pointRadius: true,
+            pointColor: '#3b8bba',
+            pointStrokeColor: 'rgba(60,141,188, .5)',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(60,141,188, .5)',
+            data: <?php echo json_encode($dataCases["TotalPositiveCases"]) ?>
+        }*/
+        ]
     }
 
     var areaChartOptions = {
         maintainAspectRatio: false,
+        tooltips: {
+            mode: 'index',
+            intersect: false
+        },
+        hover: {
+            mode: 'index',
+            intersect: false
+        },
         responsive: true,
         legend: {
             labels: {
@@ -134,7 +157,7 @@ $(function() {
             yAxes: [{
                 ticks: {
                     beginAtZero: true,
-                    suggestedMax: 30,
+                    //suggestedMax: 30,
                     callback: function(value) {
                         if (value % 1 === 0) {
                             return value;
@@ -153,12 +176,13 @@ $(function() {
     var lineChartCanvas = $('#recovChart').get(0).getContext('2d')
     var lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
     var lineChartData = jQuery.extend(true, {}, areaChartData)
-    lineChartData.datasets[0].fill = false;
-    lineChartData.datasets[1].fill = false;
-    lineChartOptions.datasetFill = false
+    lineChartData.datasets[0].fill = true;
+    lineChartData.datasets[1].fill = true;
+    //lineChartData.datasets[2].fill = true;
+    lineChartOptions.datasetFill = false;
 
     var lineChart = new Chart(lineChartCanvas, {
-        type: 'line',
+        type: 'bar',
         data: lineChartData,
         options: lineChartOptions
     })

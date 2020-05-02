@@ -21,13 +21,14 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
             labels: <?php echo json_encode($data["Locals"])?> ,
             datasets: [{
                     label: 'CONFIRMED',
-                    backgroundColor: 'rgba(60,141,188,0.5)',
-                    borderColor: 'rgba(60,141,188,0.5)',
+                    backgroundColor: '#1988C8',
+                    borderColor: '#1988C8',
                     pointRadius: true,
                     pointColor: '#3b8bba',
                     pointStrokeColor: 'rgba(60,141,188, .5)',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: 'rgba(60,141,188, .5)',
+                    hidden: false,
                     data: <?php echo json_encode($data["TotalPositiveCases"])?>
                 },
 
@@ -40,6 +41,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     pointStrokeColor: '#c1c7d1',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: 'rgba(42, 187, 155, 1)',
+                    hidden: true,
                     data: <?php echo json_encode($data["Recovered"])?>
                 }, {
                     label: 'DECEASED',
@@ -50,6 +52,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     pointStrokeColor: '#c1c7d1',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: 'rgb(128,128,128,1)',
+                    hidden: true,
                     data: <?php echo json_encode($data["Deceased"])?>
                 },
             ]
@@ -90,19 +93,58 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci
                         .getDatasetMeta(index).hidden;
 
+
                     ci.data.datasets.forEach(function(e, i) {
                         var meta = ci.getDatasetMeta(i);
 
                         if (i !== index) {
-                            if (!alreadyHidden) {
-                                meta.hidden = meta.hidden === null ? !meta.hidden : null;
-                            } else if (meta.hidden === null) {
                                 meta.hidden = true;
-                            }
                         } else if (i === index) {
-                            meta.hidden = null;
+                            meta.hidden = false;
                         }
                     });
+
+
+                    //ALGORITHM FOR  SORTRING
+
+                    var zippedVal = [];
+                    ci.data.datasets.forEach(function(e, i) {
+                       zippedVal.push(e.data); 
+                    });
+                    var relData = [];
+                    zippedVal[0].forEach(function(e, i){
+                        tempArr = [];
+                        relData.push(tempArr);
+                    });
+                    zippedVal.push(ci.data.labels);
+
+                    zippedVal.forEach(function(e, i) {
+                        e.forEach(function(ee, ii) {
+                            relData[ii].push(ee);
+                        });
+                    });
+
+                    relData = relData.sort(function(a,b){
+                        return parseInt(a[index]) < parseInt(b[index]) ? 1 : -1;;
+                    });
+
+                    var newData = [];
+                    relData[0].forEach(function(e, i){
+                        tempArr = [];
+                        newData.push(tempArr);
+                    });
+
+                    relData.forEach(function(e, i){
+                        e.forEach(function(ee, ii) {
+                            newData[ii].push(ee);
+                        });
+                    });
+                    ci.data.datasets.forEach(function(e, i) {
+                        e.data = newData[i];
+                    });
+                    ci.data.labels = newData.pop();
+
+                    //END OF ALGORITHM FOR SORTING
 
                     ci.update();
                 }

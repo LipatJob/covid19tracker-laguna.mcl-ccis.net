@@ -36,9 +36,10 @@ $(function() {
 
 
     var areaChartData = {
-        labels: ['0-9 yrs old', '10-19 yrs old', '20-29 yrs old', '30-39 yrs old', '40-49 yrs old',
+        /*labels: ['0-9 yrs old', '10-19 yrs old', '20-29 yrs old', '30-39 yrs old', '40-49 yrs old',
             '50-59 yrs old', '60-69 yrs old', '70-79 yrs old', '80+ yrs old', 'NOT SPECIFIED'
-        ],
+        ]*/
+        labels: ['0-19 yrs old', '20-39 yrs old', '40-59 yrs old', '60-79 yrs old', '80+ yrs old' ],
         datasets: [{
                 label: 'RECOVERED',
                 backgroundColor: 'rgba(42, 187, 155, 1)',
@@ -62,14 +63,14 @@ $(function() {
                 data: <?php echo json_encode($data["DeceasedPercentage"]) ?>
             },
             {
-                label: 'CONFIRMED',
-                backgroundColor: 'rgba(60,141,188,0.5)',
-                borderColor: 'rgba(60,141,188,0.5)',
+                label: 'ACTIVE CASES',
+                backgroundColor: 'rgba(0,128,128, 0.8)',
+                borderColor: 'rgba(0,128,128, 0.8)',
                 pointRadius: false,
-                pointColor: 'rgba(60,141,188,0.5)',
-                pointStrokeColor: 'rgba(60,141,188,0.5)',
+                pointColor: 'rgba(0,128,128, 0.8)',
+                pointStrokeColor: 'rgba(0,128,128, 0.8)',
                 pointHighlightFill: '#fff',
-                pointHighlightStroke: 'rgba(60,141,188,0.5)',
+                pointHighlightStroke: 'rgba(0,128,128, 0.8)',
                 data: <?php echo json_encode($data["CurrentPercentage"]) ?>
             },
 

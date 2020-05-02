@@ -3,36 +3,52 @@
 //echo json_encode(getCasesPerCityMunicipality("BINAN"));
 
 /**
-* This function returns the SQL connection
-* @return SQLConnection: SQL connection 
-*/ 
-function getConnection(){
-    include '../phpcore/connection.php';
+ * This function returns the SQL connection
+ * @return SQLConnection: SQL connection 
+ */
+function getConnection()
+{
+    include dirname(__DIR__) .'/phpcore/connection.php';
     return $con;
 }
 
+function getMinDate()
+{
+    //Temporary
+    //Better if coming from .ini file or DB
+    return new DateTime("2020-03-20");
+}
+
+function setFirstDate()
+{
+    $isMonthName = false;
+
+    return $isMonthName ? date("F", strtotime(getMinDate()->format("Y-m-d"))) : getMinDate()->format("m-d");
+}
+
 /**
-* This function returns the values return for the summary part of the website
-* @param $string $location: The desired location
-* @return array: The data for summary.
-*/
-function getSummary($location){
+ * This function returns the values return for the summary part of the website
+ * @param $string $location: The desired location
+ * @return array: The data for summary.
+ */
+function getSummary($location)
+{
     $con = getConnection();
-	$testingthisone = 0;
-	$testingthisone2 = 0;
-	$checkcount2 = 0;
-	$checkcount = 0;
-	$checkcount3 = 0;
-	$PUIcount = 0;
-	$PUMcount = 0;
-	$Activecount = 0;
+    $testingthisone = 0;
+    $testingthisone2 = 0;
+    $checkcount2 = 0;
+    $checkcount = 0;
+    $checkcount3 = 0;
+    $PUIcount = 0;
+    $PUMcount = 0;
+    $Activecount = 0;
     $dbCity = $location;
-    $dbCity = str_replace("%20","",$location);
+    $dbCity = str_replace("%20", "", $location);
     if ($dbCity == 'LAGUNA') {
         $dbCity = 'ALL';
         //$dbCity = '';
     }
-    
+
     $query = "SELECT SUM(brgynew.NEW_POSITIVE_CASE) as NEWPOS, SUM(brgynew.current_positive_case) as CURRENTPOS, SUM(brgynew.current_deceased) as DECEASED, SUM(brgynew.current_recovered) as RECOVERED, SUM(brgynew.total_positive_cases) as POSCASES, SUM(cases.current_suspect_PUI) as PUM, SUM(cases.current_probable_PUI) as PUI  FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
@@ -41,15 +57,15 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates))";
-    
+
     if ($dbCity != 'ALL') {
         $query .= " AND city.CityName = '" . $dbCity . "'";
     }
-    
+
     //$resultCount = mysqli_query($con,"SELECT SUM(NEW_POSITIVE_CASES) as NEWPOS, SUM(TOTAL_CURRENT_POSITIVE) as CURRENTPOS, SUM(TOTAL_DECEASED) as DECEASED, SUM(TOTAL_RECOVERED) as RECOVERED, SUM(TOTAL_POSITIVE_CASES) as POSCASES, SUM(TOTAL_PUM) as PUM, SUM(TOTAL_PUI) as PUI FROM ". $dbCity ."_TOTAL");
     $resultCount = mysqli_query($con, $query);
-	
-    while($extract = mysqli_fetch_array($resultCount)){
+
+    while ($extract = mysqli_fetch_array($resultCount)) {
         $NEWPOS = $extract['NEWPOS'];
         $CURRENTPOS = $extract['CURRENTPOS'];
         $DECEASED = $extract['DECEASED'];
@@ -57,26 +73,24 @@ function getSummary($location){
         $POSCASES = $extract['POSCASES'];
         $PUM = $extract['PUM'];
         $PUI = $extract['PUI'];
-		
     }
 
     $recoveredDeceased[0] = $RECOVERED;
     $recoveredDeceased[1] = $DECEASED;
-	
-	$query = "select max(ref_date) as MaxDate from reference_dates";
-	  $resultCount = mysqli_query($con, $query);
-	
-    while($extract = mysqli_fetch_array($resultCount)){
-		$date = $extract['MaxDate'];
-	}
-	$mypastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
-	$days_ago = $date;
-	$testbool = "true";
-	
-	while($testbool == "true")
-	{
-	
-    $query5 = "SELECT SUM(brgynew.NEW_POSITIVE_CASE) as NEWPOS FROM barangay_history_new as brgynew
+
+    $query = "select max(ref_date) as MaxDate from reference_dates";
+    $resultCount = mysqli_query($con, $query);
+
+    while ($extract = mysqli_fetch_array($resultCount)) {
+        $date = $extract['MaxDate'];
+    }
+    $mypastdate = date('Y-m-d', strtotime('-1 day', strtotime($date)));
+    $days_ago = $date;
+    $testbool = "true";
+
+    while ($testbool == "true") {
+
+        $query5 = "SELECT SUM(brgynew.NEW_POSITIVE_CASE) as NEWPOS FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
     INNER JOIN Barangay as brgy
@@ -84,45 +98,39 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$days_ago')";
-    
-    if ($dbCity != 'ALL') {
-        $query5 .= " AND city.CityName = '" . $dbCity . "'";
+
+        if ($dbCity != 'ALL') {
+            $query5 .= " AND city.CityName = '" . $dbCity . "'";
+        }
+
+        $resultCount5 = mysqli_query($con, $query5);
+
+        while ($extract5 = mysqli_fetch_array($resultCount5)) {
+            if ($POSCASES != 0) {
+                $checkcount = $extract5['NEWPOS'];
+            } else {
+                $testbool = "false";
+            }
+        }
+
+        if ($checkcount == 0) {
+            $days_ago = date('Y-m-d', strtotime('-1 day', strtotime($days_ago)));
+        } else {
+            if ($days_ago == $mypastdate) {
+                $checkcount = 0;
+                $days_ago = $date;
+            }
+            $testbool = "false";
+        }
     }
-	
-	 $resultCount5 = mysqli_query($con, $query5);
-	 
-	 while($extract5 = mysqli_fetch_array($resultCount5)){
-		 if($POSCASES != 0){
-      $checkcount = $extract5['NEWPOS'];
-		 }else
-		{
-			$testbool = "false";
-		}
-    }
-	
-	if($checkcount == 0)
-	{
-		$days_ago = date('Y-m-d', strtotime('-1 day', strtotime($days_ago)));
-	}
-	else
-	{
-		if($days_ago == $mypastdate)
-		{
-			$checkcount = 0;
-			$days_ago = $date;
-		}
-		$testbool = "false";
-	}
-	
-	}
-	
-	$days_ago_PUM = $date;
-	$past_days2 = date('Y-m-d', strtotime('-1 day', strtotime($days_ago_PUM)));
-	$PUMcount2 = 0;
-	
-	
-	
-	
+
+    $days_ago_PUM = $date;
+    $past_days2 = date('Y-m-d', strtotime('-1 day', strtotime($days_ago_PUM)));
+    $PUMcount2 = 0;
+
+
+
+
     $query5 = "SELECT SUM(cases.current_suspect_PUI) as PUM FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
@@ -131,18 +139,18 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$days_ago_PUM')";
-    
+
     if ($dbCity != 'ALL') {
         $query5 .= " AND city.CityName = '" . $dbCity . "'";
     }
-	
-	 $resultCount5 = mysqli_query($con, $query5);
-	 
-	 while($extract5 = mysqli_fetch_array($resultCount5)){
-      $PUMcount = $extract5['PUM'];
+
+    $resultCount5 = mysqli_query($con, $query5);
+
+    while ($extract5 = mysqli_fetch_array($resultCount5)) {
+        $PUMcount = $extract5['PUM'];
     }
-	
-	$query5 = "SELECT SUM(cases.current_suspect_PUI) as PUM FROM barangay_history_new as brgynew
+
+    $query5 = "SELECT SUM(cases.current_suspect_PUI) as PUM FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
     INNER JOIN Barangay as brgy
@@ -150,28 +158,28 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$past_days2')";
-    
+
     if ($dbCity != 'ALL') {
         $query5 .= " AND city.CityName = '" . $dbCity . "'";
     }
-	
-	 $resultCount5 = mysqli_query($con, $query5);
-	 
-	 while($extract5 = mysqli_fetch_array($resultCount5)){
-      $PUMcount2 = $extract5['PUM'];
+
+    $resultCount5 = mysqli_query($con, $query5);
+
+    while ($extract5 = mysqli_fetch_array($resultCount5)) {
+        $PUMcount2 = $extract5['PUM'];
     }
-	
-	
-	$PUMcount = $PUMcount - $PUMcount2;
 
 
-	$days_ago_Active = $date;
-	$days_ago_Active2 = date('Y-m-d', strtotime('-1 day', strtotime($days_ago_Active)));
-	$Activecount2 = 0;
-	
-	
-	
-	
+    $PUMcount = $PUMcount - $PUMcount2;
+
+
+    $days_ago_Active = $date;
+    $days_ago_Active2 = date('Y-m-d', strtotime('-1 day', strtotime($days_ago_Active)));
+    $Activecount2 = 0;
+
+
+
+
     $query5 = "SELECT SUM(brgynew.current_positive_case) as CURRENTPOS FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
@@ -180,18 +188,18 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$days_ago_Active')";
-    
+
     if ($dbCity != 'ALL') {
         $query5 .= " AND city.CityName = '" . $dbCity . "'";
     }
-	
-	 $resultCount5 = mysqli_query($con, $query5);
-	 
-	 while($extract5 = mysqli_fetch_array($resultCount5)){
-      $Activecount = $extract5['CURRENTPOS'];
+
+    $resultCount5 = mysqli_query($con, $query5);
+
+    while ($extract5 = mysqli_fetch_array($resultCount5)) {
+        $Activecount = $extract5['CURRENTPOS'];
     }
-	
-	$query5 = "SELECT SUM(brgynew.current_positive_case) as CURRENTPOS FROM barangay_history_new as brgynew
+
+    $query5 = "SELECT SUM(brgynew.current_positive_case) as CURRENTPOS FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
     INNER JOIN Barangay as brgy
@@ -199,31 +207,31 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$days_ago_Active2')";
-    
+
     if ($dbCity != 'ALL') {
         $query5 .= " AND city.CityName = '" . $dbCity . "'";
     }
-	
-	 $resultCount5 = mysqli_query($con, $query5);
-	 
-	 while($extract5 = mysqli_fetch_array($resultCount5)){
-      $Activecount2 = $extract5['CURRENTPOS'];
+
+    $resultCount5 = mysqli_query($con, $query5);
+
+    while ($extract5 = mysqli_fetch_array($resultCount5)) {
+        $Activecount2 = $extract5['CURRENTPOS'];
     }
-	
-	
-	$Activecount = $Activecount - $Activecount2;
+
+
+    $Activecount = $Activecount - $Activecount2;
 
 
 
-	
-	$days_ago_PUI = $date;
-	$past_days3 = date('Y-m-d', strtotime('-1 day', strtotime($days_ago_PUI)));
-	$testbool = "true";
-	$PUIcount2 = 0;
-	
-	
-	
-	
+
+    $days_ago_PUI = $date;
+    $past_days3 = date('Y-m-d', strtotime('-1 day', strtotime($days_ago_PUI)));
+    $testbool = "true";
+    $PUIcount2 = 0;
+
+
+
+
     $query5 = "SELECT SUM(cases.current_probable_PUI) as PUI FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
@@ -232,20 +240,19 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$days_ago_PUI')";
-    
+
     if ($dbCity != 'ALL') {
         $query5 .= " AND city.CityName = '" . $dbCity . "'";
     }
-	
-	 $resultCount5 = mysqli_query($con, $query5);
-	 
-	 while($extract5 = mysqli_fetch_array($resultCount5)){
-      $PUIcount = $extract5['PUI'];
 
+    $resultCount5 = mysqli_query($con, $query5);
+
+    while ($extract5 = mysqli_fetch_array($resultCount5)) {
+        $PUIcount = $extract5['PUI'];
     }
-	
-	
-	$query5 = "SELECT SUM(cases.current_probable_PUI) as PUI FROM barangay_history_new as brgynew
+
+
+    $query5 = "SELECT SUM(cases.current_probable_PUI) as PUI FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
     INNER JOIN Barangay as brgy
@@ -253,35 +260,33 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$past_days3')";
-    
+
     if ($dbCity != 'ALL') {
         $query5 .= " AND city.CityName = '" . $dbCity . "'";
     }
-	
-	 $resultCount5 = mysqli_query($con, $query5);
-	 
-	 while($extract5 = mysqli_fetch_array($resultCount5)){
-      $PUIcount2 = $extract5['PUI'];
 
+    $resultCount5 = mysqli_query($con, $query5);
+
+    while ($extract5 = mysqli_fetch_array($resultCount5)) {
+        $PUIcount2 = $extract5['PUI'];
     }
-	
-	$PUIcount = $PUIcount - $PUIcount2;
-	
-	
-	
-	
-	
-	
-	
-	
-	$days_ago2 = $date;
-	$past_days = date('Y-m-d', strtotime('-1 day', strtotime($days_ago2)));
-	$testbool = "true";
-	
-	while($testbool == "true")
-	{
-	
-    $query6 = "SELECT SUM(brgynew.current_deceased) as DECEASED FROM barangay_history_new as brgynew
+
+    $PUIcount = $PUIcount - $PUIcount2;
+
+
+
+
+
+
+
+
+    $days_ago2 = $date;
+    $past_days = date('Y-m-d', strtotime('-1 day', strtotime($days_ago2)));
+    $testbool = "true";
+
+    while ($testbool == "true") {
+
+        $query6 = "SELECT SUM(brgynew.current_deceased) as DECEASED FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
     INNER JOIN Barangay as brgy
@@ -289,25 +294,22 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$days_ago2')";
-    
-    if ($dbCity != 'ALL') {
-        $query6 .= " AND city.CityName = '" . $dbCity . "'";
-    }
-	
-	 $resultCount6 = mysqli_query($con, $query6);
-	 
-	 while($extract6 = mysqli_fetch_array($resultCount6)){
-		 if($DECEASED != 0)
-		 {
-      $checkcount2 = $extract6['DECEASED'];
-		 }
-	else
-	{
-		$testbool = "false";
-	}
-    }
-	
-	$query7 = "SELECT SUM(brgynew.current_deceased) as DECEASED2 FROM barangay_history_new as brgynew
+
+        if ($dbCity != 'ALL') {
+            $query6 .= " AND city.CityName = '" . $dbCity . "'";
+        }
+
+        $resultCount6 = mysqli_query($con, $query6);
+
+        while ($extract6 = mysqli_fetch_array($resultCount6)) {
+            if ($DECEASED != 0) {
+                $checkcount2 = $extract6['DECEASED'];
+            } else {
+                $testbool = "false";
+            }
+        }
+
+        $query7 = "SELECT SUM(brgynew.current_deceased) as DECEASED2 FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
     INNER JOIN Barangay as brgy
@@ -315,64 +317,55 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$past_days')";
-    
-    if ($dbCity != 'ALL') {
-        $query7 .= " AND city.CityName = '" . $dbCity . "'";
+
+        if ($dbCity != 'ALL') {
+            $query7 .= " AND city.CityName = '" . $dbCity . "'";
+        }
+
+        $resultCount7 = mysqli_query($con, $query7);
+
+        while ($extract7 = mysqli_fetch_array($resultCount7)) {
+            if ($DECEASED != 0) {
+                $testingthisone = $extract7['DECEASED2'];
+            } else {
+                $testbool = "false";
+            }
+        }
+        $minusthis = 0;
+        $minusthis = $checkcount2 - $testingthisone;
+?>
+        <!-- if > 0 -->
+    <?php
+
+        if ($minusthis == 0) {
+            $past_days = date('Y-m-d', strtotime('-1 day', strtotime($past_days)));
+        } else {
+
+            $days_ago2 = $past_days;
+
+            if ($date != $days_ago2) {
+                $days_ago2 = date('Y-m-d', strtotime('+1 day', strtotime($days_ago2)));
+            }
+            if ($days_ago2 == $mypastdate) {
+                $minusthis = 0;
+                $days_ago2 = $date;
+            }
+
+            $testbool = "false";
+        }
     }
-	
-	 $resultCount7 = mysqli_query($con, $query7);
-	 
-	 while($extract7 = mysqli_fetch_array($resultCount7)){
-		if($DECEASED != 0)
-		{
-      $testingthisone = $extract7['DECEASED2'];
-		}
-	else
-	{
-		$testbool = "false";
-	}
-    }
-	$minusthis = 0;
-	$minusthis = $checkcount2 - $testingthisone;
-	?>
-	<!-- if > 0 -->
-	<?php
-	
-	if($minusthis == 0)
-	{
-		$past_days = date('Y-m-d', strtotime('-1 day', strtotime($past_days)));
-	}
-	else
-	{
-		
-		$days_ago2 = $past_days;
-		
-		if($date != $days_ago2)
-		{
-			$days_ago2 = date('Y-m-d', strtotime('+1 day', strtotime($days_ago2)));
-		}
-		if($days_ago2 == $mypastdate)
-		{
-			$minusthis = 0;
-			$days_ago2 = $date;
-		}
-		
-		$testbool = "false";
-	}
-	
-	}
-	
-	?>
-	<!-- recover count -->
-	<?php
-	
-	$days_ago3 = $date;
-	$past_days = date('Y-m-d', strtotime('-1 day', strtotime($days_ago3)));
-	$testbool = "true";
-	
-	
-	
-	
+
+    ?>
+    <!-- recover count -->
+<?php
+
+    $days_ago3 = $date;
+    $past_days = date('Y-m-d', strtotime('-1 day', strtotime($days_ago3)));
+    $testbool = "true";
+
+
+
+
     $query6 = "SELECT SUM(brgynew.current_recovered) as RECOVERED FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
@@ -381,24 +374,22 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$days_ago3')";
-    
+
     if ($dbCity != 'ALL') {
         $query6 .= " AND city.CityName = '" . $dbCity . "'";
     }
-	
-	 $resultCount6 = mysqli_query($con, $query6);
-	 
-	 while($extract6 = mysqli_fetch_array($resultCount6)){
-		if($RECOVERED != 0)
-		{
-      $checkcount3 = $extract6['RECOVERED'];
-		}else
-		{
-			$testbool = "false";
-		}
+
+    $resultCount6 = mysqli_query($con, $query6);
+
+    while ($extract6 = mysqli_fetch_array($resultCount6)) {
+        if ($RECOVERED != 0) {
+            $checkcount3 = $extract6['RECOVERED'];
+        } else {
+            $testbool = "false";
+        }
     }
-	
-	$query7 = "SELECT SUM(brgynew.current_recovered) as RECOVERED FROM barangay_history_new as brgynew
+
+    $query7 = "SELECT SUM(brgynew.current_recovered) as RECOVERED FROM barangay_history_new as brgynew
     INNER JOIN New_Cases as cases
     on brgynew.ID = cases.BarangayHistID
     INNER JOIN Barangay as brgy
@@ -406,38 +397,37 @@ function getSummary($location){
     INNER JOIN City as city
     on brgy.CityID = city.ID
     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = '$past_days')";
-    
+
     if ($dbCity != 'ALL') {
         $query7 .= " AND city.CityName = '" . $dbCity . "'";
     }
-	
-	 $resultCount7 = mysqli_query($con, $query7);
-	 
-	 while($extract7 = mysqli_fetch_array($resultCount7)){
-		 if($RECOVERED !=0)
-		 {
-      $testingthisone2 = $extract7['RECOVERED'];
-		 }
+
+    $resultCount7 = mysqli_query($con, $query7);
+
+    while ($extract7 = mysqli_fetch_array($resultCount7)) {
+        if ($RECOVERED != 0) {
+            $testingthisone2 = $extract7['RECOVERED'];
+        }
     }
-	$minusthis2 = 0;
-	$minusthis2 = $checkcount3 - $testingthisone2;
-	
-	
-	
-	
-	
-	
-	$outputconfirmed=date('Y-m-d', strtotime('+1 day', strtotime($days_ago)));
-	$outputPUM=date('Y-m-d', strtotime('+1 day', strtotime($days_ago_PUM)));
-	$outputPUI=date('Y-m-d', strtotime('+1 day', strtotime($days_ago_PUI)));
-	$outputdeceased=date('Y-m-d', strtotime('+1 day', strtotime($days_ago2)));
-	$outputrecovered=date('Y-m-d', strtotime('+1 day', strtotime($days_ago3)));
-	
-	$outputconfirmed = date('M. d', strtotime($outputconfirmed));
-	$outputdeceased = date('M. d', strtotime($outputdeceased));
-	$outputrecovered = date('M. d', strtotime($outputrecovered));
-    
-	
+    $minusthis2 = 0;
+    $minusthis2 = $checkcount3 - $testingthisone2;
+
+
+
+
+
+
+    $outputconfirmed = date('Y-m-d', strtotime('+1 day', strtotime($days_ago)));
+    $outputPUM = date('Y-m-d', strtotime('+1 day', strtotime($days_ago_PUM)));
+    $outputPUI = date('Y-m-d', strtotime('+1 day', strtotime($days_ago_PUI)));
+    $outputdeceased = date('Y-m-d', strtotime('+1 day', strtotime($days_ago2)));
+    $outputrecovered = date('Y-m-d', strtotime('+1 day', strtotime($days_ago3)));
+
+    $outputconfirmed = date('M. d', strtotime($outputconfirmed));
+    $outputdeceased = date('M. d', strtotime($outputdeceased));
+    $outputrecovered = date('M. d', strtotime($outputrecovered));
+
+
 
     return [
         "ConfirmedCases" => $POSCASES,
@@ -447,33 +437,34 @@ function getSummary($location){
         "Suspect" => $PUM,
         "Probable" => $PUI,
         "RecoveredDeceased" => $recoveredDeceased,
-		"CountDays" => $days_ago,
-		"DeceasedDate" => $days_ago2,
-		"DeceasedCheck" => $minusthis,
-		"RecoverCheck" => $minusthis2,
-		"RecoverDate" => $days_ago3,
-		"TotalConfirmed" => $checkcount,
-		"OutputConfirmed" => $outputconfirmed,
-		"OutputDeceased" => $outputdeceased,
-		"OutputRecovered" => $outputrecovered,
-		"PUMDate" => $days_ago_PUM,
-		"PUIDate" => $days_ago_PUI,
-		"PUICheck" => $PUIcount,
-		"PUMCheck" => $PUMcount,
-		"OutputPUM" => $outputPUM,
-		"OutputPUI" => $outputPUI,
-		"ThisCity" => $dbCity,
-		"ActiveCheck" => $Activecount,
-		"MyDate" => $date,
-		
+        "CountDays" => $days_ago,
+        "DeceasedDate" => $days_ago2,
+        "DeceasedCheck" => $minusthis,
+        "RecoverCheck" => $minusthis2,
+        "RecoverDate" => $days_ago3,
+        "TotalConfirmed" => $checkcount,
+        "OutputConfirmed" => $outputconfirmed,
+        "OutputDeceased" => $outputdeceased,
+        "OutputRecovered" => $outputrecovered,
+        "PUMDate" => $days_ago_PUM,
+        "PUIDate" => $days_ago_PUI,
+        "PUICheck" => $PUIcount,
+        "PUMCheck" => $PUMcount,
+        "OutputPUM" => $outputPUM,
+        "OutputPUI" => $outputPUI,
+        "ThisCity" => $dbCity,
+        "ActiveCheck" => $Activecount,
+        "MyDate" => $date,
+
     ];
 }
 
-function getPUIPerDate($location){
+function getPUIPerDate($location)
+{
     $con = getConnection();
-    $location = str_replace("%20", " ",$location);
-    
-    $result = mysqli_query($con,"SELECT MAX(reference_date) AS fdate from barangay_history");
+    $location = str_replace("%20", " ", $location);
+
+    $result = mysqli_query($con, "SELECT MAX(reference_date) AS fdate from barangay_history");
     $row = mysqli_fetch_assoc($result);
     $i = 0;
     $dates = array();
@@ -481,9 +472,8 @@ function getPUIPerDate($location){
     $pum = array();
     //$string = "SELECT reference_date, sum(current_pum) AS PUM,sum(current_pui) AS PUI from barangay_history WHERE reference_date >= '2020-03-20' ";
 
-    
-    if($location != "LAGUNA")
-    {
+
+    if ($location != "LAGUNA") {
         $string = "SELECT refDates.ref_date as reference_date, 0 as PROBABLE, 0 as SUSPECT, sum(casesO.current_PUI) as TOTALPUI FROM barangay_history_new brgynew
             INNER JOIN Old_Cases casesO
             ON brgynew.ID = casesO.BarangayHistID
@@ -493,7 +483,7 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID
-            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '2020-03-25' GROUP BY reference_date
+            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '2020-4-10' GROUP BY reference_date
             
         UNION ALL
         SELECT refDates.ref_date as reference_date, sum(casesN.current_probable_PUI) as PROBABLE, sum(casesN.current_suspect_PUI) as SUSPECT, sum(casesN.total_PUI) as TOTALPUI FROM barangay_history_new brgynew
@@ -505,13 +495,11 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID
-            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '2020-03-25' GROUP BY reference_date";
+            WHERE city.CityName = '" . $location . "' AND refDates.ref_date >= '2020-4-10' GROUP BY reference_date";
 
         //$string.="AND city_municipality = '$location' GROUP BY reference_date";
         //$string.="WHERE city.CityName = '" . $location . "' GROUP BY refDates.ref_date";
-    }
-    else
-    {
+    } else {
         //$string.=" GROUP BY reference_date";
         $string = "SELECT refDates.ref_date as reference_date, 0 as PROBABLE, 0 as SUSPECT, sum(casesO.current_PUI) as TOTALPUI FROM barangay_history_new brgynew
             INNER JOIN Old_Cases casesO
@@ -522,7 +510,7 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID 
-            WHERE refDates.ref_date >= '2020-03-25'
+            WHERE refDates.ref_date >= '2020-4-10'
             GROUP BY refDates.ref_date
         UNION ALL
         SELECT refDates.ref_date as reference_date, sum(casesN.current_probable_PUI) as PROBABLE, sum(casesN.current_suspect_PUI) as SUSPECT, sum(casesN.total_PUI) as TOTALPUI FROM barangay_history_new brgynew
@@ -534,12 +522,12 @@ function getPUIPerDate($location){
             ON brgynew.barangayID = brgy.ID
             INNER JOIN City city
             on brgy.CityID = city.ID 
-            WHERE refDates.ref_date >= '2020-03-25'
+            WHERE refDates.ref_date >= '2020-4-10'
             GROUP BY refDates.ref_date ORDER BY reference_date";
     }
 
-    $result2 = mysqli_query($con,$string);
-    while($extract = mysqli_fetch_array($result2)){
+    $result2 = mysqli_query($con, $string);
+    while ($extract = mysqli_fetch_array($result2)) {
         $dates[$i] = str_replace("2020-", "", $extract['reference_date']);
         //$pui[$i] = $extract['PUI'];
         $probable[$i] = $extract['PROBABLE'];
@@ -547,6 +535,9 @@ function getPUIPerDate($location){
         $totalCases[$i] = $extract['TOTALPUI'];
         $i++;
     }
+
+    //$dates[0] = setFirstDate();
+
     return [
         "Dates" => $dates,
         //"PUI" => $pui,
@@ -556,15 +547,16 @@ function getPUIPerDate($location){
     ];
 }
 
-function getCasesPerDate($location){
+function getCasesPerDate($location)
+{
     $con = getConnection();
-    $location = str_replace("%20", " ",$location);
-    
-    $result = mysqli_query($con,"SELECT MAX(reference_date) AS fdate from barangay_history");
+    $location = str_replace("%20", " ", $location);
+
+    $result = mysqli_query($con, "SELECT MAX(reference_date) AS fdate from barangay_history");
     $row = mysqli_fetch_assoc($result);
     $i = 0;
-    
-    //$string = "SELECT reference_date, sum(current_positive_case) AS current,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_recovered) AS CURRENT_RECOVERED from barangay_history WHERE reference_date >= '2020-03-25' ";
+
+    //$string = "SELECT reference_date, sum(current_positive_case) AS current,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_recovered) AS CURRENT_RECOVERED from barangay_history WHERE reference_date >= '" . getMinDate()->format("Y-m-d") . "' ";
     $string = "SELECT refDates.ref_date as reference_date, sum(brgynew.current_positive_case) as current, sum(brgynew.total_positive_cases) as TOTAL_POSITIVE_CASES, sum(brgynew.current_recovered) as CURRENT_RECOVERED
                 FROM barangay_history_new brgynew
                     INNER JOIN reference_dates refDates
@@ -573,51 +565,50 @@ function getCasesPerDate($location){
                     ON brgynew.barangayID = brgy.ID
                     INNER JOIN City city
                     on brgy.CityID = city.ID 
-                    WHERE refDates.ref_date >= '2020-03-25' ";
+                    WHERE refDates.ref_date >= '" . getMinDate()->format("Y-m-d") . "' ";
 
-    if($location != "LAGUNA")
-    {
-        $string.="AND city.CityName = '$location' GROUP BY reference_date";
+    if ($location != "LAGUNA") {
+        $string .= "AND city.CityName = '$location' GROUP BY reference_date";
+    } else {
+        $string .= " GROUP BY reference_date";
     }
-    else
-    {
-        $string.=" GROUP BY reference_date";
-    }
-    
-    $result2 = mysqli_query($con,$string);
-    while($extract = mysqli_fetch_array($result2)){
+
+    $result2 = mysqli_query($con, $string);
+    while ($extract = mysqli_fetch_array($result2)) {
         $dates[$i] = str_replace("2020-", "", $extract['reference_date']);
         $cases[$i] = intval($extract['TOTAL_POSITIVE_CASES']);
         $current[$i] = intval($extract['current']);
         $recovered[$i] = intval($extract['CURRENT_RECOVERED']);
         $i++;
     }
-    
+
+    $dates[0] = setFirstDate();
+
     return [
         "Dates" => $dates,
         "TotalPositiveCases" => $cases,
         "CurrentPositiveCases" => $current,
         "CurrentRecovered" => $recovered
     ];
-    
 }
 
-function getSummaryPerCityMunicipalityTable($brgyname){
+function getSummaryPerCityMunicipalityTable($brgyname)
+{
     $con = getConnection();
-    
-    $brgyname = str_replace("%20"," ",$brgyname);
-  //$brgyname = str_replace(" ","",$brgyname);
-    
+
+    $brgyname = str_replace("%20", " ", $brgyname);
+    //$brgyname = str_replace(" ","",$brgyname);
+
     // returned json file is split into header, body and footer
     $header = [];
     $body = [];
     $footer = [];
 
-    
-    
+
+
     // initialize queries
-    if($brgyname == 'LAGUNA'){
-        $header = ["CITY / MUNICIPALITY","TOTAL CASES","NEW CASES","ACTIVE CASES","RECOVERED","SUSPECT","PROBABLE","DECEASED"];
+    if ($brgyname == 'LAGUNA') {
+        $header = ["CITY / MUNICIPALITY", "TOTAL CASES", "NEW CASES", "ACTIVE CASES", "RECOVERED", "SUSPECT", "PROBABLE", "DECEASED"];
         //$bodyQuery = "SELECT Province, TOTAL_POSITIVE_CASES, NEW_POSITIVE_CASES, TOTAL_CURRENT_POSITIVE, TOTAL_RECOVERED, TOTAL_SUSPECT, TOTAL_PROBABLE, TOTAL_DECEASED FROM ALL_TOTAL";
         $bodyQuery = "SELECT city.CityName, SUM(brgynew.total_positive_cases), SUM(brgynew.new_positive_case), SUM(brgynew.current_positive_case), SUM(brgynew.current_recovered), SUM(casesN.current_suspect_PUI), SUM(casesN.current_probable_PUI), SUM(brgynew.current_deceased)
             FROM barangay_history_new as brgynew
@@ -643,8 +634,8 @@ function getSummaryPerCityMunicipalityTable($brgyname){
                 INNER JOIN reference_dates refDates
                 on brgynew.refDateID = refDates.ID
                 WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates))";
-    }else{
-        $header = ["BARANGAY","TOTAL CASES","NEW CASES","ACTIVE CASES","RECOVERED","SUSPECT","PROBABLE","DECEASED"];
+    } else {
+        $header = ["BARANGAY", "TOTAL CASES", "NEW CASES", "ACTIVE CASES", "RECOVERED", "SUSPECT", "PROBABLE", "DECEASED"];
         //$bodyQuery =  "SELECT barangay, TOTAL_POSITIVE_CASES, NEW_CASES, ACTIVE_CASES, TOTAL_RECOVERED, TOTAL_SUSPECT, TOTAL_PROBABLE, TOTAL_DECEASED     FROM " .$brgyname."_BRGY_DATA WHERE NOT (NEW_CASES = 0 AND ACTIVE_CASES = 0 AND TOTAL_POSITIVE_CASES = 0 AND TOTAL_DECEASED = 0 AND TOTAL_RECOVERED = 0 AND TOTAL_SUSPECT = 0 AND TOTAL_PROBABLE = 0) ORDER BY barangay REGEXP '^[^a-zA-A]' ASC";
         $bodyQuery =  "SELECT brgy.BarangayName, SUM(brgynew.total_positive_cases), SUM(brgynew.new_positive_case), SUM(brgynew.current_positive_case), SUM(brgynew.current_recovered), SUM(casesN.current_suspect_PUI), SUM(casesN.current_probable_PUI), SUM(brgynew.current_deceased)
             FROM barangay_history_new as brgynew
@@ -672,11 +663,11 @@ function getSummaryPerCityMunicipalityTable($brgyname){
                 on brgynew.refDateID = refDates.ID 
                 WHERE city.CityName = '" . $brgyname . "' and brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates))";
     }
-    
+
     // query database
     $bodyData = mysqli_query($con, $bodyQuery);
     $footerData = mysqli_query($con, $footerQuery);
-    if($bodyData){
+    if ($bodyData) {
         // put data into lists
         $sum = 0;
         foreach ($bodyData as $keyrow => $row) {
@@ -687,14 +678,14 @@ function getSummaryPerCityMunicipalityTable($brgyname){
                 if (is_numeric($cell)) {
                     $sum = $sum + $cell;
                 }
-                array_push($rowData,$cell);
+                array_push($rowData, $cell);
             }
-            if($sum != 0) {
+            if ($sum != 0) {
                 array_push($body, $rowData);
-            }            
+            }
         }
     }
-    if($footerData){
+    if ($footerData) {
         foreach ($footerData as $keyrow => $row) {
             // footer data
             $rowData = array();
@@ -704,17 +695,18 @@ function getSummaryPerCityMunicipalityTable($brgyname){
             array_push($footer, $rowData);
         }
     }
-    
-    
+
+
     $data = ["HEADER" => $header, "BODY" => $body, "FOOTER" => $footer];
-    
+
     return $data;
 }
 
-function getSummaryPerCityMunicipalityChart($location){
+function getSummaryPerCityMunicipalityChart($location)
+{
     $con = getConnection();
     $header = "";
-    
+
     $cases = array();
     $recovered = array();
     $deceased = array();
@@ -724,240 +716,292 @@ function getSummaryPerCityMunicipalityChart($location){
     $max2 = 0;
     $max3 = 0;
     $totalMax = 0;
-    
+
     //$cities = {};
-    if($location != "LAGUNA")
-    {
+    if ($location != "LAGUNA") {
         $header = "TOTAL CASES FOR $location";
-        
-        $string = "SELECT barangay,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where city_municipality='$location' AND reference_date IN (SELECT MAX(reference_date) from barangay_history where city_municipality='$location') AND NOT (total_positive_cases = 0 AND current_deceased = 0 AND current_recovered = 0) GROUP BY barangay";
-        $result1 = mysqli_query($con,$string);
-        while($extract = mysqli_fetch_array($result1)){
-            
+
+        //$string = "SELECT barangay,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where city_municipality='$location' AND reference_date IN (SELECT MAX(reference_date) from barangay_history where city_municipality='$location') AND NOT (total_positive_cases = 0 AND current_deceased = 0 AND current_recovered = 0) GROUP BY barangay";
+        $string = "SELECT brgy.BarangayName AS barangay, SUM(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, SUM(brgynew.current_deceased) AS TOTAL_DECEASED, SUM(brgynew.current_recovered) AS TOTAL_RECOVERED
+                FROM barangay_history_new as brgynew
+                    INNER JOIN Barangay as brgy
+                    on brgynew.barangayID = brgy.ID
+                    INNER JOIN City as city
+                    on brgy.CityID = city.ID
+                    INNER JOIN reference_dates refDates
+                    on brgynew.refDateID = refDates.ID 
+                    WHERE city.CityName = '" . $location . "' and brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates)) 
+                    AND NOT (brgynew.total_positive_cases = 0 AND brgynew.current_deceased = 0 AND brgynew.current_recovered = 0)
+                    GROUP BY barangay
+                    ORDER BY TOTAL_POSITIVE_CASES DESC";
+
+        $result1 = mysqli_query($con, $string);
+        while ($extract = mysqli_fetch_array($result1)) {
+
             $locals[$i] = $extract['barangay'];
             $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
             $deceased[$i] = $extract['TOTAL_DECEASED'];
             $recovered[$i] = $extract['TOTAL_RECOVERED'];
             $i++;
         }
-    }
-    else
-    {
+    } else {
         $header = "TOTAL CASES PER CITY/MUNICIPALITY";
-        $string = "SELECT city_municipality AS city,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where reference_date IN (SELECT MAX(reference_date) from barangay_history) GROUP BY city_municipality";
-        $result1 = mysqli_query($con,$string);
-        
-        while($extract = mysqli_fetch_array($result1)){
-            $locals[$i] = $extract['city'];
-            $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
-            $deceased[$i] = $extract['TOTAL_DECEASED'];
-            $recovered[$i] = $extract['TOTAL_RECOVERED'];
-            $i++;
-        }    
-        
+        //$string = "SELECT city_municipality AS city,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where reference_date IN (SELECT MAX(reference_date) from barangay_history) GROUP BY city_municipality";
+        $string  = "SELECT city.CityName AS city, SUM(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, SUM(brgynew.current_deceased) AS TOTAL_DECEASED, SUM(brgynew.current_recovered) AS TOTAL_RECOVERED
+                FROM barangay_history_new as brgynew
+                    INNER JOIN Barangay as brgy
+                    on brgynew.barangayID = brgy.ID
+                    INNER JOIN City as city
+                    on brgy.CityID = city.ID
+                    INNER JOIN reference_dates refDates
+                    on brgynew.refDateID = refDates.ID 
+                    WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates)) 
+                    GROUP BY city
+                    ORDER BY TOTAL_POSITIVE_CASES DESC";
+
+        $result1 = mysqli_query($con, $string);
+
+        while ($extract = mysqli_fetch_array($result1)) {
+            if ($extract['TOTAL_POSITIVE_CASES'] > 0){
+                $locals[$i] = $extract['city'];
+                $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
+                $deceased[$i] = $extract['TOTAL_DECEASED'];
+                $recovered[$i] = $extract['TOTAL_RECOVERED'];
+                $i++;
+            }
+        }
+
         $max1 = max($cases);
         $max2 = max($deceased);
         $max3 = max($recovered);
-        $totalMax = max($max1,$max2,$max3);
-        
-        if($totalMax%5==0)
-        {
+        $totalMax = max($max1, $max2, $max3);
+
+        if ($totalMax % 5 == 0) {
             $totalMax = $totalMax + 5;
-        }
-        else
-        {
-            $totalMax = (5 - $totalMax%5) + $totalMax; 
+        } else {
+            $totalMax = (5 - $totalMax % 5) + $totalMax;
         }
     }
-    
-    return ["Locals" => array_values($locals) ,"TotalPositiveCases" => array_values($cases), "Deceased" => array_values($deceased), "Recovered" => array_values($recovered),
-    "CasesMax" => $max1, "DeceasedMax" => $max2, "RecoveredMax" => $max3, "TotalMax" => $totalMax, "Header" => $header];
-    
+
+    return [
+        "Locals" => array_values($locals), "TotalPositiveCases" => array_values($cases), "Deceased" => array_values($deceased), "Recovered" => array_values($recovered),
+        "CasesMax" => $max1, "DeceasedMax" => $max2, "RecoveredMax" => $max3, "TotalMax" => $totalMax, "Header" => $header
+    ];
 }
 
-function getCasesByGender($location){
+function getCasesByGender($location)
+{
     $con = getConnection();
     $strfem = "SELECT COUNT(gender) AS fem FROM individual_cases WHERE gender =  'F'";
     $strmale = "SELECT COUNT(gender) AS male FROM individual_cases WHERE gender =  'M'";
-    
-    if($location!='LAGUNA')
-    {
-        $strfem .=" AND barangay = '$location'";
-        $strmale .=" AND barangay = '$location'";
+
+    if ($location != 'LAGUNA') {
+        $strfem .= " AND barangay = '$location'";
+        $strmale .= " AND barangay = '$location'";
     }
-    
-    
-    $result = mysqli_query($con,$strfem);
+
+
+    $result = mysqli_query($con, $strfem);
     $row = mysqli_fetch_assoc($result);
     $fem = $row['fem'];
-    
-    $result = mysqli_query($con,$strmale);
+
+    $result = mysqli_query($con, $strmale);
     $row = mysqli_fetch_assoc($result);
     $male = $row['male'];
-    
+
     $genSum = $male + $fem;
-    
-    if($male == 0)
-    $permale = 0;
+
+    if ($male == 0)
+        $permale = 0;
     else
-    $permale = number_format($male/$genSum*100, 2, '.', '');
-    if($fem == 0)
-    $perfem = 0;
+        $permale = number_format($male / $genSum * 100, 2, '.', '');
+    if ($fem == 0)
+        $perfem = 0;
     else
-    $perfem = number_format($fem/$genSum*100, 2, '.', '');
-    
-    return ["GenderData" => [$male, $fem] , "MalePercentage" => $permale, "FemalePercentage" => $perfem];
+        $perfem = number_format($fem / $genSum * 100, 2, '.', '');
+
+    return ["GenderData" => [$male, $fem], "MalePercentage" => $permale, "FemalePercentage" => $perfem];
 }
 
-function getCasesByAgeGroup($location){
+function getCasesByAgeGroup($location)
+{
     $con = getConnection();
-    
-    
-    
-    $strage2 = "SELECT COUNT(age) AS age, case_status FROM individual_cases WHERE AGE >= 80 ";
+
+    $strage2 = "SELECT COUNT(city_municipality) AS age, case_status FROM individual_cases WHERE AGE >= 80 ";
     $strage3 = "SELECT COUNT(city_municipality) AS age, case_status FROM individual_cases WHERE AGE = -1 ";
-    
-    
-    if($location!='LAGUNA')
-    {
-        $strage2 .="AND barangay = '$location' GROUP BY case_status";
-        $strage3 .="AND barangay = '$location' GROUP BY case_status";
+
+
+    if ($location != 'LAGUNA') {
+        $strage2 .= "AND barangay = '$location' GROUP BY case_status";
+        $strage3 .= "AND barangay = '$location' GROUP BY case_status";
+    } else {
+        $strage2 .= "GROUP BY case_status";
+        $strage3 .= "GROUP BY case_status";
     }
-    else
-    {
-        $strage2 .="GROUP BY case_status";
-        $strage3 .="GROUP BY case_status";
-    }
-    
-    
-    $age = [0,0,0,0,0,0,0,0,0,0];
-    $current = [0,0,0,0,0,0,0,0,0,0];
-    $recovered = [0,0,0,0,0,0,0,0,0,0];
-    $deceased = [0,0,0,0,0,0,0,0,0,0];
+
+
+    $age = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $current = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $recovered = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $deceased = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     $total = 0;
-    $perCur = [0,0,0,0,0,0,0,0,0,0];
-    $perDec = [0,0,0,0,0,0,0,0,0,0];
-    $perRec = [0,0,0,0,0,0,0,0,0,0] ;
-    
+    $totalDec = 0;
+    $totalRec = 0;
+    $perCur = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $perDec = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $perRec = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    $perConPie = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $perDecPie = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $perRecPie = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
     $start = 0;
-    $end = 9;
-    
-    for($i=0;$i<9;$i++){
-        
-        if($i!=8)
-        {
-            $strage1 = "SELECT COUNT(age) AS age, case_status FROM individual_cases WHERE AGE BETWEEN '$start' AND '$end' ";
-            if($location!="LAGUNA")
-            $strage1 .= "AND barangay = '$location' GROUP BY case_status";
+    $end = 19;
+
+    for ($i = 0; $i < 5; $i++) {
+
+        if ($i != 4) {
+            $strage1 = "SELECT COUNT(city_municipality) AS age, case_status FROM individual_cases WHERE AGE BETWEEN '$start' AND '$end' ";
+            if ($location != "LAGUNA")
+                $strage1 .= "AND barangay = '$location' GROUP BY case_status";
             else
-            $strage1 .= "GROUP BY case_status";
-            
-            $result = mysqli_query($con,$strage1);
-            $start = $start + 10;
-            $end = $end + 10;
+                $strage1 .= "GROUP BY case_status";
+            $result = mysqli_query($con, $strage1);
+            $start = $start + 20;
+            $end = $end + 20;
+        } else {
+            $result = mysqli_query($con, $strage2);
         }
-        else
-        {
-            $result = mysqli_query($con,$strage2);
+
+        while ($extract = mysqli_fetch_array($result)) {
+
+            if ($extract['case_status'] == 'CONFIRMED') {
+                $current[$i] = $extract['age'];
+            }
+            if ($extract['case_status'] == 'DECEASED') {
+                $deceased[$i] = $extract['age'];
+            }
+                
+            if ($extract['case_status'] == 'RECOVERED') {
+                $recovered[$i] = $extract['age'];
+            }
         }
-        
-        while($extract = mysqli_fetch_array($result)){
-            
-            if($extract['case_status']=='CONFIRMED')
-            $current[$i] = $extract['age'];     
-            if($extract['case_status']=='DECEASED')
-            $deceased[$i] = $extract['age'];
-            if($extract['case_status']=='RECOVERED')    
-            $recovered[$i] = $extract['age'];
-            
-            $age[$i] = $deceased[$i] + $recovered[$i] + $current[$i];
-            $total = $total + $age[$i];
-        }
-        
+
+        $age[$i] = $deceased[$i] + $recovered[$i] + $current[$i];
+        $total = $total + $age[$i];
+        $totalDec = $deceased[$i] + $totalDec;
+        $totalRec = $recovered[$i] + $totalRec;
     }
-    $result = mysqli_query($con,$strage3);
-    while($extract = mysqli_fetch_array($result)){
-        
-        if($extract['case_status']=='CONFIRMED')
-        $current[9] = $extract['age'];     
-        if($extract['case_status']=='DECEASED')
-        $deceased[9] = $extract['age'];
-        if($extract['case_status']=='RECOVERED')    
-        $recovered[9] = $extract['age'];
-        
-        $age[9] = $deceased[$i] + $recovered[$i] + $current[$i];
+
+    /*
+    $result = mysqli_query($con, $strage3);
+    while ($extract = mysqli_fetch_array($result)) {
+
+        if ($extract['case_status'] == 'CONFIRMED')
+            $current[5] = $extract['age'];
+        if ($extract['case_status'] == 'DECEASED')
+            $deceased[5] = $extract['age'];
+        if ($extract['case_status'] == 'RECOVERED')
+            $recovered[5] = $extract['age'];
+
+        $age[5] = $deceased[5] + $recovered[5] + $current[5];
+        $total = $total + $age[5];
+        $totalDec = $deceased[5] + $totalDec;
+        $totalRec = $recovered[5] + $totalRec;
     }
-    
-    
-    for($x = 0; $x<10; $x++)
-    {
-        if($current[$x] == 0)
-        $perCur[$x] = 0;
-        else
-        {
-            $perCur[$x] = number_format($current[$x]/$age[$x]*100, 2, '.', '');
+    */
+    for ($x = 0; $x < 5; $x++) {
+        if ($age[$x] == 0) {
+            $perConPie[$x] = 0;
+        } else {
+            $perConPie[$x] = number_format($age[$x] / $total * 100, 2, '.', '');
         }
-        
-        if($recovered[$x] == 0)
-        $perRec[$x] = 0;
-        else
-        $perRec[$x] = number_format($recovered[$x]/$age[$x]*100, 2, '.', '');
-        
-        if($deceased[$x] == 0)
-        $perDec[$x] = 0;
-        else
-        $perDec[$x] = number_format($deceased[$x]/$age[$x]*100, 2, '.', '');
-        
+        if ($current[$x] == 0) {
+            $perCur[$x] = 0;
+        } else {
+            $perCur[$x] = number_format(($current[$x] / $age[$x]) * 100, 2, '.', '');
+        }
+
+        if ($recovered[$x] == 0) {
+            $perRec[$x] = 0;
+        } else {
+            $perRec[$x] = number_format($recovered[$x] / $age[$x] * 100, 2, '.', '');
+            $perRecPie[$x] = number_format(($recovered[$x] / $totalRec) * 100, 2, '.', '');
+        }
+
+        if ($deceased[$x] == 0) {
+            $perDec[$x] = 0;
+        } else {
+            $perDec[$x] = number_format($deceased[$x] / $age[$x] * 100, 2, '.', '');
+            $perDecPie[$x] = number_format($deceased[$x] / $totalDec * 100, 2, '.', '');
+        }
     }
-    
+
     return [
         "RecoveredPercentage" => $perRec,
         "DeceasedPercentage" => $perDec,
         "CurrentPercentage" => $perCur,
+        "PieConfirmed" => $perConPie,
+        "PieRecovered" => $perRecPie,
+        "PieDeceased" => $perDecPie,
+        "ConfirmedCount" => $current,
+        "RecoveredCount" => $recovered,
+        "DeceasedCount" => $deceased,
         "Total" => $age,
     ];
 }
 
-function getRecoveredPerDate($location){
+function getRecoveredPerDate($location)
+{
     $con = getConnection();
-    $location = str_replace("%20", " ",$location);
-    
-    $result = mysqli_query($con,"SELECT MAX(reference_date) AS fdate from barangay_history");
+    $location = str_replace("%20", " ", $location);
+
+    $result = mysqli_query($con, "SELECT MAX(reference_date) AS fdate from barangay_history");
     $row = mysqli_fetch_assoc($result);
     $i = 0;
-    
-    $string = "SELECT reference_date, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history WHERE reference_date >= '2020-03-24' ";
-    
-    if($location != "LAGUNA")
-    {
-        $string.="AND city_municipality = '$location' GROUP BY reference_date";
+
+    //$string = "SELECT reference_date, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history WHERE reference_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' ";
+    $string = "SELECT refDates.ref_date AS reference_date, SUM(brgynew.current_recovered) AS TOTAL_RECOVERED
+            FROM barangay_history_new as brgynew
+                INNER JOIN Barangay as brgy
+                on brgynew.barangayID = brgy.ID
+                INNER JOIN City as city
+                on brgy.CityID = city.ID
+                INNER JOIN reference_dates refDates
+                on brgynew.refDateID = refDates.ID 
+                WHERE refDates.ref_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "'";
+
+
+    if ($location != "LAGUNA") {
+        $string .= " AND city.CityName = '$location' GROUP BY reference_date";
+    } else {
+        $string .= " GROUP BY reference_date";
     }
-    else
-    {
-        $string.=" GROUP BY reference_date";
-    }
-    
-    $result2 = mysqli_query($con,$string);
-    while($extract = mysqli_fetch_array($result2)){
+
+    $result2 = mysqli_query($con, $string);
+    while ($extract = mysqli_fetch_array($result2)) {
         $dates[$i] = str_replace("2020-", "", $extract['reference_date']);
         $recovered[$i] = intval($extract['TOTAL_RECOVERED']);
         $i++;
     }
     $specificRecovered = [];
-    for($i = 1; $i < sizeof($recovered); $i++){
+    for ($i = 1; $i < sizeof($recovered); $i++) {
         $current = 0;
 
         $current = $recovered[$i] - $recovered[$i - 1];
 
-        
-        if($current < 0){
+
+        if ($current < 0) {
             array_push($specificRecovered, 0);
-        }else{
+        } else {
             array_push($specificRecovered, $current);
         }
     }
 
     array_shift($dates);
+    array_shift($recovered);
+
+    $dates[0] = setFirstDate();
 
     return [
         "Dates" => $dates,
@@ -966,73 +1010,81 @@ function getRecoveredPerDate($location){
     ];
 }
 
-function getDeceasedPerDate($location){
+function getDeceasedPerDate($location)
+{
     $con = getConnection();
-    $location = str_replace("%20", " ",$location);
-    
-    $result = mysqli_query($con,"SELECT MAX(reference_date) AS fdate from barangay_history");
+    $location = str_replace("%20", " ", $location);
+
+    $result = mysqli_query($con, "SELECT MAX(reference_date) AS fdate from barangay_history");
     $row = mysqli_fetch_assoc($result);
     $i = 0;
-    
-    $string = "SELECT reference_date, sum(current_deceased) AS TOTAL_DECEASED from barangay_history WHERE reference_date >= '2020-03-24' ";
 
-    if($location != "LAGUNA")
-    {
-        $string.="AND city_municipality = '$location' GROUP BY reference_date";
+    //$string = "SELECT reference_date, sum(current_deceased) AS TOTAL_DECEASED from barangay_history WHERE reference_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' ";
+    $string = "SELECT refDates.ref_date AS reference_date, SUM(brgynew.current_deceased) AS TOTAL_DECEASED
+        FROM barangay_history_new as brgynew
+            INNER JOIN Barangay as brgy
+            on brgynew.barangayID = brgy.ID
+            INNER JOIN City as city
+            on brgy.CityID = city.ID
+            INNER JOIN reference_dates refDates
+            on brgynew.refDateID = refDates.ID 
+            WHERE refDates.ref_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "'";
+
+
+    if ($location != "LAGUNA") {
+        $string .= " AND city.CityName = '$location' GROUP BY reference_date";
+    } else {
+        $string .= " GROUP BY reference_date";
     }
-    else
-    {
-        $string.=" GROUP BY reference_date";
-    }
-    
-    $result2 = mysqli_query($con,$string);
-    while($extract = mysqli_fetch_array($result2)){
+
+    $result2 = mysqli_query($con, $string);
+    while ($extract = mysqli_fetch_array($result2)) {
         $dates[$i] = str_replace("2020-", "", $extract['reference_date']);
         $deceased[$i] = intval($extract['TOTAL_DECEASED']);
         $i++;
     }
-    
+
     $specificDeceased = [];
-    for($i = 1; $i < sizeof($deceased); $i++){
+    for ($i = 1; $i < sizeof($deceased); $i++) {
         $current = 0;
-        
+
         $current = $deceased[$i] - $deceased[$i - 1];
 
-        if($current < 0){
+        if ($current < 0) {
             array_push($specificDeceased, 0);
-        }else{
+        } else {
             array_push($specificDeceased, $current);
         }
     }
 
     array_shift($dates);
-    
+    array_shift($deceased);
+
+    $dates[0] = setFirstDate();
+
     return [
         "Dates" => $dates,
         "Deceased" => $specificDeceased,
         "CumulativeDeceased" => $deceased
     ];
-    
 }
 
 
-function getCityMunicipalities(){
+function getCityMunicipalities()
+{
     $con = getConnection();
     $storethis = "";
     $query1 = "SELECT CityName FROM City ORDER BY CityName ASC";
-    $result1 = mysqli_query($con,$query1);
+    $result1 = mysqli_query($con, $query1);
     $cityNames = ["LAGUNA"];
 
-    while($rows3 = mysqli_fetch_array($result1))
-    {
-        if($storethis!=$rows3['CityName'])
-        {
+    while ($rows3 = mysqli_fetch_array($result1)) {
+        if ($storethis != $rows3['CityName']) {
             array_push($cityNames, $rows3['CityName']);
         }
     }
     echo json_encode($cityNames);
     return $cityNames;
-    
 }
 
 
@@ -1056,7 +1108,8 @@ function getCityMunicipalities(){
 
 ////////////////////////////////////////////////////
 
-function getCasesPerCityMunicipality($location){
+function getCasesPerCityMunicipality($location)
+{
     $con = getConnection();
     $header = "";
     $cases = array();
@@ -1064,51 +1117,68 @@ function getCasesPerCityMunicipality($location){
     $deceased = array();
     $locals = array();
     $i = 0;
-    
-    if($location != "LAGUNA")
-    {
+
+    if ($location != "LAGUNA") {
         $header = "TOTAL CASES FOR $location";
-        
-        $string = "SELECT barangay,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where city_municipality='$location' AND reference_date IN (SELECT MAX(reference_date) from barangay_history where city_municipality='$location') GROUP BY barangay";
-        $result1 = mysqli_query($con,$string);
-        while($extract = mysqli_fetch_array($result1)){
-            
+
+        //$string = "SELECT barangay,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where city_municipality='$location' AND reference_date IN (SELECT MAX(reference_date) from barangay_history where city_municipality='$location') GROUP BY barangay";
+        $string = "SELECT brgy.BarangayName AS barangay, sum(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(brgynew.current_deceased) AS TOTAL_DECEASED, sum(brgynew.current_recovered) AS TOTAL_RECOVERED
+            FROM barangay_history_new as brgynew
+                INNER JOIN Barangay as brgy
+                on brgynew.barangayID = brgy.ID
+                INNER JOIN City as city
+                on brgy.CityID = city.ID
+                INNER JOIN reference_dates refDates
+                on brgynew.refDateID = refDates.ID 
+                WHERE refDates.ID = (SELECT ID FROM reference_dates WHERE reference_dates.ref_date = (SELECT max(reference_dates.ref_date) FROM reference_dates)) 
+                AND city.CityName = '$location'
+                GROUP BY barangay";
+
+        $result1 = mysqli_query($con, $string);
+        while ($extract = mysqli_fetch_array($result1)) {
+
             $locals[$i] = $extract['barangay'];
             $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
             $deceased[$i] = $extract['TOTAL_DECEASED'];
             $recovered[$i] = $extract['TOTAL_RECOVERED'];
             $i++;
         }
-    }
-    else
-    {
+    } else {
         $header = "TOTAL CASES PER CITY/MUNICIPALITY";
-        $string = "SELECT city_municipality AS city,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where reference_date IN (SELECT MAX(reference_date) from barangay_history) GROUP BY city_municipality";
-        $result1 = mysqli_query($con,$string);
-        
-        while($extract = mysqli_fetch_array($result1)){
+        //$string = "SELECT city_municipality AS city,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where reference_date IN (SELECT MAX(reference_date) from barangay_history) GROUP BY city_municipality";
+        $string = "SELECT city.CityName AS city, sum(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(brgynew.current_deceased) AS TOTAL_DECEASED, sum(brgynew.current_recovered) AS TOTAL_RECOVERED
+            FROM barangay_history_new as brgynew
+                INNER JOIN Barangay as brgy
+                on brgynew.barangayID = brgy.ID
+                INNER JOIN City as city
+                on brgy.CityID = city.ID
+                INNER JOIN reference_dates refDates
+                on brgynew.refDateID = refDates.ID 
+                WHERE refDates.ID = (SELECT ID FROM reference_dates WHERE reference_dates.ref_date = (SELECT max(reference_dates.ref_date) FROM reference_dates))
+                GROUP BY city";
+
+        $result1 = mysqli_query($con, $string);
+
+        while ($extract = mysqli_fetch_array($result1)) {
             $locals[$i] = $extract['city'];
             $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
             $deceased[$i] = $extract['TOTAL_DECEASED'];
             $recovered[$i] = $extract['TOTAL_RECOVERED'];
             $i++;
-        }    
-        
+        }
+
         $max1 = max($cases);
         $max2 = max($deceased);
         $max3 = max($recovered);
-        $totalMax = max($max1,$max2,$max3);
-        
-        if($totalMax%5==0)
-        {
+        $totalMax = max($max1, $max2, $max3);
+
+        if ($totalMax % 5 == 0) {
             $totalMax = $totalMax + 5;
-        }
-        else
-        {
-            $totalMax = (5 - $totalMax%5) + $totalMax; 
+        } else {
+            $totalMax = (5 - $totalMax % 5) + $totalMax;
         }
     }
-    
+
     return [
         "Header" => $header,
         "Cases" => $cases,
@@ -1116,39 +1186,37 @@ function getCasesPerCityMunicipality($location){
         "Deceased" => $deceased,
         "Locals" => $locals
     ];
-    
-    
-    
 }
 
-function getIndividualCaseInformation($location){
+function getIndividualCaseInformation($location)
+{
     $con = getConnection();
     if ($location == 'LAGUNA') {
         $query1 = "SELECT * FROM individual_cases order by date_confirmed asc, barangay";
     } else {
         $query1 = "SELECT * FROM individual_cases where barangay = '$location' order by date_confirmed asc, barangay";
     }
-    
+
     $result = mysqli_query($con, $query1);
     $data = [];
     foreach ($result as $keyrow => $row) {
         // body data
         $rowData = array();
         foreach ($row as $keycell => $cell) {
-            array_push($rowData,$cell);
+            array_push($rowData, $cell);
         }
         array_push($data, $rowData);
     }
-    
+
     $genderData = [];
     $byAgeGroupData = [];
     $perLocaleData = [];
-    
+
     return $data;
-    
 }
 
-function getCurrentTrend ($location){
+function getCurrentTrend($location)
+{
     $con = getConnection();
     $header = "";
     $cases = array();
@@ -1156,11 +1224,10 @@ function getCurrentTrend ($location){
     $deceased = array();
     $locals = array();
     $i = 0;
-    
-    if($location != "LAGUNA")
-    {
+
+    if ($location != "LAGUNA") {
         //$header = "TOTAL CASES FOR $location";
-        
+
         //$string = "SELECT barangay,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where city_municipality='$location' AND reference_date IN (SELECT MAX(reference_date) from barangay_history where city_municipality='$location') GROUP BY barangay";
         $string = "SELECT  refDates.ref_date as reference_date, 
 		sum(brgynew.current_positive_case) as ACTIVECASES, 
@@ -1174,11 +1241,9 @@ function getCurrentTrend ($location){
         ON brgynew.barangayID = brgy.ID
         INNER JOIN City city
         on brgy.CityID = city.ID 
-        WHERE refDates.ref_date >= '2020-03-24' and city.cityName = '" . $location . "'
+        WHERE refDates.ref_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' and city.cityName = '" . $location . "'
         GROUP BY refDates.ref_date;";
-    }
-    else
-    {
+    } else {
         $string = "SELECT  refDates.ref_date as reference_date, 
 		sum(brgynew.current_positive_case) as ACTIVECASES, 
 		sum(brgynew.new_positive_case) as NEWCASES, 
@@ -1191,14 +1256,14 @@ function getCurrentTrend ($location){
         ON brgynew.barangayID = brgy.ID
         INNER JOIN City city
         on brgy.CityID = city.ID 
-        WHERE refDates.ref_date >= '2020-03-24' 
+        WHERE refDates.ref_date >= '" . getMinDate()->modify("-1 day")->format("Y-m-d") . "' 
         GROUP BY refDates.ref_date";
     }
 
-    $result1 = mysqli_query($con,$string);
+    $result1 = mysqli_query($con, $string);
 
-    while($extract = mysqli_fetch_array($result1)) {
-            
+    while ($extract = mysqli_fetch_array($result1)) {
+
         $dates[$i] = str_replace("2020-", "", $extract['reference_date']);
         $activecases[$i] = $extract['ACTIVECASES'];
         $newcases[$i] = $extract['NEWCASES'];
@@ -1216,21 +1281,38 @@ function getCurrentTrend ($location){
         $totalRecoveryDeceased[$j] = $recoveredPerDay[$j] + $deceasedPerDay[$j];
     }
 
-    if ($dates[0] < '03-25') {
-        array_shift($dates);
-        array_shift($activecases);
-        array_shift($newcases);
-        array_shift($recovered);
-    }
-    
+    array_shift($dates);
+    array_shift($activecases);
+    array_shift($newcases);
+    array_shift($recovered);
+
+    $dates[0] = setFirstDate();
+
     return [
         "dates" => $dates,
         "ActiveCases" => $activecases,
         "NewCases" => $newcases,
         "Recovered" => $recoveredPerDay,
-        "Deceased"=> $deceasedPerDay,
+        "Deceased" => $deceasedPerDay,
         "SumRecoveredDeceased" => $totalRecoveryDeceased
     ];
-    
-    
+}
+
+function isUploading() {
+    $con = getConnection();
+
+    $result = mysqli_query($con, "SELECT Status FROM settings WHERE SettingName = 'IsUploading';");
+
+    $flag = false;
+
+    while ($extract = mysqli_fetch_array($result)) {
+        if ($extract['Status'] == '0') {
+            $flag = false;
+        }
+        else {
+            $flag = true;
+        }
+    }
+
+    return $flag;
 }

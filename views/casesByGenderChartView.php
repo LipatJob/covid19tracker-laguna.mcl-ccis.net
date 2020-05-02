@@ -31,8 +31,8 @@ $(function() {
 
     var donutData = {
         labels: [
-            'MALE: <?php echo json_encode($data["MalePercentage"]) ?>% ',
-            'FEMALE: <?php echo json_encode($data["FemalePercentage"]) ?>% ',
+            'MALE:',
+            'FEMALE:',
         ],
         datasets: [{
             data: <?php echo json_encode($data["GenderData"]) ?> ,
@@ -54,8 +54,26 @@ $(function() {
     var pieChart = new Chart(pieChartCanvas, {
         type: 'pie',
         data: pieData,
-        options: pieOptions
+        options: pieOptions,
+        tooltips: {
+        enabled: false
+            },
+        plugins: {
+        datalabels: {
+            formatter: (value, ctx) => {
+                let sum = 0;
+                let dataArr = ctx.chart.data.datasets[0].data;
+                dataArr.map(data => {
+                    sum += data;
+                });
+                let percentage = (value*100 / sum).toFixed(2)+"%";
+                return percentage;
+            },
+            color: '#fff',
+        }
+        }
     })
+    
 
 
     //Create pie or douhnut chart

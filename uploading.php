@@ -1,28 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <?php include_once 'template/include_header.php' ?>
-    <style>
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #333333;
-
-            color: white;
-            text-align: center;
-
-            color: white;
-            padding-top: 20px;
-            padding-bottom: 8px;
-            margin-left: 0;
-        }
-    </style>
-</head>
-
-<body>
     <!-- INCLUDE NAVBAR -->
     <?php include_once 'template/navbar.php' ?>
 
@@ -61,6 +36,3 @@
         $("#indexNav a").addClass("disabled");
         $("#individualNav a").addClass("disabled");
     </script>
-</body>
-
-</html>

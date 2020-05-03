@@ -1,24 +1,3 @@
-<?php
-include './phpcore/connection.php';
-
-$rx = mysqli_query($con, "SELECT MAX(ref_date) AS TIME_UPDATE FROM reference_dates;");
-while ($time_update = mysqli_fetch_array($rx)) {
-    $last_update = date('F j, Y', strtotime($time_update['TIME_UPDATE']));
-}
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <?php include_once 'template/include_header.php' ?>
-</head>
-
-<body>
-    <!-- INCLUDE NAVBAR-->
-    <?php include_once 'template/navbar.php' ?>
-
     <!-- MAIN CONTENT-->
     <div class="content container-fluid">
         <!-- Title bar and city/municipality selector -->
@@ -26,6 +5,15 @@ while ($time_update = mysqli_fetch_array($rx)) {
             <div class="row">
                 <div class=" col-lg-9 col-md-12 col-sm-12">
                     <h4 id="title_header" style="padding-left: 15px;"> Region IV-A: Province of Laguna<br>
+                        <?php
+                        include './phpcore/connection.php';
+
+                        $rx = mysqli_query($con, "SELECT MAX(ref_date) AS TIME_UPDATE FROM reference_dates;");
+                        while ($time_update = mysqli_fetch_array($rx)) {
+                            $last_update = date('F j, Y', strtotime($time_update['TIME_UPDATE']));
+                        }
+
+                        ?>
                         <h6 style="padding-left: 15px; font-weight: 400;">SUMMARY AS OF <?php echo $last_update ?></h6>
                     </h4>
                 </div>
@@ -356,7 +344,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
 
 
 
-                        //INITIALIZE DATATABLES
+            //INITIALIZE DATATABLES
             //$("#tableContainer").load("./views/summaryPerMunicipalityCityTableView.php");
             $("#overviewTable").DataTable({
                 paging: false,
@@ -417,6 +405,3 @@ while ($time_update = mysqli_fetch_array($rx)) {
     </script>
 
     <!-- END OF SCRIPTS-->
-</body>
-
-</html>

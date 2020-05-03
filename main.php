@@ -1,24 +1,3 @@
-<?php
-include './phpcore/connection.php';
-
-$rx = mysqli_query($con, "SELECT MAX(ref_date) AS TIME_UPDATE FROM reference_dates;");
-while ($time_update = mysqli_fetch_array($rx)) {
-    $last_update = date('F j, Y', strtotime($time_update['TIME_UPDATE']));
-}
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <?php include_once 'template/include_header.php' ?>
-</head>
-
-<body>
-    <!-- INCLUDE NAVBAR-->
-    <?php include_once 'template/navbar.php' ?>
-
     <!-- MAIN CONTENT-->
     <div class="content container-fluid">
         <!-- Title bar and city/municipality selector -->
@@ -26,6 +5,15 @@ while ($time_update = mysqli_fetch_array($rx)) {
             <div class="row">
                 <div class=" col-lg-9 col-md-12 col-sm-12">
                     <h4 id="title_header" style="padding-left: 15px;"> Region IV-A: Province of Laguna<br>
+                        <?php
+                        include './phpcore/connection.php';
+
+                        $rx = mysqli_query($con, "SELECT MAX(ref_date) AS TIME_UPDATE FROM reference_dates;");
+                        while ($time_update = mysqli_fetch_array($rx)) {
+                            $last_update = date('F j, Y', strtotime($time_update['TIME_UPDATE']));
+                        }
+
+                        ?>
                         <h6 style="padding-left: 15px; font-weight: 400;">SUMMARY AS OF <?php echo $last_update ?></h6>
                     </h4>
                 </div>
@@ -237,64 +225,6 @@ while ($time_update = mysqli_fetch_array($rx)) {
             //INITIALIZE NAVBAR
             $("#indexNav a").addClass("active");
 
-            //INITIALIZE DATATABLES
-            //$("#tableContainer").load("./views/summaryPerMunicipalityCityTableView.php");
-            $("#overviewTable").DataTable({
-                paging: false,
-                searching: false,
-                order: [
-                    [1, "desc"]
-                ]
-            });
-
-            //INITIALIZE CLOCK
-
-            setInterval(function() {
-                var date = moment(new Date());
-                $('#mcl_timer').html(date.format('dddd, Do of MMMM YYYY | h:mm:ss a'));
-            }, 1000);
-
-
-            //INITIALIZE VIDEO
-            $('#videomodal').modal('show');
-            // if ($.cookie("modalClosed") == null){
-            //     $('#videomodal').modal('show');
-            // }
-            $('.modal').on('hidden.bs.modal', function(e) {
-                // SET EXPIRY DATE OF COOKIE
-                var now = new Date();
-                var time = now.getTime();
-                time += 20 * 60000;
-                now.setTime(time);
-                document.cookie =
-                    'modalClosed=true' +
-                    '; expires=' + now.toUTCString() +
-                    '; path=/';
-
-                $iframe = $(this).find("iframe");
-                $iframe.attr("src", $iframe.attr("src"));
-            });
-
-            //INITIALIZE CONDITIONS            
-            var flag = false;
-            $("#summaryPerMunicipalityCityChart").show();
-            $("#table").hide();
-
-            //EVENT HANDLERS
-            $("#toggleLocal").click(function() {
-                if (flag == false) {
-                    $("#summaryPerMunicipalityCityChart").hide();
-                    $("#table").show();
-                    $("#toggleLocal").html("SWITCH TO GRAPH VIEW");
-                    flag = true;
-                } else {
-                    $("#summaryPerMunicipalityCityChart").show();
-                    $("#table").hide();
-                    $("#toggleLocal").html("SWITCH TO TABLE VIEW");
-                    flag = false;
-                }
-            });
-
             $("#city").on('change', function() {
                 var location = document.getElementById('city').value;
                 updatePage(location)
@@ -316,7 +246,7 @@ while ($time_update = mysqli_fetch_array($rx)) {
             /**
              * Register a chart for update. All charts must be regsitered below the function.
              * @param {String} target jQuery selector of the container of the chart 
-             * @param {String} viewlocation location of the view of the chart
+             * @param {String} viewlocation file location of the view of the chart
              * @return {Function} function of the ajax update
              */
             function registerChartUpdate(target, viewlocation) {
@@ -413,10 +343,65 @@ while ($time_update = mysqli_fetch_array($rx)) {
             }
 
 
+
+            //INITIALIZE DATATABLES
+            //$("#tableContainer").load("./views/summaryPerMunicipalityCityTableView.php");
+            $("#overviewTable").DataTable({
+                paging: false,
+                searching: false,
+                order: [
+                    [1, "desc"]
+                ]
+            });
+
+            //INITIALIZE CLOCK
+
+            setInterval(function() {
+                var date = moment(new Date());
+                $('#mcl_timer').html(date.format('dddd, Do of MMMM YYYY | h:mm:ss a'));
+            }, 1000);
+
+
+            //INITIALIZE VIDEO
+            $('#videomodal').modal('show');
+            // if ($.cookie("modalClosed") == null){
+            //     $('#videomodal').modal('show');
+            // }
+            $('.modal').on('hidden.bs.modal', function(e) {
+                // SET EXPIRY DATE OF COOKIE
+                var now = new Date();
+                var time = now.getTime();
+                time += 20 * 60000;
+                now.setTime(time);
+                document.cookie =
+                    'modalClosed=true' +
+                    '; expires=' + now.toUTCString() +
+                    '; path=/';
+
+                $iframe = $(this).find("iframe");
+                $iframe.attr("src", $iframe.attr("src"));
+            });
+
+            //INITIALIZE CONDITIONS            
+            var flag = false;
+            $("#summaryPerMunicipalityCityChart").show();
+            $("#table").hide();
+
+            //EVENT HANDLERS
+            $("#toggleLocal").click(function() {
+                if (flag == false) {
+                    $("#summaryPerMunicipalityCityChart").hide();
+                    $("#table").show();
+                    $("#toggleLocal").html("SWITCH TO GRAPH VIEW");
+                    flag = true;
+                } else {
+                    $("#summaryPerMunicipalityCityChart").show();
+                    $("#table").hide();
+                    $("#toggleLocal").html("SWITCH TO TABLE VIEW");
+                    flag = false;
+                }
+            });
         });
     </script>
 
     <!-- END OF SCRIPTS-->
-</body>
-
-</html>

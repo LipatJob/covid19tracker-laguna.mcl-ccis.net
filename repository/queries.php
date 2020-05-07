@@ -1280,6 +1280,10 @@ function getCurrentTrend($location)
     for ($j = 0; $j < count($recoveredPerDay); $j++) {
         $totalRecoveryDeceased[$j] = $recoveredPerDay[$j] + $deceasedPerDay[$j];
     }
+    
+    
+    // Calculate moving average
+    $movingAverage =  getMovingAverage($newcases, 7);
 
     array_shift($dates);
     array_shift($activecases);
@@ -1294,8 +1298,32 @@ function getCurrentTrend($location)
         "NewCases" => $newcases,
         "Recovered" => $recoveredPerDay,
         "Deceased" => $deceasedPerDay,
-        "SumRecoveredDeceased" => $totalRecoveryDeceased
+        "SumRecoveredDeceased" => $totalRecoveryDeceased,
+        "MovingAverage" => $movingAverage
     ];
+}
+
+function getMovingAverage($data, $interval){
+    $movingAverage = [];
+    $count = sizeof($data);
+    $start = floor($interval/2);
+    $end = $count - $start;
+    for($i = 0; $i < $start; $i++){
+        array_push($movingAverage, NULL);
+    }
+    for($i = $start; $i < $end; $i++){
+        $average = 0;
+        for($j = 0; $j < $interval; $j++){
+            $average += $data[$i - $j + $start];
+        }
+        $average = $average/$interval;
+        array_push($movingAverage, $average);
+
+    }
+    for($i = 0; $i < $start; $i++){
+        array_push($movingAverage, NULL);
+    }
+    return $movingAverage;
 }
 
 function isUploading() {

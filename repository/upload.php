@@ -13,7 +13,7 @@ require_auth();
 /**
 * Executes the function on button press
 */
-
+ini_set('max_execution_time', '0');
 if(isset($_POST["submitButton"])){
     $val = $_POST["submitButton"];
     if($val == "updateIndividualCases"){

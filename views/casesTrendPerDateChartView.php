@@ -33,18 +33,18 @@ $(function() {
     var areaChartData = {
 
         labels: <?php echo json_encode($data["dates"]) ?> ,
-        datasets: [/*{
-            label: 'ACTIVE CASES',
+        datasets: [
+        {
+            label: 'Moving Average',
             type: 'line',
-            backgroundColor: '#008080',
-            borderColor: '#008080',
+            borderColor: '#79a5b8',
             pointRadius: true,
-            pointColor: '#3b8bba',
-            pointStrokeColor: '#ffcc00',
+            pointColor: '#79a5b8',
+            pointStrokeColor: '#79a5b8',
             pointHighlightFill: '#fff',
-            pointHighlightStroke: '#ffcc00',
-            data: <?php echo json_encode($data["ActiveCases"]) ?>
-        },*/
+            pointHighlightStroke: '#79a5b8',
+            data: <?php echo json_encode($data["MovingAverage"]) ?>
+        },
         {
             label: 'NEW CASES',
             type: 'bar',
@@ -56,19 +56,8 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
             data: <?php echo json_encode($data["NewCases"]) ?>
-        }/*,
-        {
-            label: 'RECOVERED + DECEASED',
-            type: 'bar',
-            backgroundColor: '#97FF6B',
-            borderColor: '#97FF6B',
-            pointRadius: true,
-            pointColor: '#3b8bba',
-            pointStrokeColor: '#ffcc00',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: '#ffcc00',
-            data: <?php echo json_encode($data["SumRecoveredDeceased"]) ?>
-        }*/]
+        }
+        ]
     }
 
 

@@ -1091,23 +1091,6 @@ function getCityMunicipalities()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-////////////////////////////////////////////////////
-
 function getCasesPerCityMunicipality($location)
 {
     $con = getConnection();
@@ -1308,21 +1291,21 @@ function getMovingAverage($data, $interval){
     $count = sizeof($data);
     $start = floor($interval/2);
     $end = $count - $start;
-    for($i = 0; $i < $start; $i++){
-        array_push($movingAverage, NULL);
-    }
-    for($i = $start; $i < $end; $i++){
-        $average = 0;
-        for($j = 0; $j < $interval; $j++){
-            $average += $data[$i - $j + $start];
+    $currentSum = 0;
+
+    for($i = 1; $i < $count; $i++){
+        $currentSum += $data[$i]; 
+        if($i < $interval){
+            array_push($movingAverage, 0);
+        }else{
+            $currentSum -= $data[$i - $interval];
+
+            $currentAverage = number_format((float)$currentSum / $interval, 5, '.', '');
+            array_push($movingAverage, $currentAverage);
         }
-        $average = $average/$interval;
-        array_push($movingAverage, $average);
 
     }
-    for($i = 0; $i < $start; $i++){
-        array_push($movingAverage, NULL);
-    }
+
     return $movingAverage;
 }
 

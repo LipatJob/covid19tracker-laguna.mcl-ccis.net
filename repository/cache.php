@@ -1,16 +1,13 @@
 <?php
 
 /**
-* WARNING:
-* THIS CODE IS WORK IN PROGRESS
-*
 * @author Job Lipat
 */
 
 
 // CACHE SETTINGS
 function isCacheDisabled(){
-    return FALSE;
+    return TRUE;
 }
 
 function isDebugMode(){

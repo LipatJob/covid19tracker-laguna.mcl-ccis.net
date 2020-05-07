@@ -10,7 +10,7 @@
 
 // CACHE SETTINGS
 function isCacheDisabled(){
-    return TRUE;
+    return FALSE;
 }
 
 function isDebugMode(){

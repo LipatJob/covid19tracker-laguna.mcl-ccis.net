@@ -944,7 +944,7 @@ function getCasesByAgeGroup($location)
         "PieConfirmed" => $perConPie,
         "PieRecovered" => $perRecPie,
         "PieDeceased" => $perDecPie,
-        "ConfirmedCount" => $current,
+        "ConfirmedCount" => $age,
         "RecoveredCount" => $recovered,
         "DeceasedCount" => $deceased,
         "Total" => $age,

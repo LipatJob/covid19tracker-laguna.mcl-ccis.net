@@ -1303,7 +1303,6 @@ function getMovingAverage($data, $interval){
             $currentAverage = number_format((float)$currentSum / $interval, 5, '.', '');
             array_push($movingAverage, $currentAverage);
         }
-
     }
 
     return $movingAverage;

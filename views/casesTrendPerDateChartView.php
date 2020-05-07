@@ -40,7 +40,7 @@ $data = getCachedCurrentTrend($_GET["location"]);
 
 <script>
 $(function() {
-
+    var debugMode = true;
     var movingAverageData = [{
             label: 'MOVING AVERAGE',
             type: 'line',
@@ -159,6 +159,7 @@ $(function() {
             $("#toggleTrendCasesChart").text("SHOW MOVING AVERAGE");
             isMovingAverage = false;
             lineChart.data.datasets = rawData;
+            
         }else{
             $("#toggleTrendCasesChart").text("SHOW DAILY NEW CASES");
             isMovingAverage = true;
@@ -166,8 +167,48 @@ $(function() {
 
         }
         lineChart.update();
+        if(debugMode){
+            jQuery('#checkData').html(dataToTable(lineChart.data));
+        }
    });
 
+var dataToTable = function (dataset) {
+    var html = '<table>';
+    html += '<thead><tr><th style="width:120px;">#</th>';
+    
+    var columnCount = 0;
+    jQuery.each(dataset.datasets, function (idx, item) {
+        html += '<th style="background-color:' + item.fillColor + ';">' + item.label + '</th>';
+        columnCount += 1;
+    });
 
-})
+    html += '</tr></thead>';
+
+    jQuery.each(dataset.labels, function (idx, item) {
+        html += '<tr><td>' + item + '</td>';
+        for (i = 0; i < columnCount; i++) {
+            html += '<td style="background-color:' + dataset.datasets[i].fillColor + ';">' + (dataset.datasets[i].data[idx] === '0' ? '-' : dataset.datasets[i].data[idx]) + '</td>';
+        }
+        html += '</tr>';
+    });
+
+    html += '</tr><tbody></table>';
+
+    return html;
+};
+
+if(debugMode){
+    jQuery('#checkData').html(dataToTable(lineChart.data));
+}
+
+});
+
+
+
+
 </script>
+
+
+<div id="checkData">
+
+</div>

@@ -1296,13 +1296,11 @@ function getMovingAverage($data, $interval){
     for($i = 1; $i < $count; $i++){
         $currentSum += $data[$i]; 
         if($i < $interval){
-            array_push($movingAverage, 0);
         }else{
             $currentSum -= $data[$i - $interval];
-
-            $currentAverage = number_format((float)$currentSum / $interval, 5, '.', '');
-            array_push($movingAverage, $currentAverage);
         }
+        $currentAverage = number_format((float)$currentSum / $interval, 5, '.', '');
+        array_push($movingAverage, $currentAverage);
     }
 
     return $movingAverage;

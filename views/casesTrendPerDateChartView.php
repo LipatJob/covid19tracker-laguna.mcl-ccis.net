@@ -4,16 +4,25 @@ include "../repository/cachedqueries.php";
 $data = getCachedCurrentTrend($_GET["location"]);
 ?>
 
+<style>
+
+@media screen and (max-width: 900px) {
+    #navButtonContainer{
+        margin-right: 100px
+    }
+}
+    
+</style>
 
 <div class="card card-danger2">
     <div class="card-header">
-        <div class="">
-        <div style="" class="btn-group btn-group-toggle float-lg-right float-sm-left" data-toggle="buttons">
+        <div class="pt-1">
+            <div id = "navButtonContainer" class="btn-group btn-group-toggle float-lg-right float-sm-left"  data-toggle="buttons">
                 <button type="button" id='toggleTrendCasesChart' class="btn btn-sm btn-primary" value="graph">SWITCH TO MOVING AVERAGE</button>
             </div>
-        <h3 class="card-title mt-2 mb-2" style="color: white; height: 19px">NEW CONFIRMED CASES</h3>
+            <h3 class="card-title mt-1 ml-1 float-lg-left float-sm-right" style="color: white;">NEW CONFIRMED CASES</h3>
         </div>
-        
+
     </div>
     <div class="card-body">
         <div class="chart">

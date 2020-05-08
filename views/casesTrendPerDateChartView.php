@@ -41,10 +41,10 @@ $(function() {
             {
             label: 'MOVING AVERAGE',
             type: 'line',
-            borderColor: '#79a5b8',
+            borderColor: '#969ad9',
             pointRadius: true,
-            pointColor: '#79a5b8',
-            pointHighlightStroke: '#79a5b8',
+            pointColor: '#969ad9',
+            pointHighlightStroke: '#969ad9',
             lineTension: 0,
             data: <?php echo json_encode($data["MovingAverage"]) ?>
         },

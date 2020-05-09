@@ -1,7 +1,6 @@
 <?php
 include "../repository/cachedqueries.php";
 $data = getCachedCasesPerDate($_GET["location"]);
-$dataTrend = getCachedCurrentTrend($_GET["location"]);
 ?>
 
 
@@ -70,7 +69,7 @@ $dataTrend = getCachedCurrentTrend($_GET["location"]);
                 pointStrokeColor: '#ffcc00',
                 pointHighlightFill: '#fff',
                 pointHighlightStroke: '#ffcc00',
-                data: <?php echo json_encode($dataTrend["ActiveCases"]) ?>
+                data: <?php echo json_encode($data["CurrentPositiveCases"]) ?>
             }]
         }
 

@@ -93,61 +93,62 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci
                         .getDatasetMeta(index).hidden;
 
+                    selectedSameLegend = ci.getDatasetMeta(index).hidden == false;
 
                     ci.data.datasets.forEach(function(e, i) {
                         var meta = ci.getDatasetMeta(i);
 
                         if (i !== index) {
-                                meta.hidden = true;
+                            meta.hidden = true;
                         } else if (i === index) {
                             meta.hidden = false;
                         }
                     });
 
 
-                    //ALGORITHM FOR  SORTRING
-
-                    var zippedVal = [];
-                    ci.data.datasets.forEach(function(e, i) {
-                       zippedVal.push(e.data); 
-                    });
-                    var relData = [];
-                    zippedVal[0].forEach(function(e, i){
-                        tempArr = [];
-                        relData.push(tempArr);
-                    });
-                    zippedVal.push(ci.data.labels);
-
-                    zippedVal.forEach(function(e, i) {
-                        e.forEach(function(ee, ii) {
-                            relData[ii].push(ee);
+                    //ALGORITHM FOR SORTRING
+                    if(!selectedSameLegend){
+                        var zippedVal = [];
+                        ci.data.datasets.forEach(function(e, i) {
+                        zippedVal.push(e.data); 
                         });
-                    });
-
-                    relData = relData.sort(function(a,b){
-                        return parseInt(a[index]) < parseInt(b[index]) ? 1 : -1;;
-                    });
-
-                    var newData = [];
-                    relData[0].forEach(function(e, i){
-                        tempArr = [];
-                        newData.push(tempArr);
-                    });
-
-                    relData.forEach(function(e, i){
-                        e.forEach(function(ee, ii) {
-                            newData[ii].push(ee);
+                        var relData = [];
+                        zippedVal[0].forEach(function(e, i){
+                            tempArr = [];
+                            relData.push(tempArr);
                         });
-                    });
-                    ci.data.datasets.forEach(function(e, i) {
-                        e.data = newData[i];
-                    });
-                    ci.data.labels = newData.pop();
+                        zippedVal.push(ci.data.labels);
 
-                    //END OF ALGORITHM FOR SORTING
+                        zippedVal.forEach(function(e, i) {
+                            e.forEach(function(ee, ii) {
+                                relData[ii].push(ee);
+                            });
+                        });
 
-                    ci.update();
-                }
+                        relData = relData.sort(function(a,b){
+                            return parseInt(a[index]) < parseInt(b[index]) ? 1 : -1;;
+                        });
+
+                        var newData = [];
+                        relData[0].forEach(function(e, i){
+                            tempArr = [];
+                            newData.push(tempArr);
+                        });
+
+                        relData.forEach(function(e, i){
+                            e.forEach(function(ee, ii) {
+                                newData[ii].push(ee);
+                            });
+                        });
+                        ci.data.datasets.forEach(function(e, i) {
+                            e.data = newData[i];
+                        });
+                        ci.data.labels = newData.pop();
+                    }
+                        //END OF ALGORITHM FOR SORTING
+
+                        ci.update();
+                    }
             },
             scales: {
                 xAxes: [{

@@ -4,11 +4,16 @@ include "../repository/cachedqueries.php";
 $data = getCachedCurrentTrend($_GET["location"]);
 ?>
 
+<style>
+
+
+    
+</style>
 
 <div class="card card-danger2">
     <div class="card-header">
         <div class="">
-        <h3 class="card-title mt-2 mb-2" style="color: white; height: 19px">NEW CONFIRMED CASES</h3>
+        <h3 class="card-title mt-2 mb-2" style="color: white; height: 19px">NEW CONFIRMED CASES AND 7-DAY MOVING AVERAGES</h3>
         </div>
         
     </div>
@@ -28,23 +33,21 @@ $data = getCachedCurrentTrend($_GET["location"]);
 
 <script>
 $(function() {
-
-
+    var debugMode = false;
     var areaChartData = {
 
         labels: <?php echo json_encode($data["dates"]) ?> ,
-        datasets: [/*{
-            label: 'ACTIVE CASES',
+        datasets: [
+            {
+            label: 'MOVING AVERAGE',
             type: 'line',
-            backgroundColor: '#008080',
-            borderColor: '#008080',
+            borderColor: '#969ad9',
             pointRadius: true,
-            pointColor: '#3b8bba',
-            pointStrokeColor: '#ffcc00',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: '#ffcc00',
-            data: <?php echo json_encode($data["ActiveCases"]) ?>
-        },*/
+            pointColor: '#969ad9',
+            pointHighlightStroke: '#969ad9',
+            lineTension: 0,
+            data: <?php echo json_encode($data["MovingAverage"]) ?>
+        },
         {
             label: 'NEW CASES',
             type: 'bar',
@@ -56,19 +59,9 @@ $(function() {
             pointHighlightFill: '#fff',
             pointHighlightStroke: '#ffcc00',
             data: <?php echo json_encode($data["NewCases"]) ?>
-        }/*,
-        {
-            label: 'RECOVERED + DECEASED',
-            type: 'bar',
-            backgroundColor: '#97FF6B',
-            borderColor: '#97FF6B',
-            pointRadius: true,
-            pointColor: '#3b8bba',
-            pointStrokeColor: '#ffcc00',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: '#ffcc00',
-            data: <?php echo json_encode($data["SumRecoveredDeceased"]) ?>
-        }*/]
+        }
+        
+        ]
     }
 
 
@@ -140,5 +133,45 @@ $(function() {
         options: lineChartOptions
     })
 
-})
+/*
+var dataToTable = function (dataset) {
+    var html = '<table>';
+    html += '<thead><tr><th style="width:120px;">#</th>';
+    
+    var columnCount = 0;
+    jQuery.each(dataset.datasets, function (idx, item) {
+        html += '<th style="background-color:' + item.fillColor + ';">' + item.label + '</th>';
+        columnCount += 1;
+    });
+
+    html += '</tr></thead>';
+
+    jQuery.each(dataset.labels, function (idx, item) {
+        html += '<tr><td>' + item + '</td>';
+        for (i = 0; i < columnCount; i++) {
+            html += '<td style="background-color:' + dataset.datasets[i].fillColor + ';">' + (dataset.datasets[i].data[idx] === '0' ? '-' : dataset.datasets[i].data[idx]) + '</td>';
+        }
+        html += '</tr>';
+    });
+
+    html += '</tr><tbody></table>';
+
+    return html;
+};
+
+if(debugMode){
+    jQuery('#checkData').html(dataToTable(lineChart.data));
+}
+*/
+
+});
+
+
+
+
 </script>
+
+
+<div id="checkData">
+
+</div>

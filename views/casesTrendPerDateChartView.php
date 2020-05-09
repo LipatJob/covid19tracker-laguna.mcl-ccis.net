@@ -33,7 +33,7 @@ $data = getCachedCurrentTrend($_GET["location"]);
 
 <script>
 $(function() {
-    var debugMode = true;
+    var debugMode = false;
     var areaChartData = {
 
         labels: <?php echo json_encode($data["dates"]) ?> ,
@@ -133,7 +133,7 @@ $(function() {
         options: lineChartOptions
     })
 
-
+/*
 var dataToTable = function (dataset) {
     var html = '<table>';
     html += '<thead><tr><th style="width:120px;">#</th>';
@@ -162,6 +162,7 @@ var dataToTable = function (dataset) {
 if(debugMode){
     jQuery('#checkData').html(dataToTable(lineChart.data));
 }
+*/
 
 });
 

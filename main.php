@@ -119,7 +119,23 @@
 
                 </div>
             </div>
+ <div class="item-container">
+            <div class="card card-danger2">
+                <div class="card-header">
+                    <div style="" class="btn-group btn-group-toggle mt-2-sm float-lg-right float-sm-left" data-toggle="buttons">
+                        <button type="button" id='toggleLocal' class="btn btn-sm btn-primary" value="graph">SWITCH TO
+                            TABLE VIEW</button>
+                    </div>
+                    <h3 id='localHead' class="card-title mt-1 ml-1 float-lg-left float-sm-right" style="color: white;">SUMMARY OF CASES PER LOCALITY</h3>
+                </div>
+            </div>
+           
 
+
+
+
+            
+        </div>
  <div id='summaryPerMunicipalityCityChart'>
 
             </div>
@@ -170,23 +186,8 @@
             </div>
         </div>
 
-        <div class="item-container">
-            <div class="card card-danger2">
-                <div class="card-header">
-                    <div style="" class="btn-group btn-group-toggle mt-2-sm float-lg-right float-sm-left" data-toggle="buttons">
-                        <button type="button" id='toggleLocal' class="btn btn-sm btn-primary" value="graph">SWITCH TO
-                            TABLE VIEW</button>
-                    </div>
-                    <h3 id='localHead' class="card-title mt-1 ml-1 float-lg-left float-sm-right" style="color: white;">SUMMARY OF CASES PER LOCALITY</h3>
-                </div>
-            </div>
-           
-
-
-
-
-            <!-- END OF MAIN CONTENT-->
-        </div>
+       
+        <!-- END OF MAIN CONTENT-->
         <div class="modal-footer">
         </div>
 

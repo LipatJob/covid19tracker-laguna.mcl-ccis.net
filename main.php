@@ -120,6 +120,10 @@
                 </div>
             </div>
 
+ <div id='summaryPerMunicipalityCityChart'>
+
+            </div>
+
     <!-- Graphs -->
     <div class="container-fluid">
         <div class="row">
@@ -176,9 +180,7 @@
                     <h3 id='localHead' class="card-title mt-1 ml-1 float-lg-left float-sm-right" style="color: white;">SUMMARY OF CASES PER LOCALITY</h3>
                 </div>
             </div>
-            <div id='summaryPerMunicipalityCityChart'>
-
-            </div>
+           
 
 
 

@@ -54,7 +54,18 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     pointHighlightStroke: 'rgb(128,128,128,1)',
                     hidden: true,
                     data: <?php echo json_encode($data["Deceased"])?>
-                },
+                },{
+                    label: 'ACTIVE',
+                    backgroundColor: '#017560',
+                    borderColor: '#017560',
+                    pointRadius: true,
+                    pointColor: '#017560',
+                    pointStrokeColor: '#c1c7d1',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: '#017560',
+                    hidden: true,
+                    data: <?php echo json_encode($data["Active"])?>
+                }
             ]
         }
 

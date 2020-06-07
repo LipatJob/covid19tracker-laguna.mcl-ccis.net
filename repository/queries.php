@@ -713,7 +713,7 @@ function getSummaryPerCityMunicipalityChart($location)
     $cases = array();
     $recovered = array();
     $deceased = array();
-    $actives = array();
+    $active = array();
     $locals = array();
     $i = 0;
     $max1 = 0;
@@ -746,7 +746,7 @@ function getSummaryPerCityMunicipalityChart($location)
             $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
             $deceased[$i] = $extract['TOTAL_DECEASED'];
             $recovered[$i] = $extract['TOTAL_RECOVERED'];
-		$actives[$i] = $extract['TOTAL_ACTIVE'];
+		$active[$i] = $extract['TOTAL_ACTIVE'];
             $i++;
         }
     } else {
@@ -772,7 +772,7 @@ function getSummaryPerCityMunicipalityChart($location)
                 $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
                 $deceased[$i] = $extract['TOTAL_DECEASED'];
                 $recovered[$i] = $extract['TOTAL_RECOVERED'];
-		    $actives[$i] = $extract['TOTAL_ACTIVE'];
+		    $active[$i] = $extract['TOTAL_ACTIVE'];
 		//$active[$i] = $cases[$i] - $deceased[$i] - $recovered[$i];
                 $i++;
             }
@@ -792,7 +792,7 @@ function getSummaryPerCityMunicipalityChart($location)
 
     return [
         "Locals" => array_values($locals), "TotalPositiveCases" => array_values($cases), "Deceased" => array_values($deceased), "Recovered" => array_values($recovered),
-        "CasesMax" => $max1, "DeceasedMax" => $max2, "RecoveredMax" => $max3, "TotalMax" => $totalMax, "Header" => $header, "Active" => $actives
+        "CasesMax" => $max1, "DeceasedMax" => $max2, "RecoveredMax" => $max3, "TotalMax" => $totalMax, "Header" => $header, "Active" => $active
     ];
 }
 

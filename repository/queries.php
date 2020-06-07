@@ -726,7 +726,7 @@ function getSummaryPerCityMunicipalityChart($location)
         $header = "TOTAL CASES FOR $location";
 
         //$string = "SELECT barangay,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where city_municipality='$location' AND reference_date IN (SELECT MAX(reference_date) from barangay_history where city_municipality='$location') AND NOT (total_positive_cases = 0 AND current_deceased = 0 AND current_recovered = 0) GROUP BY barangay";
-        $string = "SELECT brgy.BarangayName AS barangay, SUM(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, SUM(brgynew.current_deceased) AS TOTAL_DECEASED, SUM(brgynew.current_recovered) AS TOTAL_RECOVERED
+        $string = "SELECT brgy.BarangayName AS barangay, SUM(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, SUM(brgynew.current_deceased) AS TOTAL_DECEASED, SUM(brgynew.current_recovered) AS TOTAL_RECOVERED, SUM(brgynew.current_positive_case) AS TOTAL_ACTIVE
                 FROM barangay_history_new as brgynew
                     INNER JOIN Barangay as brgy
                     on brgynew.barangayID = brgy.ID
@@ -737,7 +737,7 @@ function getSummaryPerCityMunicipalityChart($location)
                     WHERE city.CityName = '" . $location . "' and brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates)) 
                     AND NOT (brgynew.total_positive_cases = 0 AND brgynew.current_deceased = 0 AND brgynew.current_recovered = 0)
                     GROUP BY barangay
-                    ORDER BY TOTAL_POSITIVE_CASES DESC";
+                    ORDER BY TOTAL_ACTIVE DESC;";
 
         $result1 = mysqli_query($con, $string);
         while ($extract = mysqli_fetch_array($result1)) {
@@ -746,12 +746,13 @@ function getSummaryPerCityMunicipalityChart($location)
             $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
             $deceased[$i] = $extract['TOTAL_DECEASED'];
             $recovered[$i] = $extract['TOTAL_RECOVERED'];
+		$actives[$i] = $extract['TOTAL_ACTIVE'];
             $i++;
         }
     } else {
         $header = "TOTAL CASES PER CITY/MUNICIPALITY";
         //$string = "SELECT city_municipality AS city,sum(total_positive_cases) AS TOTAL_POSITIVE_CASES, sum(current_deceased) AS TOTAL_DECEASED, sum(current_recovered) AS TOTAL_RECOVERED, sum(current_pui) AS TOTAL_PUI, sum(current_pum) AS TOTAL_PUM, sum(current_recovered) AS TOTAL_RECOVERED from barangay_history where reference_date IN (SELECT MAX(reference_date) from barangay_history) GROUP BY city_municipality";
-        $string  = "SELECT city.CityName AS city, SUM(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, SUM(brgynew.current_deceased) AS TOTAL_DECEASED, SUM(brgynew.current_recovered) AS TOTAL_RECOVERED
+        $string  = "SELECT city.CityName AS city, SUM(brgynew.total_positive_cases) AS TOTAL_POSITIVE_CASES, SUM(brgynew.current_deceased) AS TOTAL_DECEASED, SUM(brgynew.current_recovered) AS TOTAL_RECOVERED, SUM(brgynew.current_positive_case) AS TOTAL_ACTIVE 
                 FROM barangay_history_new as brgynew
                     INNER JOIN Barangay as brgy
                     on brgynew.barangayID = brgy.ID
@@ -761,7 +762,7 @@ function getSummaryPerCityMunicipalityChart($location)
                     on brgynew.refDateID = refDates.ID 
                     WHERE brgynew.refDateID = (SELECT ID FROM reference_dates where ref_date = (SELECT max(ref_date) from reference_dates)) 
                     GROUP BY city
-                    ORDER BY TOTAL_POSITIVE_CASES DESC";
+                    ORDER BY TOTAL_ACTIVE DESC";
 
         $result1 = mysqli_query($con, $string);
 
@@ -771,6 +772,7 @@ function getSummaryPerCityMunicipalityChart($location)
                 $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
                 $deceased[$i] = $extract['TOTAL_DECEASED'];
                 $recovered[$i] = $extract['TOTAL_RECOVERED'];
+		    $actives[$i] = $extract['TOTAL_ACTIVE'];
 		$active[$i] = $cases[$i] - $deceased[$i] - $recovered[$i];
                 $i++;
             }
@@ -790,7 +792,7 @@ function getSummaryPerCityMunicipalityChart($location)
 
     return [
         "Locals" => array_values($locals), "TotalPositiveCases" => array_values($cases), "Deceased" => array_values($deceased), "Recovered" => array_values($recovered),
-        "CasesMax" => $max1, "DeceasedMax" => $max2, "RecoveredMax" => $max3, "TotalMax" => $totalMax, "Header" => $header, "Active" => $active
+        "CasesMax" => $max1, "DeceasedMax" => $max2, "RecoveredMax" => $max3, "TotalMax" => $totalMax, "Header" => $header, "Active" => $actives
     ];
 }
 

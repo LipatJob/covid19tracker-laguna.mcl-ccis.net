@@ -19,18 +19,20 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
 
         var areaChartData = {
             labels: <?php echo json_encode($data["Locals"])?> ,
-            datasets: [{
-                    label: 'CONFIRMED',
-                    backgroundColor: '#1988C8',
-                    borderColor: '#1988C8',
+            datasets: [
+            {
+                    label: 'ACTIVE',
+                    backgroundColor: '#017560',
+                    borderColor: '#017560',
                     pointRadius: true,
-                    pointColor: '#3b8bba',
-                    pointStrokeColor: 'rgba(60,141,188, .5)',
+                    pointColor: '#017560',
+                    pointStrokeColor: '#c1c7d1',
                     pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(60,141,188, .5)',
-                    hidden: false,
-                    data: <?php echo json_encode($data["TotalPositiveCases"])?>
-                },
+                    pointHighlightStroke: '#017560',
+                    hidden: true,
+                    data: <?php echo json_encode($data["Active"])?>
+                }
+           ,
 
                 {
                     label: 'RECOVERED',
@@ -54,17 +56,18 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     pointHighlightStroke: 'rgb(128,128,128,1)',
                     hidden: true,
                     data: <?php echo json_encode($data["Deceased"])?>
-                },{
-                    label: 'ACTIVE',
-                    backgroundColor: '#017560',
-                    borderColor: '#017560',
+                },
+             {
+                    label: 'CONFIRMED',
+                    backgroundColor: '#1988C8',
+                    borderColor: '#1988C8',
                     pointRadius: true,
-                    pointColor: '#017560',
-                    pointStrokeColor: '#c1c7d1',
+                    pointColor: '#3b8bba',
+                    pointStrokeColor: 'rgba(60,141,188, .5)',
                     pointHighlightFill: '#fff',
-                    pointHighlightStroke: '#017560',
-                    hidden: true,
-                    data: <?php echo json_encode($data["Active"])?>
+                    pointHighlightStroke: 'rgba(60,141,188, .5)',
+                    hidden: false,
+                    data: <?php echo json_encode($data["TotalPositiveCases"])?>
                 }
             ]
         }

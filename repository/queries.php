@@ -713,7 +713,7 @@ function getSummaryPerCityMunicipalityChart($location)
     $cases = array();
     $recovered = array();
     $deceased = array();
-    $active = array();
+    $actives = array();
     $locals = array();
     $i = 0;
     $max1 = 0;
@@ -773,7 +773,7 @@ function getSummaryPerCityMunicipalityChart($location)
                 $deceased[$i] = $extract['TOTAL_DECEASED'];
                 $recovered[$i] = $extract['TOTAL_RECOVERED'];
 		    $actives[$i] = $extract['TOTAL_ACTIVE'];
-		$active[$i] = $cases[$i] - $deceased[$i] - $recovered[$i];
+		//$active[$i] = $cases[$i] - $deceased[$i] - $recovered[$i];
                 $i++;
             }
         }

@@ -31,8 +31,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     pointHighlightStroke: '#017560',
                     hidden: true,
                     data: <?php echo json_encode($data["Active"])?>
-                }
-           ,
+                },
 
                 {
                     label: 'RECOVERED',

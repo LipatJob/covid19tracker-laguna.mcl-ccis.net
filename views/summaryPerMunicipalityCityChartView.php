@@ -204,7 +204,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
         }
 
         var barChart = new Chart(barChartCanvas, {
-            type: 'horizontalBar',
+            type: 'bar',
             data: barChartData,
             options: areaChartOptions
         })

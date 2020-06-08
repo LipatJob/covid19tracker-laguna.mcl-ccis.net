@@ -744,16 +744,22 @@ function getSummaryPerCityMunicipalityChart($location)
 
             $locals[$i] = $extract['barangay'];
 		if($extract['TOTAL_POSITIVE_CASES'] != 0)
+		{
             $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
-		
+		}
 		if($extract['TOTAL_DECEASED'] != 0)
+		{
             $deceased[$i] = $extract['TOTAL_DECEASED'];
-		
+		}
 		if($extract['TOTAL_RECOVERED'] != 0)
+		{
             $recovered[$i] = $extract['TOTAL_RECOVERED'];
+		}
 		
 		if($extract['TOTAL_ACTIVE'] != 0)
+		{
 		$active[$i] = $extract['TOTAL_ACTIVE'];
+		}
             $i++;
         }
     } else {
@@ -778,13 +784,21 @@ function getSummaryPerCityMunicipalityChart($location)
                 $locals[$i] = $extract['city'];
 		
 		    if($extract['TOTAL_POSITIVE_CASES'] != 0)
+		    {
                 $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
+		    }
 		    if($extract['TOTAL_DECEASED'] != 0)
+		    {
                 $deceased[$i] = $extract['TOTAL_DECEASED'];
+		    }
 		    if($extract['TOTAL_RECOVERED'] != 0)
+		    {
                 $recovered[$i] = $extract['TOTAL_RECOVERED'];
+		    }
 		    if($extract['TOTAL_ACTIVE'] != 0)
+		    {
 		    $active[$i] = $extract['TOTAL_ACTIVE'];
+		    }
 		//$active[$i] = $cases[$i] - $deceased[$i] - $recovered[$i];
                 $i++;
             }

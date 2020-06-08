@@ -79,6 +79,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
             legend: {
                 display: true
             },
+        
             scales: {
                 xAxes: [{
                     gridLines: {
@@ -206,7 +207,17 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
         var barChart = new Chart(barChartCanvas, {
             type: 'bar',
             data: barChartData,
-            options: areaChartOptions
+            options: areaChartOptions,
+            plugins: {
+           labels: {
+                  render: function (args) {
+                            if (args.value != 0)
+                                return args.value;
+                        },
+                  fontSize: 10
+
+                    }
+          }
         })
 
     });

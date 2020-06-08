@@ -99,6 +99,21 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
         var areaChartOptions = {
             maintainAspectRatio: false,
             responsive: true,
+      plugins: [ChartDataLabels],
+  options: {
+    plugins: {
+      // Change options for ALL labels of THIS CHART
+      datalabels: {
+        color: "#36A2EB",
+        anchor: "end",
+        display: function(context) {
+          var index = context.dataIndex;
+          var value = context.dataset.data[index];
+          return value > 0; // display labels with a value greater than 0
+        }
+      }
+    }
+  },
             legend: {
                 display: true,
                 onClick: function(e, legendItem) {

@@ -63,7 +63,7 @@
         </div>
     </div>
 
- <div class="item-container">
+ <div class="item-container" style = "width:50%">
             <div class="card card-danger2">
                 <div class="card-header">
                     <div style="" class="btn-group btn-group-toggle mt-2-sm float-lg-right float-sm-left" data-toggle="buttons">
@@ -81,7 +81,7 @@
             
         </div>
 
-            <div class="container-fluid">
+            <div class="container-fluid" style = "width:50%">
                 <div id='table' class="row">
                     <div class="container-fluid" id="tableContainer">
                         <div id='table' class="row">
@@ -138,7 +138,7 @@
                 </div>
             </div>
 
- <div id='summaryPerMunicipalityCityChart'>
+ <div id='summaryPerMunicipalityCityChart' style = "width:50%">
 
             </div>
 

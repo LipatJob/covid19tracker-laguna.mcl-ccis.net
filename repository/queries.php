@@ -743,7 +743,10 @@ function getSummaryPerCityMunicipalityChart($location)
         while ($extract = mysqli_fetch_array($result1)) {
 
             $locals[$i] = $extract['barangay'];
+		if($extract['TOTAL_POSITIVE_CASES'] != 0)
+		{
             $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
+		}
             $deceased[$i] = $extract['TOTAL_DECEASED'];
             $recovered[$i] = $extract['TOTAL_RECOVERED'];
 		$active[$i] = $extract['TOTAL_ACTIVE'];
@@ -769,8 +772,10 @@ function getSummaryPerCityMunicipalityChart($location)
         while ($extract = mysqli_fetch_array($result1)) {
            
                 $locals[$i] = $extract['city'];
-		
+		if($extract['TOTAL_POSITIVE_CASES'] != 0)
+		{
                 $cases[$i] = $extract['TOTAL_POSITIVE_CASES'];
+		}
                 $deceased[$i] = $extract['TOTAL_DECEASED'];
                 $recovered[$i] = $extract['TOTAL_RECOVERED'];
 		    $active[$i] = $extract['TOTAL_ACTIVE'];

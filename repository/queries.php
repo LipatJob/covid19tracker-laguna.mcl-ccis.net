@@ -789,7 +789,7 @@ function getSummaryPerCityMunicipalityChart($location)
         } else {
             $totalMax = (5 - $totalMax % 5) + $totalMax;
         }
-    }
+    
 
     return [
         "Locals" => array_values($locals), "TotalPositiveCases" => array_values($cases), "Deceased" => array_values($deceased), "Recovered" => array_values($recovered),

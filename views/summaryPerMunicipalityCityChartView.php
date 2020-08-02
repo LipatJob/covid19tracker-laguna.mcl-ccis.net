@@ -17,9 +17,10 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
     <script>
     $(function() {
         var data = [
+            <?php echo json_encode($data["NonZeroActive"])?>,
             <?php echo json_encode($data["NonZeroRecovered"])?>,
-            <?php echo json_encode($data["NonZeroCases"])?>,
-            <?php echo json_encode($data["NonZeroDeceased"])?>
+            <?php echo json_encode($data["NonZeroDeceased"])?>,
+            <?php echo json_encode($data["NonZeroCases"])?>
         ]
         var updateChart = function(selected){
             // selected: 0 => Confirmed, 1 => Recovered, 2 => Deceased
@@ -41,8 +42,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     pointStrokeColor: '#c1c7d1',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: '#017560',
-                    hidden: false,
-                    data: <?php echo json_encode($data["Active"])?>
+                    hidden: false
                 },
 
                 {
@@ -54,8 +54,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     pointStrokeColor: '#c1c7d1',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: 'rgba(42, 187, 155, 1)',
-                    hidden: true,
-                    data: <?php echo json_encode($data["Recovered"])?>
+                    hidden: true
                 }, {
                     label: 'DECEASED',
                     backgroundColor: 'rgb(128,128,128,1)',
@@ -65,8 +64,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     pointStrokeColor: '#c1c7d1',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: 'rgb(128,128,128,1)',
-                    hidden: true,
-                    data: <?php echo json_encode($data["Deceased"])?>
+                    hidden: true
                 },
              {
                     label: 'CONFIRMED',
@@ -77,8 +75,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                     pointStrokeColor: 'rgba(60,141,188, .5)',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: 'rgba(60,141,188, .5)',
-                    hidden: true,
-                    data: <?php echo json_encode($data["TotalPositiveCases"])?>
+                    hidden: true
                 }
             ]
         }

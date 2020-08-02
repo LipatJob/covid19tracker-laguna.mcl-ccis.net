@@ -786,10 +786,79 @@ function getSummaryPerCityMunicipalityChart($location)
         }
     }
 
+    
+    $casesIndex = 1;
+    $localsIndex = 0; // final variable
+    $nonZeroCases = [[],[]]; // 0 -> locals, 1 -> cases
+    assert(sizeof($cases) == sizeof($locals)); // Assumption: $positive and $locals have equal size
+    for($i = 0; $i < sizeof($cases); $i++){
+        if($cases[$i] > 0){
+            array_push($nonZeroCases[$localsIndex], $locals[$i]);
+            array_push($nonZeroCases[$casesIndex], $cases[$i]);
+        }
+    }
+
+    $nonZeroDeceased = [[], []];
+    assert(sizeof($deceased) == sizeof($locals)); // Assumption: $deceased and $locals have equal size
+    for($i = 0; $i < sizeof($deceased); $i++){
+        if($deceased[$i] > 0){
+            array_push($nonZeroDeceased[$localsIndex], $locals[$i]);
+            array_push($nonZeroDeceased[$casesIndex], $deceased[$i]);
+        }
+    }
+
+    $nonZeroRecovered = [[], []];
+    assert(sizeof($recovered) == sizeof($locals)); // Assumption: $recovered and $locals have equal size
+    for($i = 0; $i < sizeof($recovered); $i++){
+        if($recovered[$i] > 0){
+            array_push($nonZeroRecovered[$localsIndex], $locals[$i]);
+            array_push($nonZeroRecovered[$casesIndex], $recovered[$i]);
+        }
+    }
+    $nonZeroCases = sortKeyValueArray($nonZeroCases);
+    $nonZeroDeceased = sortKeyValueArray($nonZeroDeceased);
+    $nonZeroRecovered = sortKeyValueArray($nonZeroRecovered);
+
+
+
     return [
         "Locals" => array_values($locals), "TotalPositiveCases" => array_values($cases), "Deceased" => array_values($deceased), "Recovered" => array_values($recovered),
+        "NonZeroCases" => $nonZeroCases, "NonZeroDeceased" => $nonZeroDeceased, "NonZeroRecovered" => $nonZeroRecovered,
         "CasesMax" => $max1, "DeceasedMax" => $max2, "RecoveredMax" => $max3, "TotalMax" => $totalMax, "Header" => $header
     ];
+}
+
+
+function cmpDes($a, $b){
+    // comparator function for sortKeyValueArray method
+    if($a[1] > $b[1]){
+        return -1;
+    }else if($a[1] < $b[1]){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+function sortKeyValueArray($items){
+    // $items -> [[key1, key2, key3, key4], [value1, value2, value3, value4]]
+    assert(sizeof($items) == 2); // assumption: key-value array is passed
+    assert(sizeof($items[0]) == sizeof($items[1])); //assumption: key and value arrays are equal
+    $transposedItems = [];
+    for($i = 0; $i < sizeof($items[0]); $i++){
+        array_push($transposedItems, [$items[0][$i], $items[1][$i]]);
+    }
+    usort($transposedItems, "cmpDes");
+    for($i = 0; $i < sizeof($items[0]); $i++){
+        $items[0][$i] = $transposedItems[$i][0];
+        $items[1][$i] = $transposedItems[$i][1];
+        if($i - 1 >= 0){
+            // check if descending order invariant is not violated
+            assert($items[1][$i] <= $items[1][$i - 1]);
+        }
+    }
+    return $items;
+    
 }
 
 function getCasesByGender($location)

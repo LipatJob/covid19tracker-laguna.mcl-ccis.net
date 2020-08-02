@@ -16,6 +16,18 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
 
     <script>
     $(function() {
+        var data = [
+            <?php echo json_encode($data["NonZeroRecovered"])?>,
+            <?php echo json_encode($data["NonZeroCases"])?>,
+            <?php echo json_encode($data["NonZeroDeceased"])?>
+        ]
+        var updateChart = function(selected){
+            // selected: 0 => Confirmed, 1 => Recovered, 2 => Deceased
+            // remove old labels
+            curData = data[selected];
+            barChart.data.labels = curData[0];
+            barChart.data.datasets[selected].data = curData[1];
+        }
 
         var areaChartData = {
             labels: <?php echo json_encode($data["Locals"])?> ,
@@ -119,49 +131,9 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
                         }
                     });
 
-
-                    //ALGORITHM FOR SORTRING
-                    if(!selectedSameLegend){
-                        var zippedVal = [];
-                        ci.data.datasets.forEach(function(e, i) {
-                        zippedVal.push(e.data); 
-                        });
-                        var relData = [];
-                        zippedVal[0].forEach(function(e, i){
-                            tempArr = [];
-                            relData.push(tempArr);
-                        });
-                        zippedVal.push(ci.data.labels);
-
-                        zippedVal.forEach(function(e, i) {
-                            e.forEach(function(ee, ii) {
-                                relData[ii].push(ee);
-                            });
-                        });
-
-                        relData = relData.sort(function(a,b){
-                            return parseInt(a[index]) < parseInt(b[index]) ? 1 : -1;;
-                        });
-
-                        var newData = [];
-                        relData[0].forEach(function(e, i){
-                            tempArr = [];
-                            newData.push(tempArr);
-                        });
-
-                        relData.forEach(function(e, i){
-                            e.forEach(function(ee, ii) {
-                                newData[ii].push(ee);
-                            });
-                        });
-                        ci.data.datasets.forEach(function(e, i) {
-                            e.data = newData[i];
-                        });
-                        ci.data.labels = newData.pop();
-                    }
-                        //END OF ALGORITHM FOR SORTING
-
-                        ci.update();
+                    selectedSameLegend = ci.getDatasetMeta(index).hidden == false;
+                    updateChart(index);         
+                    ci.update();
                     }
             },
             scales: {
@@ -209,6 +181,8 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
             data: barChartData,
             options: areaChartOptions
         })
+        updateChart(1);         
+
 
     });
     </script>

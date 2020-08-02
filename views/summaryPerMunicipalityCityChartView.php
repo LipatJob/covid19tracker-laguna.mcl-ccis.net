@@ -17,8 +17,8 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
     <script>
     $(function() {
         var data = [
-            <?php echo json_encode($data["NonZeroActive"])?>,
             <?php echo json_encode($data["NonZeroRecovered"])?>,
+            <?php echo json_encode($data["NonZeroActive"])?>,
             <?php echo json_encode($data["NonZeroDeceased"])?>,
             <?php echo json_encode($data["NonZeroCases"])?>
         ]
@@ -177,8 +177,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
             type: 'bar',
             data: barChartData,
             options: areaChartOptions
-        })
-        updateChart(1);         
+        })      
 
 
     });

@@ -178,6 +178,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
             data: barChartData,
             options: areaChartOptions
         })      
+        updateChart(0);
 
 
     });

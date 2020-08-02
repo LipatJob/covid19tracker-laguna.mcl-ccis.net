@@ -23,11 +23,10 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
             <?php echo json_encode($data["NonZeroCases"])?>
         ]
         var updateChart = function(selected){
-            // selected: 0 => Confirmed, 1 => Recovered, 2 => Deceased
-            // remove old labels
             curData = data[selected];
             barChart.data.labels = curData[0];
             barChart.data.datasets[selected].data = curData[1];
+            barChart.update()
         }
 
         var areaChartData = {
@@ -130,7 +129,6 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
 
                     selectedSameLegend = ci.getDatasetMeta(index).hidden == false;
                     updateChart(index);         
-                    ci.update();
                     }
             },
             scales: {
@@ -178,7 +176,7 @@ $data = getCachedSummaryPerCityMunicipalityChart($_GET["location"]);
             data: barChartData,
             options: areaChartOptions
         })      
-        updateChart(0);
+        updateChart(1);
 
 
     });

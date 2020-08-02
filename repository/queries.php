@@ -819,15 +819,27 @@ function getSummaryPerCityMunicipalityChart($location)
             array_push($nonZeroRecovered[$casesIndex], $recovered[$i]);
         }
     }
+	
+	
+	$nonZeroActive = [[], []];
+    assert(sizeof($active) == sizeof($locals)); // Assumption: $recovered and $locals have equal size
+    for($i = 0; $i < sizeof($active); $i++){
+        if($active[$i] > 0){
+            array_push($nonZeroActive[$localsIndex], $locals[$i]);
+            array_push($nonZeroActive[$casesIndex], $active[$i]);
+        }
+    }
+	
     $nonZeroCases = sortKeyValueArray($nonZeroCases);
     $nonZeroDeceased = sortKeyValueArray($nonZeroDeceased);
     $nonZeroRecovered = sortKeyValueArray($nonZeroRecovered);
+	$nonZeroActive = sortKeyValueArray($nonZeroActive);
 
 
 
     return [
-        "Locals" => array_values($locals), "TotalPositiveCases" => array_values($cases), "Deceased" => array_values($deceased), "Recovered" => array_values($recovered),
-        "NonZeroCases" => $nonZeroCases, "NonZeroDeceased" => $nonZeroDeceased, "NonZeroRecovered" => $nonZeroRecovered,
+        "Locals" => array_values($locals), "TotalPositiveCases" => array_values($cases), "Deceased" => array_values($deceased), "Recovered" => array_values($recovered),"Active" => array_values($active),
+        "NonZeroCases" => $nonZeroCases, "NonZeroDeceased" => $nonZeroDeceased, "NonZeroRecovered" => $nonZeroRecovered, "NonZeroActive" => $nonZeroActive,
         "CasesMax" => $max1, "DeceasedMax" => $max2, "RecoveredMax" => $max3, "TotalMax" => $totalMax, "Header" => $header
     ];
 }

@@ -11,12 +11,13 @@ require_auth();
     <title>Document</title>
 </head>
 <body>
-    <form action="upload.php" method="POST">
+    <form action="upload.php" method="GET">
       <input type="submit" name="submitButton" value = "updateIndividualCases">
       <input type="submit" name="submitButton" value = "updateBarangayHistory">
       <input type="submit" name="submitButton" value = "updateBarangayHistoryNew">
       <input type="submit" name="submitButton" value = "clearCache">
       <input type="submit" name="submitButton" value = "setUploadingInterface">
+      <input type="submit" name="submitButton" value = "uploadSingleDay">
     </form>
     <br>
     <p>

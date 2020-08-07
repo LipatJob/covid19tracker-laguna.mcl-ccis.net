@@ -14,8 +14,8 @@ require_auth();
 * Executes the function on button press
 */
 ini_set('max_execution_time', '0');
-if(isset($_POST["submitButton"])){
-    $val = $_POST["submitButton"];
+if(isset($_GET["submitButton"])){
+    $val = $_GET["submitButton"];
     if($val == "updateIndividualCases"){
         callUpdateIndividualCases();
     }else if($val == "updateBarangayHistory"){
@@ -26,6 +26,8 @@ if(isset($_POST["submitButton"])){
         clearCache();
     }else if($val == "setUploadingInterface"){
         setUploadingInterface();
+    }else if($val == "uploadSingleDay"){
+        uploadSingleDay();
     }
 }
 //Link to allow user to return to uploadView.php
@@ -275,6 +277,52 @@ function setUploadingInterface() {
         echo "Dashboard is now on Main Interface <br/>";
         clearCache();
     }
+}
+
+
+function uploadSingleDay(){
+    $con = getConnection(); 
+
+    $link = "https://docs.google.com/spreadsheets/d/12uKCjAsDgDodEBx29ShsRerwiEcd-0aPqcoMHQlSI_g/export?format=csv&id=12uKCjAsDgDodEBx29ShsRerwiEcd-0aPqcoMHQlSI_g&gid=1133989468";
+    $insertQuery = "";
+    $apiContent = file_get_contents($link);
+    $lines = explode(PHP_EOL, $apiContent);
+
+    $counter = 0;
+    foreach ($lines as $line) {
+        $current = str_getcsv($line);
+        $counter++;
+        //skip two lines. get delete date on first line 
+        if($counter <= 2){
+            if($counter == 0){
+                // delete date
+                $deleteDate = getSqlStr($current[1]);
+                $deleteQuery = "CALL normDeleteSpecificDate({$deleteDate});";
+                mysqli_query($con, $deleteQuery) or die(mysqli_error($con));
+            }
+            continue;
+        }
+        
+        //extract data from line of csv
+        $referenceDate = getSqlStr($current[0]);
+        $cityMunicipality = getSqlStr($current[1]);
+        $barangay = getSqlStr($current[2]);
+        $newPositiveCase = $current[3];
+        $currentPositiveCase = $current[4];
+        $currentDeceased = $current[5];
+        $currentRecovered = $current[6];
+        $totalPositiveCases = $current[7];
+        $suspectPUI = $current[8];
+        if($suspectPUI < 0) $suspectPUI = 0;
+        $probablePUI = $current[9];
+        if($probablePUI < 0) $probablePUI = 0;
+        $totalPUI = $current[10];
+        
+        //build query
+        $insertQuery = "CALL `normInsertBarangayHistoryNew`(".$referenceDate.", ".$cityMunicipality.", ".$barangay.", ".$newPositiveCase.", ".$currentPositiveCase.", ".$currentDeceased.", ".$currentRecovered.", ".$totalPositiveCases.", ".$suspectPUI.", ".$probablePUI.", ".$totalPUI."); ";
+        mysqli_query($con, $insertQuery) or die(mysqli_error($con));
+    }
+    echo "Inserted {$counter} lines";
 }
 
 

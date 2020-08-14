@@ -6,7 +6,7 @@
             <div class="col-lg-4"></div>
             <div class="col-lg-4">
                 <div class="alert alert-light" style="text-align: center;" role="alert">
-                    Currently Updating Data
+                    COVID-19 Laguna Case Tracker is currently undergoing maintenance. Apologies for the inconvenience.
                 </div>
             </div>
             <div class="col-lg-4"></div>
